@@ -1,17 +1,17 @@
 <!-- Load Queue widget CSS and jQuery -->
-<style type="text/css">@import url(/wp-content/plugins/UKMNorge/plupload/js/jquery.plupload.queue/css/jquery.plupload.queue.css);</style>
+<style type="text/css">@import url(/wp-content/plugins/UKMresources/plupload/js/jquery.plupload.queue/css/jquery.plupload.queue.css);</style>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
 	google.load("jquery", "1.3");
 </script>
 
 <!-- Thirdparty intialization scripts, needed for the Google Gears and BrowserPlus runtimes -->
-<script type="text/javascript" src="/wp-content/plugins/UKMNorge/plupload/js/plupload.gears.js"></script>
+<script type="text/javascript" src="/wp-content/plugins/UKMresources/plupload/js/plupload.gears.js"></script>
 <script type="text/javascript" src="http://bp.yahooapis.com/2.4.21/browserplus-min.js"></script>
 
 <!-- Load plupload and all it's runtimes and finally the jQuery queue widget -->
-<script type="text/javascript" src="/wp-content/plugins/UKMNorge/plupload/js/plupload.full.js"></script>
-<script type="text/javascript" src="/wp-content/plugins/UKMNorge/plupload/js/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+<script type="text/javascript" src="/wp-content/plugins/UKMresources/plupload/js/plupload.full.js"></script>
+<script type="text/javascript" src="/wp-content/plugins/UKMresources/plupload/js/jquery.plupload.queue/jquery.plupload.queue.js"></script>
 
 <script type="text/javascript">
 plupload.addI18n({
@@ -100,10 +100,10 @@ function serializeArray(array)
 		],
 
 		// Flash settings
-		flash_swf_url : '/wp-content/plugins/UKMNorge/plupload/js/plupload.flash.swf',
+		flash_swf_url : '/wp-content/plugins/UKMresources/plupload/js/plupload.flash.swf',
 
 		// Silverlight settings
-		silverlight_xap_url : '/wp-content/plugins/UKMNorge/plupload/js/plupload.silverlight.xap'
+		silverlight_xap_url : '/wp-content/plugins/UKMresources/plupload/js/plupload.silverlight.xap'
 	});
 
 	// Client side form validation
