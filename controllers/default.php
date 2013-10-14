@@ -7,6 +7,8 @@ class DefaultController extends Controller
 		$pl_id 	   = intval( get_option( 'pl_id' ) );
 		$monstring = new monstring( $pl_id );
 		$concerts  = $monstring->concerts();
+		
+		var_dump($concerts);
 		global $blog_id;
 		$sql = new SQL("SELECT `a_id`, `a_name` 
 						FROM `smartukm_album` 

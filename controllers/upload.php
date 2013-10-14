@@ -12,7 +12,7 @@ class UploadController extends Controller
 		if( ! strlen ( $album ) > 0 AND 
 		    ! strlen ( $event ) > 0 AND 
 		    ! strlen ( $band ) > 0 )
-			$this->redirect( 'upload.php?page=UKM_images' );
+			$this->redirect( 'admin.php?page=UKM_images' );
 		
 		$pl_id     = intval( get_option( 'pl_id' ) );
 		$monstring = new monstring( $pl_id );
