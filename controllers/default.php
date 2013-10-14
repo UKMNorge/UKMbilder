@@ -5,13 +5,9 @@ class DefaultController extends Controller
 	public function prerender()
 	{
 		$pl_id 	   = intval( get_option( 'pl_id' ) );
-		var_dump($pl_id);
 		$monstring = new monstring( $pl_id );
-		var_dump($monstring);
-
-		$concerts  = $monstring->concerts();
+		$concerts  = $monstring->concerts('c_start',false);
 		
-		var_dump($concerts);
 		global $blog_id;
 		$sql = new SQL("SELECT `a_id`, `a_name` 
 						FROM `smartukm_album` 
