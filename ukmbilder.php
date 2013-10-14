@@ -1,8 +1,8 @@
 <?php  
 /* 
-Plugin Name: UKMimages
+Plugin Name: UKMbilder
 Plugin URI: http://www.ukm-norge.no
-Description: UKM Norge toolkit
+Description: Bildemodul for UKM Norge. Brukes til opplasting av bilder fra mønstringer
 Author: UKM Norge / M Mandal 
 Version: 2.0 
 Author URI: http://www.ukm-norge.no
