@@ -5,7 +5,10 @@ class DefaultController extends Controller
 	public function prerender()
 	{
 		$pl_id 	   = intval( get_option( 'pl_id' ) );
+		var_dump($pl_id);
 		$monstring = new monstring( $pl_id );
+		var_dump($monstring);
+
 		$concerts  = $monstring->concerts();
 		
 		var_dump($concerts);
