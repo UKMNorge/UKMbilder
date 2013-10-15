@@ -2,11 +2,6 @@
 if(!isset($_FILES) || sizeof($_FILES) == 0)
 	die(false);
 
-var_dump($_POST);
-var_dump($_FILES);
-
-die();
-// 
 $SYNC_FOLDER = '/home/ukmno/private_sync/';
 
 $season = get_option('season');
@@ -21,9 +16,11 @@ $res = $sql->run();
 
 $id = $res->insId();
 
-$filename = $file['name'];
+$filename = $_FILES['image']['name'];
 $extension = end($filename);
 
 $name = "$season_$place_$id.$extension";
 
-move_uploaded_file($file['tmp_name'], $SYNC_FOLDER.$name);
+move_uploaded_file($_FILES['image']['tmp_name'], $SYNC_FOLDER.$name);
+
+die(true);
