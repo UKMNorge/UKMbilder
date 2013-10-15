@@ -33,6 +33,21 @@ jQuery('#fileupload').fileupload({
 	jQuery('#uploadprogress').parent().slideUp();
 	console.warn('På tide å oppdatere listen over opplastede bilder');
 });
+
+function tagme_reload() {
+	jQuery.post(ajaxurl,
+				{action: 'UKMbilder_tagme'},
+				function(response){
+					tagme_response(response);
+				});
+}
+
+function tagme_response( response ) {
+	console.log('TagMe');
+	console.log( response );
+}
+
+jQuery(document).ready(function(){tagme_reload()});
 </script>
 <h2>Opplastede bilder som må merkes</h2>
 <p>Når du laster opp bilder vil de legges til i listen.
