@@ -77,6 +77,7 @@ function UKMbilder_scripts_and_styles(){
 }
 
 function UKMbilder() {
+	phpinfo();
 	if(!isset($_GET['action']))
 		$_GET['action'] = 'upload';
 		
