@@ -37,6 +37,7 @@ function UKMbilder_scripts_and_styles(){
 	wp_enqueue_style('bootstrap_css');
 
 	wp_enqueue_style('UKMbilder_css', plugin_dir_url( __FILE__ ) . 'UKMbilder.css');
+	wp_enqueue_script('UKMbilder_js', plugin_dir_url(__FILE__) . 'UKMbilder.js');
 	
 	wp_enqueue_style( 'jquery-ui-style', WP_PLUGIN_URL .'/UKMresources/css/jquery-ui-1.7.3.custom.css');
 	
@@ -52,14 +53,6 @@ function UKMbilder_scripts_and_styles(){
 	wp_enqueue_style( 'jquery-fileupload-css', plugin_dir_url( __FILE__ ) . 'jqueryuploader/css/jquery.fileupload.css');
 	wp_enqueue_style( 'jquery-fileupload-ui-css', plugin_dir_url( __FILE__ ) . 'jqueryuploader/css/jquery.fileupload-ui.css');
 	
-
-
-
-
-
-
-
-
 	// The jQuery UI widget factory, can be omitted if jQuery UI is already included
 	wp_enqueue_script('jquery_ui_widget', plugin_dir_url(__FILE__) . 'jqueryuploader/js/vendor/jquery.ui.widget.js');
 	// The Load Image plugin is included for the preview images and image resizing functionality

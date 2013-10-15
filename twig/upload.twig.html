@@ -18,38 +18,27 @@
     </form>
 </div>
 
-<script>
-jQuery('#fileupload').fileupload({
-    url: ajaxurl,
-	fileTypes: /^image\/(gif|jpeg|png)$/,
-    autoUpload: true,
-    formData: {action: 'UKMbilder_upload'},
-    progressall: function (e, data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
-        jQuery('#uploadprogress').css('width', progress+'%');
-        jQuery('#uploadprogress').parent().slideDown();
-    }
-}).bind('fileuploaddone', function(e, data){
-	jQuery('#uploadprogress').parent().slideUp();
-	console.warn('På tide å oppdatere listen over opplastede bilder');
-});
 
-function tagme_reload() {
-	jQuery.post(ajaxurl,
-				{action: 'UKMbilder_tagme'},
-				function(response){
-					tagme_response(response);
-				});
-}
-
-function tagme_response( response ) {
-	console.log('TagMe');
-	console.log( response );
-}
-
-jQuery(document).ready(function(){tagme_reload()});
-</script>
 <h2>Opplastede bilder som må merkes</h2>
 <p>Når du laster opp bilder vil de legges til i listen.
+<ol class="unstyled" id="tag_images">
+
+</ol>
+
+
+
+
+
+
+
+	{% raw %}
+	<script id="handlebars-image-tag" type="text/x-handlebars-template">
+		{{#each images}}
+		<li class="well well-mini pull-left" id="image_{{id}}">
+			<img src="http://ukm.no/wp-content/plugins/UKMbilder/img/compressing.gif" class="thumbnail" /> {{id}}
+		</li>
+	  	{{/each}}
+	</script>
+	{% endraw %}
 
 {% endblock %}
