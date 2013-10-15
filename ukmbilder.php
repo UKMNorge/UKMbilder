@@ -9,6 +9,8 @@ Author URI: http://www.ukm-norge.no
 */
 
 ## HOOK MENU
+add_action('wp_ajax_UKMbilder_upload', 'UKMbilder_upload');
+
 if(is_admin()) {
 	add_action('admin_menu', 'UKMimages_menu');
 }
@@ -17,6 +19,12 @@ function UKMimages_menu() {
 	$page = add_menu_page('UKMbilder', 'Bilder', 'publish_posts', 'UKMbilder','UKMbilder', 'http://ico.ukm.no/photocamera-20.png', 11);
 	add_action( 'admin_print_styles-' . $page, 'UKMbilder_scripts_and_styles' );
 
+}
+
+function UKMbilder_upload() {
+	var_dump($_POST);
+	var_dump($_FILES);
+	die();
 }
 
 function UKMbilder_scripts_and_styles(){
