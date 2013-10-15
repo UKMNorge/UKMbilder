@@ -1,18 +1,23 @@
-<h1>Velg hvilken hendelse du vil laste opp bilder fra</h1>
-<div class="alert alert-info">På denne siden laster du kun opp bilder fra forestilling / hendelser. Artikkelbilder lastes opp direkte i innlegget, og så merker du hele innlegget med hvilke innslag det omhandler</div>
+<h2>Last opp bilder fra hendelse/forestilling</h2>
+<div class="alert alert-info">
+	<strong>OBS: </strong>
+	På denne siden laster du kun opp bilder fra forestilling / hendelser. <br />
+	Artikkelbilder lastes opp direkte i innlegget, og så merker du hele innlegget med hvilke innslag det omhandler
+</div>
 
 <ol class="unstyled">
 {% for forestilling in program %}
-	<li class="well well-mini row-fluid">
-		<div class="span3">
-			<h3>{{forestilling.c_name}}</h3>
+	<li class="well well-mini">
+		<div class="span3 pull-left">
+			<strong>{{forestilling.c_name}}</strong>
 		</div>
-		<div class="span2">
+		<div class="span2 pull-left">
 			Se / endre opplastede bilder
 		</div>
-		<div class="span2">
+		<div class="span2 pull-left">
 			Last opp bilder
 		</div>
+		<div class="clearfix"></div>
 	</li>
 {% else %}
 	<li>
