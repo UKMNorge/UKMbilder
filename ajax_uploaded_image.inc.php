@@ -19,7 +19,7 @@ $id = $sql->insId();
 $filename = $_FILES['image']['name'];
 $extension = end($filename);
 
-$name = "$season_$place_$id.$extension";
+$name = $season.'_'.$place.'_'.$id.'.'.$extension;
 
 move_uploaded_file($_FILES['image']['tmp_name'], $SYNC_FOLDER.$name);
 
