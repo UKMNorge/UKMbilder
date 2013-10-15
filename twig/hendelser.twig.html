@@ -1,0 +1,22 @@
+<h1>Velg hvilken hendelse du vil laste opp bilder fra</h1>
+<div class="alert alert-info">På denne siden laster du kun opp bilder fra forestilling / hendelser. Artikkelbilder lastes opp direkte i innlegget, og så merker du hele innlegget med hvilke innslag det omhandler</div>
+
+<ol class="unstyled">
+{% for forestilling in program %}
+	<li class="well well-mini row-fluid">
+		<div class="span3">
+			<h3>{{forestilling.c_name}}</h3>
+		</div>
+		<div class="span2">
+			Se / endre opplastede bilder
+		</div>
+		<div class="span2">
+			Last opp bilder
+		</div>
+	</li>
+{% else %}
+	<li>
+		<div class="alert alert-info">Du har ikke satt opp noe program for din mønstring enda. Dette må gjøres før du kan laste opp bilder</div>
+	</li>
+{% endfor %}
+</ol>
