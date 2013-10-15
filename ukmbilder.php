@@ -22,6 +22,8 @@ function UKMimages_menu() {
 function UKMbilder_scripts_and_styles(){
 	wp_enqueue_script('bootstrap_js');
 	wp_enqueue_style('bootstrap_css');
+
+	wp_enqueue_style('UKMbilder_css', plugin_dir_url( __FILE__ ) . 'UKMbilder.css');
 }
 
 function UKMbilder() {
