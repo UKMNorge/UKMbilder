@@ -32,7 +32,7 @@ jQuery('#fileupload').fileupload({
     url: ajaxurl,
 	fileTypes: /^image\/(gif|jpeg|png)$/,
     autoUpload: true,
-    action: 'UKMbilder_upload',
+    formData: {action: 'UKMbilder_upload'},
     progressall: function (e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
         jQuery('#uploadprogress').style('widt', progress+'%');
