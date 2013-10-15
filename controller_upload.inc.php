@@ -1,6 +1,4 @@
 <?php
-require_once('UKM/forestilling.class.php');
+$program = $monstring->forestillinger();
 
-$hendelse = new forestilling($_GET['c_id']);
-
-$INFOS = array('hendelse' => $hendelse);
+$INFOS = array('program' => $program);

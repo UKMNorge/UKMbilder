@@ -87,9 +87,6 @@ function UKMbilder() {
 
 
 	switch( $_GET['action'] ) {
-		case 'start':
-			require_once('controller_start.inc.php');
-			break;
 		case 'upload':
 			require_once('controller_upload.inc.php');
 			break;
