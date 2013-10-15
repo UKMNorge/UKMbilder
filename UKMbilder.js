@@ -10,6 +10,7 @@ jQuery(document).ready(function(){
 	        jQuery('#uploadprogress').parent().slideDown();
 	    }
 	}).bind('fileuploaddone', function(e, data){
+		tagme_reload();
 		jQuery('#uploadprogress').parent().slideUp();
 		console.warn('På tide å oppdatere listen over opplastede bilder');
 	});

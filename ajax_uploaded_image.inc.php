@@ -45,4 +45,4 @@ if($imageprops[$compare] > $$compare) {
 	$image->writeImage($path);
 }
 
-die(array('id' => $id, 'filename' => $name));
+die(json_encode(array('id' => $id, 'filename' => $name)));
