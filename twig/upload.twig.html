@@ -59,8 +59,13 @@
 	{% endfilter %}
 
 	{# BILDER SOM SKAL TAGGES #}
-	{% embed "handlebars/bilde.handlebars.html" %}{% endembed %}
+	{% filter escape %}
+		{% embed "handlebars/bilde.handlebars.html" %}{% endembed %}
+	{% endfilter %}
 	
 	{# HVIS DET IKKE ER NOEN BILDER #}
-	{% embed "handlebars/ingen_bilder.handlebars.html" %}{% endembed %}
+	{% filter escape %}
+		{% embed "handlebars/ingen_bilder.handlebars.html" %}{% endembed %}
+	{% endfilter %}
+
 {% endblock %}
