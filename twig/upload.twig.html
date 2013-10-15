@@ -21,11 +21,32 @@
 
 <h2>Opplastede bilder som må merkes</h2>
 <p>Når du laster opp bilder vil de legges til i listen.
+
+<div class="pull-right well well-mini span3">
+	<strong>Velg hvilke innslag som skal vises i listen nedenfor</strong>
+	<p>Vi anbefaler at du velger en forestilling, da bildene kommer i samme rekkefølge som innslagslisten</p>
+	<select id="innslag_selector">
+		<optgroup label="Alle innslag">
+			<option value="alpha">Alfabetisk</option>
+		</optgroup>
+		<optgroup label="Fra forestilling">
+		{% for forestilling in program %}
+			<option value="{{forestilling.c_id}}">{{forestilling.c_name}}</option>
+		{% else %}
+			<option value="false" disabled="disabled">
+				Du må sette opp program for mønstringen først
+			</option>
+		{% endfor %}
+		</optgroup>
+	</select>
+	
+	<ol class="unstyled" id="innslag">
+		<li class="alert alert-info" id="innslag_select">Velg innslag fra listen ovenfor</li>
+	</ol>
+</div>
+
 <ol class="unstyled" id="tag_images">
-
 </ol>
-
-
 
 
 
@@ -33,14 +54,15 @@
 
 	{% raw %}
 	<script id="handlebars-image-tag" type="text/x-handlebars-template">
-		<li class="well well-mini">
-			Handlebars rendered, should see list of images
-		</li>
 		{{#each images}}
-		<li class="well well-mini pull-left" id="image_{{id}}">
+		<li class="well well-mini pull-left" id="image_{{id}}" style="width: 100px;">
 			<img src="http://ukm.no/wp-content/plugins/UKMbilder/img/compressing.gif" class="thumbnail" /> {{id}}
 		</li>
 	  	{{/each}}
+	</script>
+
+	<script id="handlebars-image-tag" type="text/x-handlebars-template">
+		<li class="alert alert-info">Det er ingen bilder som skal merkes akkurat nå. Last opp bilder ovenfor</li>
 	</script>
 	{% endraw %}
 
