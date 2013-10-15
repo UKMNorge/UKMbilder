@@ -31,21 +31,21 @@ function UKMbilder_scripts_and_styles(){
 	wp_enqueue_script('jqueryGoogleUI', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js');
 
 	// The jQuery UI widget factory, can be omitted if jQuery UI is already included
-	wp_enqueue_script('jquery_ui_widget', plugin_dir_url(__FILE__) . 'jQupload/js/vendor/jquery.ui.widget.js');
+	wp_enqueue_script('jquery_ui_widget', plugin_dir_url(__FILE__) . 'jqueryuploader/js/vendor/jquery.ui.widget.js');
 	// The Load Image plugin is included for the preview images and image resizing functionality
-	wp_enqueue_script('load-image', plugin_dir_url(__FILE__) . 'jQupload/js/vendor/load-image.min.js');
+	wp_enqueue_script('load-image', plugin_dir_url(__FILE__) . 'jqueryuploader/js/vendor/load-image.min.js');
 	// The Canvas to Blob plugin is included for image resizing functionality
-	wp_enqueue_script('canvas-to-blob', plugin_dir_url(__FILE__) . 'jQupload/js/vendor/canvas-to-blob.min.js');
+	wp_enqueue_script('canvas-to-blob', plugin_dir_url(__FILE__) . 'jqueryuploader/js/vendor/canvas-to-blob.min.js');
 	// The Iframe Transport is required for browsers without support for XHR file uploads
-	wp_enqueue_script('iframe-transport', plugin_dir_url(__FILE__) . 'jQupload/js/jquery.iframe-transport.js');	
+	wp_enqueue_script('iframe-transport', plugin_dir_url(__FILE__) . 'jqueryuploader/js/jquery.iframe-transport.js');	
 	// The basic File Upload plugin
-	wp_enqueue_script('fileupload', plugin_dir_url(__FILE__) . 'jQupload/js/jquery.fileupload.js');	
+	wp_enqueue_script('fileupload', plugin_dir_url(__FILE__) . 'jqueryuploader/js/jquery.fileupload.js');	
 	// The File Upload processing plugin
-	wp_enqueue_script('fileupload-process', plugin_dir_url(__FILE__) . 'jQupload/js/jquery.fileupload-process.js');	
+	wp_enqueue_script('fileupload-process', plugin_dir_url(__FILE__) . 'jqueryuploader/js/jquery.fileupload-process.js');	
 	// The File Upload image preview & resize plugin 
-	wp_enqueue_script('fileupload-image', plugin_dir_url(__FILE__) . 'jQupload/js/jquery.fileupload-image.js');	
+	wp_enqueue_script('fileupload-image', plugin_dir_url(__FILE__) . 'jqueryuploader/js/jquery.fileupload-image.js');	
 	// The File Upload validation plugin
-	wp_enqueue_script('fileupload-validate', plugin_dir_url(__FILE__) . 'jQupload/js/jquery.fileupload-validate.js');	
+	wp_enqueue_script('fileupload-validate', plugin_dir_url(__FILE__) . 'jqueryuploader/js/jquery.fileupload-validate.js');	
 }
 
 function UKMbilder() {
