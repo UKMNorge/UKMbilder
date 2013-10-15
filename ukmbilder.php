@@ -22,8 +22,7 @@ function UKMimages_menu() {
 }
 
 function UKMbilder_upload() {
-	var_dump($_POST);
-	var_dump($_FILES);
+	require_once('ajax_uploaded_image.inc.php');
 	die();
 }
 
