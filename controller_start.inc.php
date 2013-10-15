@@ -2,4 +2,4 @@
 
 $program = $monstring->forestillinger();
 
-array('program' => $program);
+$INFOS = array('program' => $program);
