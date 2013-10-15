@@ -26,7 +26,7 @@ jQuery('#fileupload').fileupload({
     formData: {action: 'UKMbilder_upload'},
     progressall: function (e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
-        jQuery('#uploadprogress').style('widt', progress+'%');
+        jQuery('#uploadprogress').css('width', progress+'%');
         jQuery('#uploadprogress').parent().slideDown();
     },
 }).bind('fileuploaddone', function(e, data){
