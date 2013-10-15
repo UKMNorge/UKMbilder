@@ -79,7 +79,7 @@ function UKMbilder_scripts_and_styles(){
 
 function UKMbilder() {
 	if(!isset($_GET['action']))
-		$_GET['action'] = 'start';
+		$_GET['action'] = 'upload';
 		
 	require_once('UKM/related.class.php');
 	require_once('UKM/innslag.class.php');
