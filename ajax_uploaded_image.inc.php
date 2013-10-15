@@ -22,11 +22,8 @@ $extension = pathinfo($filename, PATHINFO_EXTENSION);
 $name = $season.'_'.$place.'_'.$id.'.'.$extension;
 $path = $SYNC_FOLDER.$name;
 
-move_uploaded_file($_FILES['image']['tmp_name'], $path);
-
-
 // RESIZE IMAGE
-$image = new Imagick( $path );
+$image = new Imagick( $_FILES['image']['tmp_name'] );
 $imageprops = $image->getImageGeometry();
 
 	// Find proportions
@@ -42,7 +39,7 @@ $imageprops = $image->getImageGeometry();
 // IF IMAGE IS LARGER THAN TARGET, RESIZE
 if($imageprops[$compare] > $$compare) {
 	$image->resizeImage($width, $height);
-	$image->writeImage($path);
 }
+$image->writeImage($path);
 
 die(json_encode(array('id' => $id, 'filename' => $name)));
