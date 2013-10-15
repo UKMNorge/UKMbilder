@@ -54,12 +54,13 @@
 
 
 	{# LISTE OVER INNSLAG SOM KAN VELGES #}
-	{% raw %}{% embed "handlebars/innslag.handlebars.html" %}{% endembed %}{% endraw %}
+	{% filter escape %}
+		{% embed "handlebars/innslag.handlebars.html" %}
+	{% endfilter %}
 
 	{# BILDER SOM SKAL TAGGES #}
-	{% raw %}{% embed "handlebars/bilde.handlebars.html" %}{% endembed %}{% endraw %}
+	{% embed "handlebars/bilde.handlebars.html" %}{% endembed %}
 	
 	{# HVIS DET IKKE ER NOEN BILDER #}
-	{% raw %}{% embed "handlebars/ingen_bilder.handlebars.html" %}{% endembed %}{% endraw %}
-
+	{% embed "handlebars/ingen_bilder.handlebars.html" %}{% endembed %}
 {% endblock %}
