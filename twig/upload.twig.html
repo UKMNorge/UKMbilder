@@ -28,8 +28,9 @@ jQuery('#fileupload').fileupload({
         var progress = parseInt(data.loaded / data.total * 100, 10);
         jQuery('#uploadprogress').css('width', progress+'%');
         jQuery('#uploadprogress').parent().slideDown();
-    },
+    }
 }).bind('fileuploaddone', function(e, data){
+	jQuery('#uploadprogress').parent().slideUp();
 	console.warn('På tide å oppdatere listen over opplastede bilder');
 });
 </script>

@@ -17,10 +17,32 @@ $res = $sql->run();
 $id = $sql->insId();
 
 $filename = $_FILES['image']['name'];
-$extension = end($filename);
+$extension = pathinfo($filename, PATHINFO_EXTENSION);
 
 $name = $season.'_'.$place.'_'.$id.'.'.$extension;
+$path = $SYNC_FOLDER.$name;
 
-move_uploaded_file($_FILES['image']['tmp_name'], $SYNC_FOLDER.$name);
+move_uploaded_file($_FILES['image']['tmp_name'], $path);
 
-die(true);
+
+// RESIZE IMAGE
+$image = new Imagick( $filename );
+$imageprops = $image->getImageGeometry();
+
+	// Find proportions
+	$width = $height = 3800;
+	if($imageprops['width'] > $imageprops['height']) {
+		$height = 0;
+		$compare = 'width';
+	} else {
+		$width = 0;
+		$compare = 'height';
+	}
+
+// IF IMAGE IS LARGER THAN TARGET, RESIZE
+if($imageprops[$compare] > $$compare) {
+	$image->resizeImage($width, $height);
+	$image->writeImage($path);
+}
+
+die(array('id' => $id, 'filename' => $name));
