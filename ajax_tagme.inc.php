@@ -2,9 +2,13 @@
 
 require_once('UKM/sql.class.php');
 
-$sql = new SQL('ukm_bilder');
-$sql->where('pl_id', get_option('pl_id'));
-$sql->where('season', get_option('season'));
+$sql = new SQL("SELECT * 
+				FROM `ukm_bilder`
+				WHERE `pl_id` = '#plid'
+				AND `season` = '#season'",
+				array('pl_id' => get_option('pl_id'),
+					  'season' => get_option('season')
+					  ));
 $res = $sql->run();
 
 $images = array();
