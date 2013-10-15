@@ -4,12 +4,11 @@ require_once('UKM/sql.class.php');
 
 $sql = new SQL("SELECT * 
 				FROM `ukm_bilder`
-				WHERE `pl_id` = '#plid'
+				WHERE `pl_id` = '#pl_id'
 				AND `season` = '#season'",
 				array('pl_id' => get_option('pl_id'),
 					  'season' => get_option('season')
 					  ));
-echo $sql->debug();
 $res = $sql->run();
 
 $images = array();
