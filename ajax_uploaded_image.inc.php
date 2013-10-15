@@ -14,7 +14,7 @@ $sql->add('season', $season);
 $sql->add('pl_id', $place);
 $res = $sql->run();
 
-$id = $res->insId();
+$id = $sql->insId();
 
 $filename = $_FILES['image']['name'];
 $extension = end($filename);
