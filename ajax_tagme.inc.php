@@ -9,6 +9,7 @@ $sql = new SQL("SELECT *
 				array('pl_id' => get_option('pl_id'),
 					  'season' => get_option('season')
 					  ));
+echo $sql->debug();
 $res = $sql->run();
 
 $images = array();
