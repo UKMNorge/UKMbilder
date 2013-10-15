@@ -11,7 +11,7 @@ Author URI: http://www.ukm-norge.no
 ## HOOK MENU
 add_action('wp_ajax_UKMbilder_upload', 'UKMbilder_upload');
 add_action('wp_ajax_UKMbilder_tagme', 'UKMbilder_tagme');
-
+add_action('wp_ajax_UKMbilder_innslag', 'UKMbilder_innslag');
 if(is_admin()) {
 	add_action('admin_menu', 'UKMimages_menu');
 }
@@ -24,6 +24,11 @@ function UKMimages_menu() {
 
 function UKMbilder_upload() {
 	require_once('ajax_uploaded_image.inc.php');
+	die();
+}
+
+function UKMbilder_innslag() {
+	require_once('ajax_program.inc.php');
 	die();
 }
 
