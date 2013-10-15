@@ -90,11 +90,11 @@ function UKMbilder() {
 	switch( $_GET['action'] ) {
 		case 'start':
 			require_once('controller_start.inc.php');
-			echo TWIG('hendelser.twig.html', $INFOS, dirname(__FILE__));
 			break;
 		case 'upload':
 			require_once('controller_upload.inc.php');
-			echo TWIG('upload.twig.html', $INFOS, dirname(__FILE__));
-			break;		
+			break;
 	}
+	$INFOS['active'] = $_GET['action'];
+	echo TWIG($_GET['action'].'.twig.html', $INFOS, dirname(__FILE__));
 }
