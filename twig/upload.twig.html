@@ -32,6 +32,7 @@ jQuery('#fileupload').fileupload({
     url: 'http://ukm.no/image_test.php',
 	fileTypes: /^image\/(gif|jpeg|png)$/,
     autoUpload: true,
+    action: 'ukm_image',
     progressall: function (e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
         jQuery('#uploadprogress').style('widt', progress+'%');
