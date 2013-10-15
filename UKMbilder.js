@@ -1,3 +1,4 @@
+jQuery(document).ready(function(){
 	jQuery('#fileupload').fileupload({
 	    url: ajaxurl,
 		fileTypes: /^image\/(gif|jpeg|png)$/,
@@ -13,19 +14,23 @@
 		console.warn('På tide å oppdatere listen over opplastede bilder');
 	});
 	
-	function tagme_reload() {
-		jQuery.post(ajaxurl,
-					{action: 'UKMbilder_tagme'},
-					function(response){
-						tagme_response(response);
-					});
-	}
 	
-	function tagme_response( response ) {
-		console.log('TagMe');
-		console.log( response );
-		var template_tagme = Handlebars.compile(jQuery('#handlebars-image-tag').html());
-		jQuery('#tag_images').html( template_tagme( response ) );
-	}
+	tagme_reload();
 	
-	jQuery(document).ready(function(){tagme_reload()});
+});
+
+
+function tagme_reload() {
+	jQuery.post(ajaxurl,
+				{action: 'UKMbilder_tagme'},
+				function(response){
+					tagme_response(response);
+				});
+}
+
+function tagme_response( response ) {
+	console.log('TagMe');
+	console.log( response );
+	var template_tagme = Handlebars.compile(jQuery('#handlebars-image-tag').html());
+	jQuery('#tag_images').html( template_tagme( response ) );
+}
