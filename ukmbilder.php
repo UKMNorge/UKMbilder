@@ -65,7 +65,7 @@ function UKMbilder() {
 			break;
 		case 'upload':
 			require_once('controller_upload.inc.php');
-			echo TWIG('hendelser.twig.html', $INFOS, dirname(__FILE__));
+			echo TWIG('upload.twig.html', $INFOS, dirname(__FILE__));
 			break;		
 	}
 }
