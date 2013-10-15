@@ -12,4 +12,4 @@ while( $r = mysql_fetch_assoc($res) ) {
 	$images[] = $r;
 }
 
-die(json_encode('images' => $images));
+die(json_encode(array('images' => $images)));
