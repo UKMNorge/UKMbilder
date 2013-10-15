@@ -26,7 +26,7 @@ move_uploaded_file($_FILES['image']['tmp_name'], $path);
 
 
 // RESIZE IMAGE
-$image = new Imagick( $filename );
+$image = new Imagick( $path );
 $imageprops = $image->getImageGeometry();
 
 	// Find proportions
