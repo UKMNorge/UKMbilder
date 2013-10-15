@@ -17,7 +17,23 @@ jQuery(document).ready(function(){
 	
 	tagme_reload();
 	
+	jQuery(document).on('change', '#innslag_selector', function(){tagme_list_selector()});
 });
+
+
+
+function tagme_list_selector() {
+	jQuery.post(ajaxurl,
+				{action: 'UKMbilder_innslag', 'c_id': jQuery('#innslag_selector').val()},
+				function(response){
+					var template_innslag = Handlebars.compile(jQuery('#handlebars-innslag').html());
+					jQuery('#innslag').html(template_innslag(response));
+				});	
+}
+
+
+
+
 
 
 function tagme_reload() {

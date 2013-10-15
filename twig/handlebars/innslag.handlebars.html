@@ -1,0 +1,10 @@
+<script id="handlebars-innslag" type="text/x-handlebars-template">
+	{{#each innslag}}
+	<li id="innslag_{{id}}">
+		<label>
+			<input type="radio" name="innslag" value="{{id}}" />
+			{{name}}
+		</label>
+	</li>
+  	{{/each}}
+</script>
