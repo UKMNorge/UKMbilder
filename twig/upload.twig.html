@@ -1,5 +1,4 @@
-<h2>Last opp bilder fra ""</h2>
-
+<h2>Last opp bilder</h2>
 <!DOCTYPE HTML>
 <!--
 /*
@@ -22,26 +21,25 @@
 	        <input type="file" name="files[]" multiple>
 	    </span>
 	    <!-- The global progress bar -->
-	    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-	        <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-	    </div>
+		<div class="progress progress-striped active" style="display:none;">
+		  <div class="bar" id="uploadprogress" style="width: 100%;"></div>
+		</div>
     </form>
 </div>
 
 <script>
 jQuery('#fileupload').fileupload({
-    dataType: 'json',
-    done: function (e, data) {
-        jQuery.each(data.result.files, function (index, file) {
-            jQuery('<p/>').text(file.name).appendTo(document.body);
-        });
-    },
+    url: 'http://ukm.no/image_test.php',
+	fileTypes: /^image\/(gif|jpeg|png)$/,
+    autoUpload: true,
     progressall: function (e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
-        jQuery('#progress .bar').css(
-            'width',
-            progress + '%'
-        );
-    }
+        jQuery('#uploadprogress').style('widt', progress+'%');
+        jQuery('#uploadprogress').parent().slideDown();
+    },
+}).bind('fileuploaddone', function(e, data){
+	console.warn('På tide å oppdatere listen over opplastede bilder');
 });
 </script>
+<h2>Opplastede bilder som må merkes</h2>
+<p>Når du laster opp bilder vil de legges til i listen.
