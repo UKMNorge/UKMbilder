@@ -45,6 +45,7 @@ function image_reload_process(response) {
 
 
 function tagme_reload() {
+	console.info('Request images for tagging');
 	jQuery.post(ajaxurl,
 				{action: 'UKMbilder_tagme'},
 				function(response){
@@ -53,18 +54,23 @@ function tagme_reload() {
 }
 
 function tagme_response( response ) {
-	console.log('TagMe');
 	console.log( response );
 	var template_tagme = Handlebars.compile(jQuery('#handlebars-image-tag').html());
 	jQuery('#tag_images').html( template_tagme( response ) );
+	console.log('Images loaded to DOM');
 	images_compress();
 }
 
 function images_compress() {
+	console.info('Request new compression job');
 	jQuery.post(ajaxurl,
 				{action: 'UKMbilder_compress'},
 				function(response){
-					if(parseInt(response.reload) > 0)
+					console.log('Compression status:');
+					console.log(response);
+					if(parseInt(response.reload) > 0) {
+						console.warn('Reload tagging list');
 						tagme_reload();
+					}
 				});
 }
