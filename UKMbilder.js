@@ -36,7 +36,9 @@ function tagImages() {
 	});
 
 	jQuery.post(ajaxurl,
-				{action: 'UKMbilder_do_tag', images: image_ids},
+				{action: 'UKMbilder_do_tag',
+				 images: image_ids,
+				 band: selected_band},
 				function response(response) {
 					if(response.success)
 						jQuery('.tagme.active').remove();
