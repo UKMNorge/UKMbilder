@@ -40,9 +40,10 @@ function tagImages() {
 				 images: image_ids,
 				 band: selected_band},
 				function response(response) {
-					if(response.success)
+					if(response.success) {
 						jQuery('.tagme.active').remove();
-					else
+						jQuery('input[name="innslag"]:checked').removeProp('checked')
+					} else
 						alert('Beklager, en feil oppsto ved merking av innslag!');
 				}
 		)
