@@ -10,7 +10,7 @@ require_once('UKM/related.class.php');
 $innslag = new innslag($_GET['band'], false);
 $PHOTO_BY_WP_UID = get_current_user_id();
 
-if(!is_array($_POST['image']))
+if(!is_array($_POST['images']))
 	die(json_encode(array('success' => false)));
 
 foreach($_POST['images'] as $id) {
