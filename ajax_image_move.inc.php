@@ -26,14 +26,14 @@ foreach($_POST['images'] as $post_id) {
 				 );
 */
 
+	global $blog_id;
 	// UPDATE UKM_BILDER
-	$sql = new SQLins('ukm_bilder', array('wp_post' => $post_id));
+	$sql = new SQLins('ukm_bilder', array('wp_post' => $post_id, 'wp_blog' => $blog_id));
 	$sql->add('b_id', $innslag->g('b_id'));
 	//$sql->run();
 	echo $sql->debug();
 
 	// UPDATE WP_RELATED
-	global $blog_id;
 	$sql = new SQLins('ukmno_wp_related', array('post_id' => $post_id,
 												'blog_id' => $blog_id,
 												'post_type' => 'image'));
