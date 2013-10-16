@@ -14,7 +14,7 @@ global $blog_id;
 $sql = new SQLins('ukm_bilder');
 $sql->add('season', $season);
 $sql->add('pl_id', $place);
-$sql->add('blog_id', $blog_id);
+$sql->add('wp_blog', $blog_id);
 $res = $sql->run();
 
 $id = $sql->insId();
@@ -28,9 +28,6 @@ $path = $SYNC_FOLDER.$name;
 $sql = new SQLins('ukm_bilder', array('id' => $id));
 $sql->add('filename', $name);
 $sql->run();
-
-echo $sql->debug();
-
 
 move_uploaded_file($_FILES['image']['tmp_name'], $path);
 
