@@ -43,14 +43,12 @@ function showBandImages(selector) {
 				 band: jQuery('#'+selector).attr('data-innslag')
 				},
 				function (response) {
-					console.log('Got response');
-					console.log(response);
-					console.log(response.images);
-					console.log(response.images.length);
 					if(response.images.length == 0) {
 						selector = '#innslag_'+response.b_id;
 						jQuery(selector).find('ol.band_images').html('<li class="alert alert-info">Det er ikke lastet opp noen bilder til dette innslaget</li>');
 					} else {
+						console.log('Render images');
+						console.log(response.images.length);
 						var template_band_images = Handlebars.compile( jQuery('#handlebars-image-edit').html() );
 						jQuery(selector).find('ol.band_images').html( template_band_images(response) );
 					}
