@@ -10,7 +10,7 @@ $running = new SQL("SELECT `id`
 				);
 $res = $running->run();
 if(mysql_num_rows($res) > 0) {
-	die(json_encode(array('success' => true, 'update' => false, 'message' => 'Already compressing one')));
+	die(json_encode(array('success' => true, 'reload' => false, 'message' => 'Already compressing one')));
 }
 
 // SHOULD GO ON IF CRASH ON ONE FILE (IF TIMEAGO LAST CHANGE > 6 MIN)
@@ -80,7 +80,7 @@ while($r = mysql_fetch_assoc($res)) {
 	$db_update->add('status', 'compressed');
 	$db_update->add('url', wp_get_attachment_thumb_url($attach_id));
 	$db_update->run();
-	die(json_encode(array('success'=>true, 'update' => $r['id'], 'message' => 'Image compressed')));
+	die(json_encode(array('success'=>true, 'reload' => $r['id'], 'message' => 'Image compressed')));
 }
 
-die(json_encode(array('success' => true, 'update' => false, 'message' => 'Nothing to compress')));
+die(json_encode(array('success' => true, 'reload' => false, 'message' => 'Nothing to compress')));
