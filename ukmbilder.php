@@ -15,6 +15,7 @@ add_action('wp_ajax_UKMbilder_innslag', 'UKMbilder_innslag');
 add_action('wp_ajax_UKMbilder_compress', 'UKMbilder_compress');
 add_action('wp_ajax_UKMbilder_do_tag', 'UKMbilder_do_tag');
 add_action('wp_ajax_UKMbilder_band_images', 'UKMbilder_band_images');
+add_action('wp_ajax_UKMbilder_image_reauthor', 'UKMbilder_image_reauthor');
 
 if(is_admin()) {
 	add_action('admin_menu', 'UKMimages_menu');
@@ -55,6 +56,12 @@ function UKMbilder_band_images() {
 	require_once('ajax_band_images.inc.php');
 	die();
 }
+
+function UKMbilder_image_reauthor(){
+	require_once('ajax_image_reauthor.inc.php');
+	die();
+}
+
 
 function UKMbilder_syncfolder() {
 	return '/home/ukmno/private_sync/';

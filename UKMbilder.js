@@ -80,7 +80,24 @@ function do_action_move(selected_images, moveto) {
 }
 
 function do_action_author(selected_images, author) {
-	alert('Krediter '+ author +' for '+ selected_images.length + ' bilder');
+	var image_ids = new Array();
+	selected_images.each(function() {
+		image_ids.push( jQuery(this).attr('id') );
+	});
+
+	jQuery.post(ajaxurl,
+				{action: 'UKMbilder_image_reauthor',
+				 photo: author,
+				 images: image_ids
+				},
+				function(response) {
+					if(response.success) {
+						alert('Fotograf oppdatert!');
+						jQuery('#innslag_'+response.b_id).find('.image_edit.active').removeClass('active');
+					} else {
+						alert('Beklager, en feil oppsto ved endring av fotograf!');
+					}
+				})
 }
 
 
