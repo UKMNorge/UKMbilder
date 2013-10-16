@@ -32,7 +32,7 @@ function tagImages() {
 
 	var image_ids = new Array();
 	for(i=0; i<selected_images.length; i++) {
-		image_ids.push( selected_images[i].parents('li').attr('id') );
+		image_ids.push( selected_images[i].attr('id') );
 	}
 
 	jQuery.post(ajaxurl,
