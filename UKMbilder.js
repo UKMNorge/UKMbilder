@@ -55,7 +55,5 @@ function images_compress() {
 				function(response){
 					if(response.reload)
 						tagme_reload();
-					else
-						setTimeout(images_compress(), 2000);
-				});	
+				});
 }
