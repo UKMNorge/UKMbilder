@@ -5,7 +5,7 @@ header('Content-type: application/json');
 
 require_once('UKM/sql.class.php');
 
-$photo_by = $_POST['author'];
+$photo_by = $_POST['photo'];
 
 if((int)$photo_by == 0)
 	die(json_encode(array('success' => false, 'message' => 'Missing author')));
