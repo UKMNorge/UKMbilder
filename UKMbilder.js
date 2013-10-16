@@ -27,11 +27,58 @@ jQuery(document).ready(function(){
 	
 	jQuery(document).on('click', 'img.image_edit', function(){jQuery(this).toggleClass('active');});
 	jQuery(document).on('change', '.selector_action', function(){change_action(jQuery(this))});
+	jQuery(document).on('click', '.band_image_action_do', function(){do_action(jQuery(this))});
 });
 
 
 ///////////////////////////////////////////////////////////
 // LISTE OVER INNSLAG
+
+function do_action(button) {
+	form = button.parents('form');
+	
+	action = form.find('.selector_action').val();
+	
+	if(action == undefined || action == null)
+		return alert('Du må velge en handling!');
+		
+	selected_images = form.find('.edit_image.active');
+	
+	if(selected_images.length == 0)
+		return alert('Du må markere ett eller flere bilder!');
+	
+	if(action == 'delete') {
+		do_action_delete(selected_images);
+	} else if (action == 'move') {
+		moveto = form.find('.selector_band').val();
+		
+		if(moveto == undefined || moveto == null)
+			return alert('Du må velge hvilket innslag de markerte bildene skal flyttes til!');
+		
+		do_action_move(selected_images, moveto);
+	} else if (action == 'author') {
+		author = form.find('.selector_author');
+		
+		if(author == undefined || author == null)
+			return alert('Du må velge hvem som har tatt bildene!');
+		
+		do_action_author(selected_images, author);
+	}
+}
+
+function do_action_delete(selected_images) {
+	alert('Slett '+selected_images.length+' bilder');
+}
+
+function do_action_move(selected_images, moveto) {
+	alert('Flytt '+ selected_images.length + ' til '+ moveto);
+}
+
+function do_action_author(selected_images, author) {
+	alert('Krediter '+ author +' for '+ selected_images.length + ' bilder');
+}
+
+
 
 function change_action(actionlist) {
 	selected = actionlist.val();
