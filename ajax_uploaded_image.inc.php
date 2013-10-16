@@ -1,6 +1,6 @@
 <?php
 if(!isset($_FILES) || sizeof($_FILES) == 0)
-	die(json_encode(array('success'=>false,'error'=>'Missing files'));
+	die(json_encode(array('success'=>false,'error'=>'Missing files')));
 
 $SYNC_FOLDER = '/home/ukmno/private_sync/';
 
