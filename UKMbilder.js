@@ -41,7 +41,7 @@ function showBandImages(selector) {
 				 band: jQuery('#'+selector).attr('data-innslag')
 				},
 				function (response) {
-					var template_band_images = Handelbars.compile( jQuery('#handlebars-image-edit').html() );
+					var template_band_images = Handlebars.compile( jQuery('#handlebars-image-edit').html() );
 					jQuery('#innslag_'+response.b_id).find('ol.band_images').html( template_band_images(response) );
 				});
 	

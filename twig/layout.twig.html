@@ -23,3 +23,16 @@
 <div class="ukmvideo_wrapper">
 	{% block content %}{% endblock %}
 </div>
+
+
+	{# LISTE OVER INNSLAG SOM KAN VELGES #}
+	{% embed "handlebars/innslag.handlebars.html" %}{% endembed %}
+
+	{# BILDER SOM SKAL TAGGES #}
+	{% embed "handlebars/bilde.handlebars.html" %}{% endembed %}
+	
+	{# HVIS DET IKKE ER NOEN BILDER #}
+	{% embed "handlebars/ingen_bilder.handlebars.html" %}{% endembed %}
+
+	{# HVIS DET IKKE ER NOEN BILDER #}
+	{% embed "handlebars/bilde_edit.handlebars.html" %}{% endembed %}
