@@ -17,15 +17,14 @@ foreach($_POST['images'] as $post_id) {
 	global $wpdb;
 	require_once(ABSPATH . 'wp-admin/includes/image.php');
 	require_once(ABSPATH . 'wp-includes/post.php');
-#	$wpdb->update($wpdb->posts,
-#				  array('post_author' => $photo_by),
-#			      array('ID' => $post_id)
-#				 );
+	$wpdb->update($wpdb->posts,
+				  array('post_author' => $photo_by),
+			      array('ID' => $post_id)
+				 );
 	// UPDATE UKM_BILDER
 	$sql = new SQLins('ukm_bilder', array('wp_post' => $post_id));
 	$sql->add('wp_uid', $photo_by);
-	echo $sql->debug();
-//	$sql->run();
+	$sql->run();
 	
 	global $blog_id;
 	// UPDATE RELATED TABLE
@@ -38,16 +37,13 @@ foreach($_POST['images'] as $post_id) {
 							  'blog_id' => $blog_id)
 					   );
 	$related = $related->run('array');
-	var_dump($related);
 	$post_meta = unserialize($related['post_meta']);
-	var_dump($post_meta);
 	
 	$post_meta['author'] = $photo_by;
 	$post_meta = serialize($post_meta);
 	
 	$update_related = new SQLins('ukmno_wp_related', array('rel_id' => $related['rel_id']));
 	$update_related->add('post_meta', $post_meta);
-	echo $update_related->debug();
-//	$update_related->run();
+	$update_related->run();
 }
-die(json_encode(array('success' => true, 'b_id' => $post_meta['b_id'])));
+die(json_encode(array('success' => true, 'b_id' => $related['b_id'])));
