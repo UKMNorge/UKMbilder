@@ -36,9 +36,9 @@ function change_action(actionlist) {
 	selected = actionlist.val();
 	
 	if(selected == 'move')
-		selected.parents('form').find('.selector_band').slideDown();
+		actionlist.parents('form').find('.selector_band').slideDown();
 	else 
-		selected.parents('form').find('.selector_band').slideUp();
+		actionlist.parents('form').find('.selector_band').slideUp();
 }
 
 function showBandImages(selector) {
