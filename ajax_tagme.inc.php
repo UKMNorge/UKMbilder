@@ -17,10 +17,12 @@ $res = $sql->run();
 
 $images = array();
 while( $r = mysql_fetch_assoc($res) ) {
-	if($r['status'] == 'uploaded' || $r['status'] == 'compressing')
+	if($r['status'] == 'uploaded' || $r['status'] == 'compressing') {
+		$r['compressing'] = true;
 		$url = 'http://ukm.no/wp-content/plugins/UKMbilder/img/compressing.gif';
-	else
+	else {
 		$url = $r['url'];
+	}
 	$images[] = $r;
 
 }
