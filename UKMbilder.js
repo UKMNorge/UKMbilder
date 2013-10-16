@@ -37,16 +37,14 @@ jQuery(document).ready(function(){
 function do_action(button) {
 	console.warn('Do something');
 	form = button.parents('form');
+	innslag = form.parents('li');
 	
 	action = form.find('.selector_action').val();
 	
 	if(action == undefined || action == null)
 		return alert('Du må velge en handling!');
 		
-	selected_images = form.find('.edit_image.active');
-	console.log(selected_images);
-	console.log(form);
-	console.log(form.html());
+	selected_images = innslag.find('.edit_image.active');
 	
 	if(selected_images.length == 0)
 		return alert('Du må markere ett eller flere bilder!');
