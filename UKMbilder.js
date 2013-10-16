@@ -38,7 +38,7 @@ function do_action(button) {
 	console.warn('Do something');
 	form = button.parents('form');
 	innslag = form.parents('li');
-	innslag_id = form.attr('data-innslag');
+	innslag_id = innslag.attr('data-innslag');
 
 	console.log(form.html());
 	console.log(innslag.html());
