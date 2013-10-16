@@ -60,7 +60,7 @@ function showBandImages(selector) {
 				function (response) {
 					selector = '#innslag_'+response.b_id;
 					if(response.images.length == 0) {
-						jQuery(selector).find('ol.band_images').html('<li class="alert alert-info">Det er ikke lastet opp noen bilder til dette innslaget</li>');
+						jQuery(selector).find('ol.band_images').html('<li class="alexrt alert-info">Det er ikke lastet opp noen bilder til dette innslaget</li>');
 					} else {
 						var template_band_actions = Handlebars.compile( jQuery('#handlebars-image-actions').html() );
 						jQuery(selector).find('.image_actions').html( template_band_actions(response) ).slideDown();
@@ -93,7 +93,7 @@ function tagImages() {
 
 	selected_band = parseInt(jQuery('input[name="innslag"]:checked').val());
 	if(selected_band == undefined || isNaN(selected_band))
-		return alert('Du må velge hvilket innslag du skal merke bildene med');
+		return alert('Du må velge hvilket innslag du skal knytte bildene til');
 
 	var image_ids = new Array();
 	selected_images.each(function() {
