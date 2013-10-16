@@ -11,8 +11,8 @@ $related = $innslag->related_items();
 if(!isset($related['image']))
 	$related['image'] = array();
 	
-foreach($related['image'] as $image) {
-	$related['image'][$image]['thumb'] = $image['blog_url'].'/files/'.$image['post_meta']['sizes']['thumbnail']['file'];
+foreach($related['image'] as $key => $image) {
+	$related['image'][$key]['thumb'] = $image['blog_url'].'/files/'.$image['post_meta']['sizes']['thumbnail']['file'];
 }
 
 die(json_encode(array('images' => $related['image'], 'b_id' => $innslag->get('b_id'))));
