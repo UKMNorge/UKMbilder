@@ -1,8 +1,8 @@
 {% raw %}
 <script id="handlebars-image-tag" type="text/x-handlebars-template">
 	{{#each images}}
-	<li class="pull-left tagme" id="image_{{id}}">
-		<img src="{{url}}" class="thumbnail" style="width: 140px;" />
+	<li class="pull-left" id="image_{{id}}">
+		<img src="{{url}}" class="thumbnail tagme" style="width: 140px;" />
 		{{#if compressing }}
 			Komprimerer...
 		{{/if}}
