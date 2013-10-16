@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL);
 if(!isset($_FILES) || sizeof($_FILES) == 0)
 	die(json_encode(array('success'=>false,'error'=>'Missing files')));
 
@@ -22,7 +23,9 @@ $extension = pathinfo($filename, PATHINFO_EXTENSION);
 $name = $season.'_'.$place.'_'.$id.'.'.$extension;
 $path = $SYNC_FOLDER.$name;
 
-move_uploaded_file($_FILES['image']['tmp_name'], $path);
+$res = move_uploaded_file($_FILES['image']['tmp_name'], $path);
+
+var_dump($res);
 
 // RESIZE IMAGE
 $image = new Imagick( $path );
