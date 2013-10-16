@@ -1,0 +1,31 @@
+{% extends "layout.twig.html" %}
+
+{% block content %}
+<h2>Se på / rediger bilder</h2>
+
+<ol class="unstyled">
+	{% for innslag in alle_innslag %}
+	<li class="innslag well well-mini clickable">
+		<div class="header">
+			<div class="actions">
+				<div class="pull-left numimages">
+					<div class="overunder">
+						<div class="over">{{innslag.num_images}}</div>
+						<div class="under">bilde{{innslag.num_images == 1 ? '' : 'r'}}</div>
+					</div>
+				</div>
+				<div class="pull-left details">
+					<img src="//ico.ukm.no/sirkel-pluss-256.png" />
+					<small>Vis bilder</small>
+				</div>
+				<h1>{{innslag.name}}</h1>
+			</div>
+		</div>
+		<div class="details">
+			Vennligst vent, laster detaljer..		
+		</div>
+	</li>
+	{% endfor %}
+</ol>
+
+{% endblock %}

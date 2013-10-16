@@ -11,3 +11,34 @@
  background: #0a6158;
  opacity: 0.6;
 }
+
+
+
+/*==========================================
+/ 1.5 OVER+UNDER FOKUSBOKS
+/=========================================*/
+.overunder {
+	text-align: center; 
+	font-weight: bold;
+	color: inherit;
+	text-rendering: optimizelegibility;
+	padding: 4px 0px 4px 0px;
+}
+.overunder .over {
+	line-height: 20px;
+	font-size: 30px;
+}
+.overunder .over small {
+	font-weight: normal;
+	font-size: 14px;
+	margin: 0px;
+}
+.overunder .under {
+	margin-top: 3px;
+	font-size: 11px;
+	line-height: 11px;
+}
+
+.clickable {
+	cursor: pointer;
+}
