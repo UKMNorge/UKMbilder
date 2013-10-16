@@ -10,9 +10,11 @@ $place	= get_option('pl_id');
 
 require_once('UKM/sql.class.php');
 
+global $blog_id;
 $sql = new SQLins('ukm_bilder');
 $sql->add('season', $season);
 $sql->add('pl_id', $place);
+$sql->add('blog_id', $blog_id);
 $res = $sql->run();
 
 $id = $sql->insId();
@@ -22,6 +24,11 @@ $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
 $name = $season.'_'.$place.'_'.$id.'.'.$extension;
 $path = $SYNC_FOLDER.$name;
+
+$sql = new SQLins('ukm_bilder', array('id' => $id));
+$sql->add('filename', $name);
+$sql->run();
+
 
 move_uploaded_file($_FILES['image']['tmp_name'], $path);
 
