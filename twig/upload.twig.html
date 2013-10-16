@@ -23,32 +23,33 @@
 <p>Marker ett eller flere bilder, og velg innslaget de hører til i listen til høyre.<br />
 Du kan filtrere listen ved å bruke nedtrekksmenyen</p>
 
-<div class="pull-right well well-mini" style="width: 135; margin-left: 20px;">
-	<h5>Filtrer listen</h5>
-	<select id="innslag_selector">
-		<option value="alpha">Alle registrerte innslag</option>
-		<optgroup label="Fra forestilling">
-		{% for forestilling in program %}
-			<option value="{{forestilling.c_id}}">{{forestilling.c_name}}</option>
-		{% else %}
-			<option value="false" disabled="disabled">
-				Du må sette opp program for mønstringen først
-			</option>
-		{% endfor %}
-		</optgroup>
-	</select>
+<div style="width: 755px;">
+	<div class="pull-right well well-mini" style="width: 135; margin-left: 20px;">
+		<h5>Filtrer listen</h5>
+		<select id="innslag_selector">
+			<option value="alpha">Alle registrerte innslag</option>
+			<optgroup label="Fra forestilling">
+			{% for forestilling in program %}
+				<option value="{{forestilling.c_id}}">{{forestilling.c_name}}</option>
+			{% else %}
+				<option value="false" disabled="disabled">
+					Du må sette opp program for mønstringen først
+				</option>
+			{% endfor %}
+			</optgroup>
+		</select>
+		
+		<strong>Velg innslag:</strong>
+		
+		<ol class="unstyled" id="innslag">
+			<li class="alert alert-info" id="innslag_select">Velg innslag fra listen ovenfor</li>
+		</ol>
+		<button class="btn btn-success" id="tag_selected">Merk valgte bilder</button>
+	</div>
 	
-	<strong>Velg innslag:</strong>
-	
-	<ol class="unstyled" id="innslag">
-		<li class="alert alert-info" id="innslag_select">Velg innslag fra listen ovenfor</li>
+	<ol class="unstyled" id="tag_images" style="width: 600px;">
 	</ol>
-	<button class="btn btn-success" id="tag_selected">Merk valgte bilder</button>
 </div>
-
-<ol class="unstyled" id="tag_images" style="width: 600px;">
-</ol>
-
 
 
 
