@@ -44,6 +44,8 @@ function showBandImages(selector) {
 				},
 				function (response) {
 					console.log('Got response');
+					console.log(response);
+					console.log(response.images);
 					console.log(response.images.length);
 					if(response.images.length == 0) {
 						selector = '#innslag_'+response.b_id;
