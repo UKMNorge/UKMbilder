@@ -31,9 +31,9 @@ function tagImages() {
 		return alert('Du må velge hvilket innslag du skal merke bildene med');
 
 	var image_ids = new Array();
-	for(i=0; i<selected_images.length; i++) {
-		image_ids.push( selected_images[i].attr('id') );
-	}
+	selected_images.each(function() {
+		image_ids.push( jQuery(this).attr('id') );
+	});
 
 	jQuery.post(ajaxurl,
 				{action: 'UKMbilder_do_tag', images: image_ids},
