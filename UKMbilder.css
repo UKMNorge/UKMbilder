@@ -9,7 +9,7 @@
 }
 
 .tagme.active,
-image_edit.active {
+.image_edit.active {
 	background:#0a6158;
 	opacity:0.6;
 	border-color:#000;
