@@ -17,7 +17,12 @@ $res = $sql->run();
 
 $images = array();
 while( $r = mysql_fetch_assoc($res) ) {
+	if($r['status'] == 'uploaded' || $r['status'] == 'compressing')
+		$url = 'http://ukm.no/wp-content/plugins/UKMbilder/img/compressing.gif';
+	else
+		$url = $r['url'];
 	$images[] = $r;
+
 }
 
 die(json_encode(array('images' => $images)));
