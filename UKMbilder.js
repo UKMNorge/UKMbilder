@@ -12,12 +12,8 @@ jQuery(document).ready(function(){
 	}).bind('fileuploaddone', function(e, data){
 		tagme_reload();
 		jQuery('#uploadprogress').parent().slideUp();
-		console.warn('På tide å oppdatere listen over opplastede bilder');
 	});
-	
-	
 	tagme_reload();
-	
 	jQuery(document).on('change', '#innslag_selector', function(){tagme_list_selector()});
 });
 
@@ -50,4 +46,16 @@ function tagme_response( response ) {
 	console.log( response );
 	var template_tagme = Handlebars.compile(jQuery('#handlebars-image-tag').html());
 	jQuery('#tag_images').html( template_tagme( response ) );
+	images_compress();
+}
+
+function images_compress() {
+	jQuery.post(ajaxurl,
+				{action: 'UKMbilder_compress'},
+				function(response){
+					if(response.reload)
+						tagme_reload();
+					else
+						setTimeout(images_compress(), 2000);
+				});	
 }

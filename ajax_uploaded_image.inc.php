@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 if(!isset($_FILES) || sizeof($_FILES) == 0)
 	die(json_encode(array('success'=>false,'error'=>'Missing files')));
 
-$SYNC_FOLDER = '/home/ukmno/private_sync/';
+$SYNC_FOLDER = UKMbilder_syncfolder();
 
 $season = get_option('season');
 $place	= get_option('pl_id');

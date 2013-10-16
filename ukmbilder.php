@@ -12,6 +12,8 @@ Author URI: http://www.ukm-norge.no
 add_action('wp_ajax_UKMbilder_upload', 'UKMbilder_upload');
 add_action('wp_ajax_UKMbilder_tagme', 'UKMbilder_tagme');
 add_action('wp_ajax_UKMbilder_innslag', 'UKMbilder_innslag');
+add_action('wp_ajax_UKMbilder_compress', 'UKMbilder_compress');
+
 if(is_admin()) {
 	add_action('admin_menu', 'UKMimages_menu');
 }
@@ -35,6 +37,15 @@ function UKMbilder_innslag() {
 function UKMbilder_tagme() {
 	require_once('ajax_tagme.inc.php');
 	die();
+}
+
+function UKMbilder_compress() {
+	require_once('ajax_compress.inc.php');
+	die();
+}
+
+function UKMbilder_syncfolder() {
+	return '/home/ukmno/private_sync/';
 }
 
 function UKMbilder_scripts_and_styles(){
