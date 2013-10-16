@@ -8,9 +8,6 @@ require_once('UKM/innslag.class.php');
 
 $innslag = new innslag($_POST['new_b_id']);
 
-var_dump($innslag);
-die();
-
 if((int)$innslag->g('b_id') == 0)
 	die(json_encode(array('success' => false, 'message' => 'Did not find moveto band')));
 
