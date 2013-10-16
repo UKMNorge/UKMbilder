@@ -14,14 +14,37 @@ jQuery(document).ready(function(){
 		jQuery('#uploadprogress').parent().slideUp();
 	});
 	tagme_reload();
-	jQuery(document).on('change', '#innslag_selector', function(){tagme_list_selector()});
 	
-	jQuery(document).on('click', 'img.tagme', function(){
-			console.log('toggle active');
-			jQuery(this).toggleClass('active');
-		});
+	jQuery(document).on('change', '#innslag_selector', function(){tagme_list_selector()});
+	jQuery(document).on('click', 'img.tagme', function(){jQuery(this).toggleClass('active');});
+	jQuery(document).on('click', '#tag_selected', tagImages());
 });
 
+
+function tagImages() {
+	selected_images = jQuery('.tagme.active');
+	if(selected_images.length == 0)
+		return alert('Du må velge hvilke bilder som skal merkes først!');
+
+	selected_band = parseInt(jQuery('input[name="innslag"]:checked').val());
+	if(selected_band == undefined || isNaN(selected_band))
+		return alert('Du må velge hvilket innslag du skal merke bildene med');
+
+	var image_ids = new Array();
+	for(i=0; i<selected_images.length; i++) {
+		image_ids.push( selected_images[i].parents('li').attr('id') );
+	}
+
+	jQuery.post(ajaxurl,
+				{action: 'UKMbilder_do_tag', images: image_ids},
+				function response(response) {
+					if(response.success)
+						jQuery('.tagme.active').remove();
+					else
+						alert('Beklager, en feil oppsto ved merking av innslag!');
+				}
+		)
+}
 
 
 function tagme_list_selector() {
