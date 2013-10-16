@@ -29,6 +29,8 @@ $sql = new SQLins('ukm_bilder', array('id' => $id));
 $sql->add('filename', $name);
 $sql->run();
 
+echo $sql->debug();
+
 
 move_uploaded_file($_FILES['image']['tmp_name'], $path);
 
