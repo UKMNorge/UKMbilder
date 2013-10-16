@@ -36,19 +36,42 @@ while($r = mysql_fetch_assoc($res)) {
 	$SYNCFOLDER = UKMbilder_syncfolder();
 	$path = $SYNCFOLDER . $r['filename'];
 	
+	$wp_upload_dir = wp_upload_dir();
+	$wp_path = $wp_upload_dir. $r['filename'];
+
+	// COMPRESS AND MOVE TO WORDPRESS UPLOAD DIR (wp_ins_att requirement)
+	$image = new Imagick( $path );
+	$imageprops = $image->getImageGeometry();
+	
+		// Find proportions
+		$width = $height = 2048;
+		if($imageprops['width'] > $imageprops['height']) {
+			$height = 0;
+			$compare = 'width';
+		} else {
+			$width = 0;
+			$compare = 'height';
+		}
+	
+	// IF IMAGE IS LARGER THAN TARGET, RESIZE
+	if($imageprops[$compare] > $$compare) {
+		$image->scaleImage($width, $height);
+		$image->writeImage($wp_path);
+	}
+	
 	/// WORDPRESS GENERATE ATTACHMENT AND THUMBS
-	$wp_filetype = wp_check_filetype(basename($path), null );
+	$wp_filetype = wp_check_filetype(basename($wp_path), null );
 	$attachment = array(
 			  	  'post_mime_type' => $wp_filetype['type'],
 				  'post_title' => $r['filename'],
 				  'post_content' => '',
 				  'post_status' => 'inherit'
 				);
-	$attach_id = wp_insert_attachment( $attachment, $path);
+	$attach_id = wp_insert_attachment( $attachment, $wp_path);
 	// you must first include the image.php file
 	// for the function wp_generate_attachment_metadata() to work
 	require_once(ABSPATH . 'wp-admin/includes/image.php');
-	$attach_data = wp_generate_attachment_metadata( $attach_id, $path );
+	$attach_data = wp_generate_attachment_metadata( $attach_id, $wp_path );
 	wp_update_attachment_metadata( $attach_id, $attach_data );
 	
 	
