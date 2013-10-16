@@ -42,7 +42,10 @@ function tagImages() {
 				function response(response) {
 					if(response.success) {
 						jQuery('.tagme.active').remove();
-						jQuery('input[name="innslag"]:checked').removeProp('checked')
+						jQuery('input[name="innslag"]:checked').removeProp('checked');
+						if(jQuery('.tagme').length == 0)
+							jQuery('#container_ukmbilder_steg2').slideUp();
+						
 					} else
 						alert('Beklager, en feil oppsto ved merking av innslag!');
 				}
