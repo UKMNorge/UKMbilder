@@ -38,6 +38,9 @@ function do_action(button) {
 	console.warn('Do something');
 	form = button.parents('form');
 	innslag = form.parents('li');
+
+	console.log(form.html());
+	console.log(innslag.html());
 	
 	action = form.find('.selector_action').val();
 	
