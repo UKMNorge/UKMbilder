@@ -39,6 +39,8 @@ foreach($_POST['images'] as $post_id) {
 	$related = $related->run('array');
 	
 	$post_meta = unserialize($related['post_meta']);
+	var_dump($post_meta);
+	
 	$post_meta['author'] = $photo_by;
 	$post_meta = serialize($post_meta);
 	
