@@ -27,6 +27,7 @@ foreach($_POST['images'] as $post_id) {
 	echo $sql->debug();
 //	$sql->run();
 	
+	global $blog_id;
 	// UPDATE RELATED TABLE
 	$related = new SQL("SELECT *
 						FROM `ukmno_wp_related`
