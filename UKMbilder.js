@@ -36,6 +36,7 @@ function showBandImages(selector) {
 	
 	jQuery('#'+selector).find('.details').slideDown();
 	jQuery('#'+selector).find('.details .loader').slideDown();
+	jQuery('#'+selector).find('ol.band_images').html('');
 	
 	jQuery.post(ajaxurl,
 				{action: 'UKMbilder_band_images',	
