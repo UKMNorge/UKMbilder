@@ -35,14 +35,21 @@ function showBandImages(selector) {
 	jQuery('#'+selector).find('.details_hide').show();
 	
 	jQuery('#'+selector).find('.details').slideDown();
+	jQuery('#'+selector).find('.details .loader').slideDown();
 	
 	jQuery.post(ajaxurl,
 				{action: 'UKMbilder_band_images',	
 				 band: jQuery('#'+selector).attr('data-innslag')
 				},
 				function (response) {
-					var template_band_images = Handlebars.compile( jQuery('#handlebars-image-edit').html() );
-					jQuery('#innslag_'+response.b_id).find('ol.band_images').html( template_band_images(response) );
+					if(response.images.length == 0) {
+						selector = '#innslag_'+response.b_id;
+						jQuery(selector).find('ol.band_images').html('<li class="alert alert-info">Det er ikke lastet opp noen bilder til dette innslaget</li>');
+					} else {
+						var template_band_images = Handlebars.compile( jQuery('#handlebars-image-edit').html() );
+						jQuery(selector).find('ol.band_images').html( template_band_images(response) );
+						jQuery(selector).find('.details .loader').slideUp();
+					}
 				});
 	
 }

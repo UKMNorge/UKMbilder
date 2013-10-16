@@ -8,4 +8,6 @@ require_once('UKM/innslag.class.php');
 $innslag = new innslag($_POST['band']);
 $related = $innslag->related_items();
 
+var_dump($related['image']);
+
 die(json_encode(array('images' => $related['image'], 'b_id' => $innslag->get('b_id'))));
