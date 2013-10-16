@@ -35,6 +35,7 @@ jQuery(document).ready(function(){
 // LISTE OVER INNSLAG
 
 function do_action(button) {
+	console.warn('Do something');
 	form = button.parents('form');
 	
 	action = form.find('.selector_action').val();
