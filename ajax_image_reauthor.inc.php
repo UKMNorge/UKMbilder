@@ -47,4 +47,4 @@ foreach($_POST['images'] as $post_id) {
 	$update_related->add('post_meta', $post_meta);
 	$update_related->run();
 }
-die(json_encode(array('success' => true, 'b_id' => $related['b_id'])));
+die(json_encode(array('success' => true, 'b_id' => $related['b_id'], 'count' => sizeof($_POST['images']))));

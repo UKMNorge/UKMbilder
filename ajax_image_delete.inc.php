@@ -27,4 +27,4 @@ foreach($_POST['images'] as $post_id) {
 	$related->delete($post_id, 'image');
 }
 
-die(json_encode(array('success' => true, 'b_id' => $_POST['b_id'])));
+die(json_encode(array('success' => true, 'b_id' => $_POST['b_id'], 'count' => sizeof($_POST['images']))));

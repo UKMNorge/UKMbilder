@@ -85,7 +85,8 @@ function do_action_delete(innslag_id, selected_images) {
 				},
 				function(response) {
 					if(response.success) {
-						alert('Bilde(r) er nå slettet!'
+						bildetekst = response.count == 1 ? 'Bildet' : reponse.count + ' bilder';
+						alert(bildetekst + ' ble slettet!'
 							 + "\r\n" 
 							 + 'OBS: Kolonnen med antall bilder i innslaget vil først bli oppdatert når du åpner denne listen på nytt.');
 						jQuery('#innslag_'+response.b_id).find('.image_edit.active').remove();
@@ -109,7 +110,8 @@ function do_action_move(innslag_id, selected_images, moveto) {
 				},
 				function(response) {
 					if(response.success) {
-						alert('Bilde(r) flyttet til nytt innslag!'
+						bildetekst = response.count == 1 ? 'Bildet' : reponse.count + ' bilder';
+						alert(bildetekst + ' ble flyttet til nytt innslag!'
 							 + "\r\n" 
 							 + 'OBS: Kolonnen med antall bilder i innslaget vil først bli oppdatert når du åpner denne listen på nytt.');
 						jQuery('#innslag_'+response.b_id).find('.image_edit.active').remove();
@@ -133,7 +135,7 @@ function do_action_author(innslag_id, selected_images, author) {
 				},
 				function(response) {
 					if(response.success) {
-						alert('Fotograf oppdatert!');
+						alert('Fotograf oppdatert for '+ response.count + ' bilde '+ (response.count == 1 ? '':'r') +' !');
 						jQuery('#innslag_'+response.b_id).find('.image_edit.active').removeClass('active');
 					} else {
 						alert('Beklager, en feil oppsto ved endring av fotograf!');

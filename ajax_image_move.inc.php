@@ -37,4 +37,4 @@ foreach($_POST['images'] as $post_id) {
 	$sql->add('b_id', $innslag->g('b_id'));
 	$sql->run();
 }
-die(json_encode(array('success' => true, 'b_id' => $_POST['b_id'])));
+die(json_encode(array('success' => true, 'b_id' => $_POST['b_id'], 'count' => sizeof($_POST['images']))));
