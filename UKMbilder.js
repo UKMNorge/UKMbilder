@@ -38,6 +38,7 @@ function do_action(button) {
 	console.warn('Do something');
 	form = button.parents('form');
 	innslag = form.parents('li');
+	innslag_id = form.attr('data-innslag');
 
 	console.log(form.html());
 	console.log(innslag.html());
@@ -53,33 +54,33 @@ function do_action(button) {
 		return alert('Du må markere ett eller flere bilder!');
 	
 	if(action == 'delete') {
-		do_action_delete(selected_images);
+		do_action_delete(innslag_id, selected_images);
 	} else if (action == 'move') {
 		moveto = form.find('.selector_band').val();
 		
 		if(moveto == undefined || moveto == null)
 			return alert('Du må velge hvilket innslag de markerte bildene skal flyttes til!');
 		
-		do_action_move(selected_images, moveto);
+		do_action_move(innslag_id, selected_images, moveto);
 	} else if (action == 'author') {
 		author = form.find('.selector_author').val();
 		
 		if(author == undefined || author == null)
 			return alert('Du må velge hvem som har tatt bildene!');
 		
-		do_action_author(selected_images, author);
+		do_action_author(innslag_id, selected_images, author);
 	}
 }
 
-function do_action_delete(selected_images) {
+function do_action_delete(innslag_id, selected_images) {
 	alert('Slett '+selected_images.length+' bilder');
 }
 
-function do_action_move(selected_images, moveto) {
+function do_action_move(innslag_id, selected_images, moveto) {
 	alert('Flytt '+ selected_images.length + ' til '+ moveto);
 }
 
-function do_action_author(selected_images, author) {
+function do_action_author(innslag_id, selected_images, author) {
 	var image_ids = new Array();
 	selected_images.each(function() {
 		image_ids.push( jQuery(this).attr('id') );
@@ -88,7 +89,8 @@ function do_action_author(selected_images, author) {
 	jQuery.post(ajaxurl,
 				{action: 'UKMbilder_image_reauthor',
 				 photo: author,
-				 images: image_ids
+				 images: image_ids,
+				 b_id: innslag_id,
 				},
 				function(response) {
 					if(response.success) {
