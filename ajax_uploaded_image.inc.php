@@ -23,6 +23,10 @@ $extension = pathinfo($filename, PATHINFO_EXTENSION);
 $name = $season.'_'.$place.'_'.$id.'.'.$extension;
 $path = $SYNC_FOLDER.$name;
 
+var_dump($_FILES['image']);
+var_dump($_FILES['image']['tmp_name']);
+var_dump($path);
+
 $res = move_uploaded_file($_FILES['image']['tmp_name'], $path);
 
 var_dump($res);
