@@ -44,6 +44,9 @@ function do_action(button) {
 		return alert('Du må velge en handling!');
 		
 	selected_images = form.find('.edit_image.active');
+	console.log(selected_images);
+	console.log(form);
+	console.log(form.html());
 	
 	if(selected_images.length == 0)
 		return alert('Du må markere ett eller flere bilder!');
