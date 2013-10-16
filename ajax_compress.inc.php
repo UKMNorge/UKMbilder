@@ -37,7 +37,7 @@ while($r = mysql_fetch_assoc($res)) {
 	$path = $SYNCFOLDER . $r['filename'];
 	
 	$wp_upload_dir = wp_upload_dir();
-	$wp_path = $wp_upload_dir. $r['filename'];
+	$wp_path = $wp_upload_dir['path']. $r['filename'];
 
 	// COMPRESS AND MOVE TO WORDPRESS UPLOAD DIR (wp_ins_att requirement)
 	$image = new Imagick( $path );
