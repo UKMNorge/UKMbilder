@@ -46,7 +46,7 @@ foreach($_POST['images'] as $id) {
 	$meta = wp_get_attachment_metadata( $image['wp_post'] );
 	$folder = substr($meta['file'],0,strrpos($meta['file'],'/')+1);
 	foreach($meta['sizes'] as $size => $info)
-		$meta['sizes'][$size]['file'] = $folder.$meta['sizes'][$size]['file'];
+		$meta['sizes'][$size]['file'] = str_replace('//','/',$folder.$meta['sizes'][$size]['file']);
 	
 	$rel = new related($innslag->get('b_id'));
 	$rel->set( $image['wp_post'],
