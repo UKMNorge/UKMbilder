@@ -8,10 +8,13 @@ jQuery(document).ready(function(){
 	        var progress = parseInt(data.loaded / data.total * 100, 10);
 	        jQuery('#uploadprogress').css('width', progress+'%');
 	        jQuery('#uploadprogress').parent().slideDown();
+	        if(progress == 100)
+       			jQuery('#uploadprogress').parent().slideUp();
+	   		else
+   				jQuery('#uploadprogress').parent().slideDown();
 	    }
 	}).bind('fileuploaddone', function(e, data){
 		tagme_reload();
-		jQuery('#uploadprogress').parent().slideUp();
 	});
 	tagme_reload();
 	
