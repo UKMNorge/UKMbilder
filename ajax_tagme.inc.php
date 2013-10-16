@@ -19,9 +19,7 @@ $images = array();
 while( $r = mysql_fetch_assoc($res) ) {
 	if($r['status'] == 'uploaded' || $r['status'] == 'compressing') {
 		$r['compressing'] = true;
-		$url = 'http://ukm.no/wp-content/plugins/UKMbilder/img/compressing.gif';
-	} else {
-		$url = $r['url'];
+		$r['url'] = 'http://ukm.no/wp-content/plugins/UKMbilder/img/compressing.gif';
 	}
 	$images[] = $r;
 
