@@ -3,21 +3,24 @@
 {% block content %}
 <h2>Se på / rediger bilder</h2>
 
-<ol class="unstyled">
+<ol class="unstyled ukmbilder_width">
 	{% for innslag in alle_innslag %}
 	<li class="well well-mini clickable ett_innslag">
 		<div class="header">
 			<div class="actions">
+
+				<div class="pull-left details">
+					<img src="//ico.ukm.no/sirkel-pluss-256.png" /><br />
+					<small>Vis bilder</small>
+				</div>
+
 				<div class="pull-left numimages">
 					<div class="overunder">
 						<div class="over">{{innslag.num_images}}</div>
 						<div class="under">bilde{{innslag.num_images == 1 ? '' : 'r'}}</div>
 					</div>
 				</div>
-				<div class="pull-left details">
-					<img src="//ico.ukm.no/sirkel-pluss-256.png" />
-					<small>Vis bilder</small>
-				</div>
+
 				<h1>{{innslag.name}}</h1>
 			</div>
 			<div class="clearfix"></div>

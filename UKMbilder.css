@@ -14,6 +14,21 @@
 
 
 
+.ett_innslag {
+ padding: 4px;
+}
+.ett_innslag h1 {
+ font-size: 14px;
+}
+.ett_innslag .actions div {
+ width: 60px;
+}
+.ett_innslag .actions img {
+ width: 20px;
+}
+
+
+
 /*==========================================
 / 1.5 OVER+UNDER FOKUSBOKS
 /=========================================*/
