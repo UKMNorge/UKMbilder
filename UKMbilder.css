@@ -2,7 +2,12 @@
 	width: 750px;
 }
 
-.tagme .active {
-	border: 2px solid #ff00ff;
-	background-color: #7e1d1d;
+.tagme {
+ margin: 4px;
+ width: 120px;
+}
+.tagme.active {
+ border-color: #000;
+ background: #0a6158;
+ opacity: 0.6;
 }
