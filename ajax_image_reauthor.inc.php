@@ -42,7 +42,7 @@ foreach($_POST['images'] as $post_id) {
 	$post_meta['author'] = $photo_by;
 	$post_meta = serialize($post_meta);
 	
-	$update_related = new SQLins('ukmno_wp_related', array('rel_id' => $related['rel_id']);
+	$update_related = new SQLins('ukmno_wp_related', array('rel_id' => $related['rel_id']));
 	$update_related->add('post_meta' => $post_meta);
 	echo $update_related->debug();
 //	$update_related->run();
