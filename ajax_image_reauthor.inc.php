@@ -37,7 +37,7 @@ foreach($_POST['images'] as $post_id) {
 							  'blog_id' => $blog_id)
 					   );
 	$related = $related->run('array');
-	
+	var_dump($related);
 	$post_meta = unserialize($related['post_meta']);
 	var_dump($post_meta);
 	
