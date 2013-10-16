@@ -73,7 +73,26 @@ function do_action(button) {
 }
 
 function do_action_delete(innslag_id, selected_images) {
-	alert('Slett '+selected_images.length+' bilder');
+	var image_ids = new Array();
+	selected_images.each(function() {
+		image_ids.push( jQuery(this).attr('id') );
+	});
+
+	jQuery.post(ajaxurl,
+				{action: 'UKMbilder_image_delete',
+				 images: image_ids,
+				 b_id: innslag_id,
+				},
+				function(response) {
+					if(response.success) {
+						alert('Bilde(r) er nå slettet!'
+							 + "\r\n" 
+							 + 'OBS: Kolonnen med antall bilder i innslaget vil først bli oppdatert når du åpner denne listen på nytt.');
+						jQuery('#innslag_'+response.b_id).find('.image_edit.active').remove();
+					} else {
+						alert('Beklager, en feil oppsto ved sletting av bilder!');
+					}
+				});
 }
 
 function do_action_move(innslag_id, selected_images, moveto) {
@@ -90,12 +109,12 @@ function do_action_move(innslag_id, selected_images, moveto) {
 				},
 				function(response) {
 					if(response.success) {
-						alert('Bilder flyttet!'
+						alert('Bilde(r) flyttet til nytt innslag!'
 							 + "\r\n" 
-							 + 'OBS: Antall bilder vil ikke bli oppdatert på denne siden før du åpner listen på nytt');
+							 + 'OBS: Kolonnen med antall bilder i innslaget vil først bli oppdatert når du åpner denne listen på nytt.');
 						jQuery('#innslag_'+response.b_id).find('.image_edit.active').remove();
 					} else {
-						alert('Beklager, en feil oppsto ved endring av fotograf!');
+						alert('Beklager, en feil oppsto ved endring av tilhørighet!');
 					}
 				});
 }
