@@ -25,6 +25,7 @@ jQuery(document).ready(function(){
 	jQuery(document).on('click', '.details_show', function(){showBandImages(jQuery(this).parents('li').attr('id'))});
 	jQuery(document).on('click', '.details_hide', function(){hideBandImages(jQuery(this).parents('li').attr('id'))});
 	
+	jQuery(document).on('click', 'img.image_edit', function(){jQuery(this).toggleClass('active');});
 	jQuery(document).on('change', '.selector_action', function(){change_action(jQuery(this))});
 });
 
