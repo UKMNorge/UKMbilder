@@ -64,7 +64,7 @@ function images_compress() {
 	jQuery.post(ajaxurl,
 				{action: 'UKMbilder_compress'},
 				function(response){
-					if(response.reload)
+					if(parseInt(response.reload) > 0)
 						tagme_reload();
 				});
 }
