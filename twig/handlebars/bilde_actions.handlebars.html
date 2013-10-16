@@ -9,13 +9,13 @@
 			<option value="author">Endre fotograf</option>
 		</select>
 		<select name="band" class="selector_band" style="display: none;">
-			<option value="false" disabled="disabled" selected="selected">Velg</option>
+			<option value="false" disabled="disabled" selected="selected">Velg innslag</option>
 			{{#each alle_innslag }}
 			<option value="{{b_id}}">{{b_name}}</option>
 			{{/each}}
 		</select>
 		<select name="author" class="selector_author" style="display: none;">
-			<option value="false" disabled="disabled" selected="selected">Velg</option>
+			<option value="false" disabled="disabled" selected="selected">Velg fotograf</option>
 			{{#each users }}
 			<option value="{{id}}">{{name}}</option>
 			{{/each}}
