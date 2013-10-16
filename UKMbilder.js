@@ -21,7 +21,32 @@ jQuery(document).ready(function(){
 	jQuery(document).on('change', '#innslag_selector', function(){tagme_list_selector()});
 	jQuery(document).on('click', 'img.tagme', function(){jQuery(this).toggleClass('active');});
 	jQuery(document).on('click', '#tag_selected', function(){tagImages()});
+	
+	jQuery(document).on('click', '.details_show', function(){showBandImages(jQuery(this).parents('li').attr('id'))});
+	jQuery(document).on('click', '.details_hide', function(){hideBandImages(jQuery(this).parents('li').attr('id'))});
 });
+
+
+///////////////////////////////////////////////////////////
+// LISTE OVER INNSLAG
+
+function showBandImages(selector) {
+	jQuery('#'+selector).find('.details_show').hide();
+	jQuery('#'+selector).find('.details_hide').show();
+	
+	jQuery('#'+selector).find('.details').slideDown();
+}
+
+function hideBandImages(selector) {
+	jQuery('#'+selector).find('.details_hide').hide();
+	jQuery('#'+selector).find('.details_show').show();
+	
+	jQuery('#'+selector).find('.details').slideUp();
+}
+
+
+///////////////////////////////////////////////////////////
+// LAST OPP BILDER
 
 
 function tagImages() {

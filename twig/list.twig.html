@@ -3,14 +3,19 @@
 {% block content %}
 <ol class="unstyled ukmbilder_width">
 	{% for innslag in alle_innslag %}
-	<li class="well well-mini clickable ett_innslag">
+	<li class="well well-mini clickable ett_innslag" id="innslag_{{innslag.id}}">
 		<div class="header">
 			<div class="actions">
 
-				<div class="pull-left details">
+				<div class="pull-left details_show">
 					<img src="//ico.ukm.no/sirkel-pluss-256.png" /><br />
 					<small>Vis bilder</small>
 				</div>
+				<div class="pull-left details_hide" style="display:none;">
+					<img src="//ico.ukm.no/sirkel-minus-256.png" /><br />
+					<small>Skjul bilder</small>
+				</div>
+
 
 				<div class="pull-left numimages">
 					<div class="overunder">
@@ -23,11 +28,9 @@
 			</div>
 			<div class="clearfix"></div>
 		</div>
-		<div class="details">
-			<center>
-				<img src="//ico.ukm.no/loading.gif" width="40" class="pull-left" />
-				<strong>Vennligst vent, laster detaljer..</strong>
-			</center>
+		<div class="details" style="display:none;">
+			<img src="//ico.ukm.no/loading.gif" width="40" class="pull-left" />
+			<strong>Vennligst vent, laster detaljer..</strong>
 		</div>
 		<div class="clearfix"></div>
 	</li>
