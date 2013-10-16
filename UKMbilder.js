@@ -43,6 +43,8 @@ function showBandImages(selector) {
 				 band: jQuery('#'+selector).attr('data-innslag')
 				},
 				function (response) {
+					console.log('Got response');
+					console.log(response.images.length);
 					if(response.images.length == 0) {
 						selector = '#innslag_'+response.b_id;
 						jQuery(selector).find('ol.band_images').html('<li class="alert alert-info">Det er ikke lastet opp noen bilder til dette innslaget</li>');
