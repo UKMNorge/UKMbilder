@@ -112,6 +112,9 @@ function UKMbilder() {
 		case 'upload':
 			require_once('controller_upload.inc.php');
 			break;
+		case 'list':
+			require_once('controller_list.inc.php');
+			break;
 	}
 	$INFOS['active'] = $_GET['action'];
 	echo TWIG($_GET['action'].'.twig.html', $INFOS, dirname(__FILE__));
