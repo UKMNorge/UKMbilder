@@ -21,4 +21,4 @@ foreach($related['image'] as $key => $image) {
 	$images[] = $image;
 }
 
-die(json_encode(array('images' => $images, 'b_id' => $innslag->get('b_id'), 'alle_innslag' => $alle_innslag)));
+die(json_encode(array('images' => $images, 'b_id' => $innslag->get('b_id'), 'alle_innslag' => $alle_innslag, , 'users' => UKMbilder_users())));

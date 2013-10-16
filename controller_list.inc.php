@@ -18,4 +18,4 @@ foreach($innslagene as $innslag) {
 }
 
 
-$INFOS = array('alle_innslag' => $alle_innslag, 'users' => UKMbilder_users() );
+$INFOS = array('alle_innslag' => $alle_innslag );
