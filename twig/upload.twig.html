@@ -26,9 +26,7 @@
 	<strong>Velg innslag</strong>
 	<p>Vi anbefaler at du velger en forestilling, da bildene kommer i samme rekkefølge som innslagslisten</p>
 	<select id="innslag_selector">
-		<optgroup label="Alle innslag">
-			<option value="alpha">Alfabetisk</option>
-		</optgroup>
+		<option value="alpha">Alle registrerte innslag</option>
 		<optgroup label="Fra forestilling">
 		{% for forestilling in program %}
 			<option value="{{forestilling.c_id}}">{{forestilling.c_name}}</option>
