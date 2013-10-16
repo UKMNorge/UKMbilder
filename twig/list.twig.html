@@ -3,7 +3,7 @@
 {% block content %}
 <ol class="unstyled ukmbilder_width">
 	{% for innslag in alle_innslag %}
-	<li class="well well-mini clickable ett_innslag" id="innslag_{{innslag.id}}">
+	<li class="well well-mini clickable ett_innslag" id="innslag_{{innslag.id}}" data-innslag="{{innslag.id}}">
 		<div class="header">
 			<div class="actions">
 
@@ -29,8 +29,13 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="details" style="display:none;">
-			<img src="//ico.ukm.no/loading.gif" width="40" class="pull-left" />
-			<strong>Vennligst vent, laster detaljer..</strong>
+			<div class="loader">
+				<img src="//ico.ukm.no/loading.gif" width="40" class="pull-left" />
+				<strong>Vennligst vent, laster detaljer..</strong>
+			</div>
+			<ol class="unstyled band_images">
+			
+			</ol>
 		</div>
 		<div class="clearfix"></div>
 	</li>

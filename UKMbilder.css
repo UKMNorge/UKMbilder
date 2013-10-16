@@ -41,6 +41,13 @@
 	padding-left: 122px; 
 }
 
+.details .loader {
+	padding-top: 14px;
+}
+.details .loader > img {
+	margin-top: -14px;
+}
+
 
 
 .overunder {

@@ -35,6 +35,16 @@ function showBandImages(selector) {
 	jQuery('#'+selector).find('.details_hide').show();
 	
 	jQuery('#'+selector).find('.details').slideDown();
+	
+	jQuery.post(ajaxurl,
+				{action: 'UKMbilder_band_images',	
+				 band: jQuery('#'+selector).attr('data-innslag')
+				},
+				function (response) {
+					var template_band_images = Handelbars.compile( jQuery('#handlebars-image-edit').html() );
+					jQuery('#innslag_'+response.b_id).find('ol.band_images').html( template_band_images(response) );
+				});
+	
 }
 
 function hideBandImages(selector) {
