@@ -68,6 +68,7 @@ function images_compress() {
 				function(response){
 					console.log('Compression status:');
 					console.log(response);
+					console.log('Reload status: ' + response.reload + ' => ' + parseInt(response.reload));
 					if(parseInt(response.reload) > 0) {
 						console.warn('Reload tagging list');
 						tagme_reload();
