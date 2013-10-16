@@ -21,12 +21,13 @@ foreach($_POST['images'] as $post_id) {
 				  array('post_author' => $photo_by),
 			      array('ID' => $post_id)
 				 );
+
+	global $blog_id;
 	// UPDATE UKM_BILDER
-	$sql = new SQLins('ukm_bilder', array('wp_post' => $post_id));
+	$sql = new SQLins('ukm_bilder', array('wp_post' => $post_id, 'wp_blog' => $blog_id));
 	$sql->add('wp_uid', $photo_by);
 	$sql->run();
 	
-	global $blog_id;
 	// UPDATE RELATED TABLE
 	$related = new SQL("SELECT *
 						FROM `ukmno_wp_related`

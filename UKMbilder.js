@@ -90,7 +90,9 @@ function do_action_move(innslag_id, selected_images, moveto) {
 				},
 				function(response) {
 					if(response.success) {
-						alert('Bilder flyttet!');
+						alert('Bilder flyttet!'
+							 + "\r\n" 
+							 + 'OBS: Antall bilder vil ikke bli oppdatert på denne siden før du åpner listen på nytt');
 						jQuery('#innslag_'+response.b_id).find('.image_edit.active').remove();
 					} else {
 						alert('Beklager, en feil oppsto ved endring av fotograf!');
