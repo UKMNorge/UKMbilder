@@ -31,6 +31,17 @@ function tagme_list_selector() {
 
 
 
+function image_reload(id) {
+	jQuery.post(ajaxurl,
+				{action: 'UKMbilder_reload_me', image_id: id},
+				function(response) {
+					image_reload_process(response);
+				});
+}
+function image_reload_process(response) {
+	var template_image = Handlebars.compile(jQuery('#handlebars-image-single').html());
+	jQuery('#image_'+response.id).html(template_image(response));
+}
 
 
 function tagme_reload() {

@@ -13,6 +13,7 @@ add_action('wp_ajax_UKMbilder_upload', 'UKMbilder_upload');
 add_action('wp_ajax_UKMbilder_tagme', 'UKMbilder_tagme');
 add_action('wp_ajax_UKMbilder_innslag', 'UKMbilder_innslag');
 add_action('wp_ajax_UKMbilder_compress', 'UKMbilder_compress');
+add_action('wp_ajax_UKMbilder_reload_me', 'UKMbilder_reload_me');
 
 if(is_admin()) {
 	add_action('admin_menu', 'UKMimages_menu');
@@ -41,6 +42,11 @@ function UKMbilder_tagme() {
 
 function UKMbilder_compress() {
 	require_once('ajax_compress.inc.php');
+	die();
+}
+
+function UKMbilder_reload_me() {
+	require_once('ajax_reload_me.inc.php');
 	die();
 }
 
