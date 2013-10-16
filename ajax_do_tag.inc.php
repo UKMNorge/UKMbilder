@@ -21,7 +21,6 @@ foreach($_POST['images'] as $id) {
 					WHERE `id` = '#id'",
 					array('id' => $id));
 	$image = $sql->run('array');
-/*
 	
 	// UPDATE WORDPRESS IMAGE NAMES
 	global $wpdb;
@@ -42,18 +41,12 @@ foreach($_POST['images'] as $id) {
 	$update->add('b_id', $innslag->get('b_id'));
 	$update->add('status', 'tagged');
 	$update->run();
-*/
 	
 	// RELATE IMAGE
 	$meta = wp_get_attachment_metadata( $image['wp_post'] );
 	$folder = substr($meta['file'],0,strrpos($meta['file'],'/')+1);
 	foreach($meta['sizes'] as $size => $info)
 		$meta['sizes'][$size]['file'] = str_replace('//','/',$folder.$meta['sizes'][$size]['file']);
-
-
-	var_dump($folder);
-	var_dump($meta);
-	die();
 	
 	$rel = new related($innslag->get('b_id'));
 	$rel->set( $image['wp_post'],
