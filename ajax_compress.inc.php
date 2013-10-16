@@ -15,7 +15,7 @@ if(mysql_num_rows($res) > 0) {
 
 // SHOULD GO ON IF CRASH ON ONE FILE (IF TIMEAGO LAST CHANGE > 6 MIN)
 
-$next = new SQL("SELECT `id`
+$next = new SQL("SELECT *
 				FROM `ukm_bilder`
 				WHERE `pl_id` = '#pl_id'
 				AND `season` = '#season'
@@ -55,6 +55,7 @@ while($r = mysql_fetch_assoc($res)) {
 	$db_update = new SQLins('ukm_bilder', array('id' => $r['id']));
 	$db_update->add('wp_post', $attach_id);
 	$db_update->add('status', 'compressed');
+	$db_update->add('url', wp_get_attachment_thumb_url($attach_id));
 	$db_update->run();
 	die(json_encode(array('success'=>true, 'update' => $r['id'], 'message' => 'Image compressed')));
 }
