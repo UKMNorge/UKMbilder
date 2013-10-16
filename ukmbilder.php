@@ -60,6 +60,20 @@ function UKMbilder_syncfolder() {
 	return '/home/ukmno/private_sync/';
 }
 
+function UKMbilder_users() {
+	global $blog_id;
+	$current = get_current_user_id();
+	$users = get_users( array('blog_id' => $blog_id) );
+	
+	$all_users = array();
+	foreach($users as $user) {
+		$all_users[] = array('name' => $user->user_nicename,
+						   'id' => $user->ID,
+						   'active' => $user->ID == $current);
+	}
+	return $all_users;
+}
+
 function UKMbilder_scripts_and_styles(){
 	wp_enqueue_script('handlebars_js');
 	wp_enqueue_script('bootstrap_js');

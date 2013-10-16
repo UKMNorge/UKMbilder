@@ -54,7 +54,11 @@
 			<br />
 			<strong>Velg fotograf</strong>
 			<select id="author">
-				<option value="0">Navn</option>
+				{% for user in users %}
+					<option value="{{user.id}}" {{ user.active ? 'selected="selected"' : ''}} >
+						{{user.name}}
+					</option>
+				{% forend %}
 			</select>
 			<button class="btn btn-success" id="tag_selected">Merk valgte bilder</button>
 		</div>

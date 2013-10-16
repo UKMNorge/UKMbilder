@@ -99,7 +99,8 @@ function tagImages() {
 	jQuery.post(ajaxurl,
 				{action: 'UKMbilder_do_tag',
 				 images: image_ids,
-				 band: selected_band},
+				 band: selected_band,
+				 user: jQuery('#author').val()},
 				function response(response) {
 					if(response.success) {
 						jQuery('.tagme.active').remove();

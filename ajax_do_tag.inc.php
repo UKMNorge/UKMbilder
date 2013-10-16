@@ -8,8 +8,10 @@ require_once('UKM/innslag.class.php');
 require_once('UKM/related.class.php');
 
 $innslag = new innslag($_POST['band'], false);
-$PHOTO_BY_WP_UID = get_current_user_id();
+$PHOTO_BY_WP_UID = $_POST['user'];
 
+if((int)$_POST['user'] == 0)
+	die(json_encode(array('success' => false)));
 if((int)$innslag->get('b_id') == 0)
 	die(json_encode(array('success' => false)));
 if(!is_array($_POST['images']))
