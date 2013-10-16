@@ -2,12 +2,14 @@
 	width:750px;
 }
 
-.tagme {
+.tagme,
+.image_edit {
 	width:120px;
 	margin:4px;
 }
 
-.tagme.active {
+.tagme.active,
+image_edit.active {
 	background:#0a6158;
 	opacity:0.6;
 	border-color:#000;
