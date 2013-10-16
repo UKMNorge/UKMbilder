@@ -47,7 +47,7 @@ function do_action(button) {
 	if(action == undefined || action == null)
 		return alert('Du må velge en handling!');
 		
-	selected_images = innslag.find('.edit_image.active');
+	selected_images = innslag.find('.image_edit.active');
 	
 	if(selected_images.length == 0)
 		return alert('Du må markere ett eller flere bilder!');
