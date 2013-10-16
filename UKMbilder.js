@@ -35,10 +35,13 @@ jQuery(document).ready(function(){
 function change_action(actionlist) {
 	selected = actionlist.val();
 	
+	actionlist.parents('form').find('.selector_author').slideUp();
+	actionlist.parents('form').find('.selector_band').slideUp();
+
 	if(selected == 'move')
 		actionlist.parents('form').find('.selector_band').slideDown();
-	else 
-		actionlist.parents('form').find('.selector_band').slideUp();
+	else if(selected == 'author')
+		actionlist.parents('form').find('.selector_author').slideDown();	
 }
 
 function showBandImages(selector) {
