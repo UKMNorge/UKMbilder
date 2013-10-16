@@ -77,7 +77,25 @@ function do_action_delete(innslag_id, selected_images) {
 }
 
 function do_action_move(innslag_id, selected_images, moveto) {
-	alert('Flytt '+ selected_images.length + ' til '+ moveto);
+	var image_ids = new Array();
+	selected_images.each(function() {
+		image_ids.push( jQuery(this).attr('id') );
+	});
+
+	jQuery.post(ajaxurl,
+				{action: 'UKMbilder_image_move',
+				 new_b_id: moveto,
+				 images: image_ids,
+				 b_id: innslag_id,
+				},
+				function(response) {
+					if(response.success) {
+						alert('Bilder flyttet!');
+						jQuery('#innslag_'+response.b_id).find('.image_edit.active').remove();
+					} else {
+						alert('Beklager, en feil oppsto ved endring av fotograf!');
+					}
+				});
 }
 
 function do_action_author(innslag_id, selected_images, author) {
@@ -99,7 +117,7 @@ function do_action_author(innslag_id, selected_images, author) {
 					} else {
 						alert('Beklager, en feil oppsto ved endring av fotograf!');
 					}
-				})
+				});
 }
 
 
