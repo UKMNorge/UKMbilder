@@ -24,11 +24,22 @@ jQuery(document).ready(function(){
 	
 	jQuery(document).on('click', '.details_show', function(){showBandImages(jQuery(this).parents('li').attr('id'))});
 	jQuery(document).on('click', '.details_hide', function(){hideBandImages(jQuery(this).parents('li').attr('id'))});
+	
+	jQuery(document).on('change', '.selector_action', function(){change_action(jQuery(this))});
 });
 
 
 ///////////////////////////////////////////////////////////
 // LISTE OVER INNSLAG
+
+function change_action(actionlist) {
+	selected = actionlist.val();
+	
+	if(selected == 'move')
+		selected.parents('form').find('.selector_band').slideDown();
+	else 
+		selected.parents('form').find('.selector_band').slideUp();
+}
 
 function showBandImages(selector) {
 	jQuery('#'+selector).find('.details_show').hide();
