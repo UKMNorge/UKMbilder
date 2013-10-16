@@ -10,9 +10,11 @@ $related = $innslag->related_items();
 
 if(!isset($related['image']))
 	$related['image'] = array();
-	
+
+$images = array();	
 foreach($related['image'] as $key => $image) {
-	$related['image'][$key]['thumb'] = $image['blog_url'].'/files/'.$image['post_meta']['sizes']['thumbnail']['file'];
+	$image['thumb'] = $image['blog_url'].'/files/'.$image['post_meta']['sizes']['thumbnail']['file'];
+	$images = $image;
 }
 
-die(json_encode(array('images' => $related['image'], 'b_id' => $innslag->get('b_id'))));
+die(json_encode(array('images' => $images, 'b_id' => $innslag->get('b_id'))));
