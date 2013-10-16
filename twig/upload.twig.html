@@ -42,7 +42,14 @@
 			<strong>Velg innslag:</strong>
 			
 			<ol class="unstyled" id="innslag">
-				<li class="alert alert-info" id="innslag_select">Velg innslag fra listen ovenfor</li>
+				{% for innslag in alle_innslag %}
+				<li id="innslag_{{id}}">
+					<label>
+						<input type="radio" name="innslag" value="{{innslag.b_id}}" />
+						{{innslag.b_name}}
+					</label>
+				</li>
+			  	{% endfor %}
 			</ol>
 			<button class="btn btn-success" id="tag_selected">Merk valgte bilder</button>
 		</div>
