@@ -5,6 +5,7 @@ header('Content-type: application/json');
 
 require_once('UKM/sql.class.php');
 require_once('UKM/innslag.class.php');
+require_once('UKM/related.class.php');
 
 $innslag = new innslag($_POST['b_id']);
 
