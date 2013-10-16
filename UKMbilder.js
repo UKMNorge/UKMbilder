@@ -47,6 +47,10 @@ function showBandImages(selector) {
 					if(response.images.length == 0) {
 						jQuery(selector).find('ol.band_images').html('<li class="alert alert-info">Det er ikke lastet opp noen bilder til dette innslaget</li>');
 					} else {
+						var template_band_actions = Handlebars.compile( jQuery('#handlebars-image-actions').html() );
+						jQuery(selector).find('.image_actions').html( template_band_actions(response) ).slideDown();
+						
+						
 						var template_band_images = Handlebars.compile( jQuery('#handlebars-image-edit').html() );
 						jQuery(selector).find('ol.band_images').html( template_band_images(response) );
 					}
