@@ -62,7 +62,7 @@ function do_action(button) {
 		
 		do_action_move(selected_images, moveto);
 	} else if (action == 'author') {
-		author = form.find('.selector_author');
+		author = form.find('.selector_author').val();
 		
 		if(author == undefined || author == null)
 			return alert('Du må velge hvem som har tatt bildene!');
