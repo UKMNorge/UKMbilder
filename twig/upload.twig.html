@@ -27,7 +27,7 @@
 		<div class="pull-right well well-mini" style="width: 240px; margin-left: 10px;">
 			<h5>Filtrer listen</h5>
 			<select id="innslag_selector">
-				<option value="alpha">Alle registrerte innslag</option>
+				<option value="0">Alle registrerte innslag</option>
 				<optgroup label="Fra forestilling">
 				{% for forestilling in program %}
 					<option value="{{forestilling.c_id}}">{{forestilling.c_name}}</option>
