@@ -48,8 +48,8 @@ function showBandImages(selector) {
 					} else {
 						var template_band_images = Handlebars.compile( jQuery('#handlebars-image-edit').html() );
 						jQuery(selector).find('ol.band_images').html( template_band_images(response) );
-						jQuery(selector).find('.details .loader').slideUp();
 					}
+					jQuery(selector).find('.details .loader').slideUp();
 				});
 	
 }
