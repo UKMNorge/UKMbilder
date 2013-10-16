@@ -17,7 +17,7 @@ jQuery(document).ready(function(){
 	
 	jQuery(document).on('change', '#innslag_selector', function(){tagme_list_selector()});
 	jQuery(document).on('click', 'img.tagme', function(){jQuery(this).toggleClass('active');});
-	jQuery(document).on('click', '#tag_selected', tagImages());
+	jQuery(document).on('click', '#tag_selected', function(){tagImages()});
 });
 
 
