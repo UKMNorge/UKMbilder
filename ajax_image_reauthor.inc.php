@@ -8,7 +8,7 @@ require_once('UKM/sql.class.php');
 $photo_by = $_POST['author'];
 
 if((int)$photo_by == 0)
-	die(json_encode('success' => false, 'message' => 'Missing author');
+	die(json_encode(array('success' => false, 'message' => 'Missing author')));
 
 foreach($_POST['images'] as $post_id) {
 	if((int)$post_id == 0)
