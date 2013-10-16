@@ -15,6 +15,8 @@ jQuery(document).ready(function(){
 	});
 	tagme_reload();
 	jQuery(document).on('change', '#innslag_selector', function(){tagme_list_selector()});
+	
+	jQuery(document).on('click', '.tagme', function(){jQuery(this).toggleClass('active')});
 });
 
 
@@ -46,6 +48,10 @@ function tagme_response( response ) {
 	console.log( response );
 	var template_tagme = Handlebars.compile(jQuery('#handlebars-image-tag').html());
 	jQuery('#tag_images').html( template_tagme( response ) );
+	if(response.images.length == 0)
+		jQuery('#container_ukmbilder_steg2').slideUp();
+	else
+		jQuery('#container_ukmbilder_steg2').slideDown();
 	console.log('Images loaded to DOM');
 	images_compress();
 }
