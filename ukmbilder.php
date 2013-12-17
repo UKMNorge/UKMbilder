@@ -20,12 +20,12 @@ add_action('wp_ajax_UKMbilder_image_move', 'UKMbilder_image_move');
 add_action('wp_ajax_UKMbilder_image_delete', 'UKMbilder_image_delete');
 
 if(is_admin()) {
-	add_action('admin_menu', 'UKMimages_menu');
+	add_action('UKM_admin_menu', 'UKMimages_menu');
 }
 ## CREATE A MENU
 function UKMimages_menu() {
-	$page = add_menu_page('UKMbilder', 'Bilder', 'publish_posts', 'UKMbilder','UKMbilder', 'http://ico.ukm.no/photocamera-20.png', 11);
-	add_action( 'admin_print_styles-' . $page, 'UKMbilder_scripts_and_styles' );
+	UKM_add_menu_page('content', 'UKMbilder', 'Bilder', 'publish_posts', 'UKMbilder','UKMbilder', 'http://ico.ukm.no/photocamera-20.png', 1);
+	UKM_add_scripts_and_styles('UKMbilder', 'UKMbilder_scripts_and_styles' );
 
 }
 
