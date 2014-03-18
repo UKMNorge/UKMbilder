@@ -3,7 +3,7 @@ header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Content-type: application/json');
 
-$running = new SQL("SELECT `id`
+$running = new SQL("SELECT `id`,`timestamp`
 					FROM `ukm_bilder`
 					WHERE `pl_id` = '#pl_id'
 					AND `season` = '#season'
@@ -14,7 +14,18 @@ $running = new SQL("SELECT `id`
 				);
 $res = $running->run();
 if(mysql_num_rows($res) > 0) {
-	die(json_encode(array('success' => true, 'reload' => false, 'message' => 'Already compressing one')));
+	$r = mysql_fetch_assoc( $res );
+	$timeago = strtotime( $r['timestamp'] );
+	$now = time();
+	// Hvis convertert mer enn 6 minutter er det på tide å gi opp
+#	if( ( $timeago - $now ) > 360 ) {
+	if( ( $timeago - $now ) > 90 ) {
+		$db_update = new SQLins('ukm_bilder', array('id' => $r['id']));
+		$db_update->add('status', 'crash');
+		$db_update->run();
+	} else {
+		die(json_encode(array('success' => true, 'reload' => false, 'message' => 'Already compressing one')));
+	}
 }
 
 // SHOULD GO ON IF CRASH ON ONE FILE (IF TIMEAGO LAST CHANGE > 6 MIN)
