@@ -17,17 +17,9 @@ if(mysql_num_rows($res) > 0) {
 	$r = mysql_fetch_assoc( $res );
 	$timeago = strtotime( $r['timestamp'] );
 	$now = time();
-	
-	if( $_SERVER['REMOTE_ADDR'] == '81.0.146.162') {
-		var_dump( $r );
-		var_dump( $timeago );
-		var_dump( $now );
-		
-		var_dump( $timeago - $now );
-	}
 	// Hvis convertert mer enn 6 minutter er det på tide å gi opp
 #	if( ( $timeago - $now ) > 360 ) {
-	if( ( $timeago - $now ) > 90 ) {
+	if( ( $now - $timeago ) > 90 ) {
 		$db_update = new SQLins('ukm_bilder', array('id' => $r['id']));
 		$db_update->add('status', 'crash');
 		$db_update->run();
