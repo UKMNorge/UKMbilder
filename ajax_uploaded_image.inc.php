@@ -46,9 +46,9 @@ $imageprops = $image->getImageGeometry();
 	}
 
 // IF IMAGE IS LARGER THAN TARGET, RESIZE
-if($imageprops[$compare] > $$compare || $_SERVER['REMOTE_ADDR'] == '81.0.146.162') {
+if($imageprops[$compare] > $$compare) {
 	$image->scaleImage($width, $height);
-	$image->writeImage($path);
 }
+$image->writeImage($path);
 
 die(json_encode(array('id' => $id, 'filename' => $name)));
