@@ -60,8 +60,8 @@ while($r = mysql_fetch_assoc($res)) {
 	// IF IMAGE IS LARGER THAN TARGET, RESIZE
 	if($imageprops[$compare] > $$compare) {
 		$image->scaleImage($width, $height);
-		$image->writeImage($wp_path);
 	}
+	$image->writeImage($wp_path);
 	
 	/// WORDPRESS GENERATE ATTACHMENT AND THUMBS
 	$wp_filetype = wp_check_filetype(basename($wp_path), null );
