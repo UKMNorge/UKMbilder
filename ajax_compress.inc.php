@@ -18,8 +18,7 @@ if(mysql_num_rows($res) > 0) {
 	$timeago = strtotime( $r['timestamp'] );
 	$now = time();
 	// Hvis convertert mer enn 6 minutter er det på tide å gi opp
-#	if( ( $timeago - $now ) > 360 ) {
-	if( ( $now - $timeago ) > 90 ) {
+	if( ( $timeago - $now ) > 360 ) {
 		$db_update = new SQLins('ukm_bilder', array('id' => $r['id']));
 		$db_update->add('status', 'crash');
 		$db_update->run();
