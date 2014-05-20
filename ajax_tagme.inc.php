@@ -9,7 +9,8 @@ $sql = new SQL("SELECT *
 				FROM `ukm_bilder`
 				WHERE `pl_id` = '#pl_id'
 				AND `season` = '#season'
-				AND `status` != 'tagged'",
+				AND `status` != 'tagged'
+				AND `status` != 'crash'",
 				array('pl_id' => get_option('pl_id'),
 					  'season' => get_option('season')
 					  ));
