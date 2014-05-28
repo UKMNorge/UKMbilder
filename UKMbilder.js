@@ -35,13 +35,13 @@ jQuery(document).ready(function(){
 // LISTE OVER INNSLAG
 
 function do_action(button) {
-	console.warn('Do something');
+	//console.warn('Do something');
 	form = button.parents('form');
 	innslag = form.parents('li');
 	innslag_id = innslag.attr('data-innslag');
 
-	console.log(form.html());
-	console.log(innslag.html());
+	//console.log(form.html());
+	//console.log(innslag.html());
 	
 	action = form.find('.selector_action').val();
 	
@@ -246,7 +246,7 @@ function tagme_list_selector() {
 
 
 function tagme_reload() {
-	console.info('Request images for tagging');
+	//console.info('Request images for tagging');
 	jQuery.post(ajaxurl,
 				{action: 'UKMbilder_tagme'},
 				function(response){
@@ -255,27 +255,27 @@ function tagme_reload() {
 }
 
 function tagme_response( response ) {
-	console.log( response );
+	//console.log( response );
 	var template_tagme = Handlebars.compile(jQuery('#handlebars-image-tag').html());
 	jQuery('#tag_images').html( template_tagme( response ) );
 	if(response.images.length == 0)
 		jQuery('#container_ukmbilder_steg2').slideUp();
 	else
 		jQuery('#container_ukmbilder_steg2').slideDown();
-	console.log('Images loaded to DOM');
+	//console.log('Images loaded to DOM');
 	images_compress();
 }
 
 function images_compress() {
-	console.info('Request new compression job');
+	//console.info('Request new compression job');
 	jQuery.post(ajaxurl,
 				{action: 'UKMbilder_compress'},
 				function(response){
-					console.log('Compression status:');
-					console.log(response);
-					console.log('Reload status: ' + response.reload + ' => ' + parseInt(response.reload));
+					//console.log('Compression status:');
+					//console.log(response);
+					//console.log('Reload status: ' + response.reload + ' => ' + parseInt(response.reload));
 					if(parseInt(response.reload) > 0) {
-						console.warn('Reload tagging list');
+						//console.warn('Reload tagging list');
 						tagme_reload();
 					}
 				});
