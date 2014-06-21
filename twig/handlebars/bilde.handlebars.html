@@ -1,11 +1,15 @@
 {% raw %}
 <script id="handlebars-image-tag" type="text/x-handlebars-template">
+	{{#if true}}
+	    {{ error }}asa
+	{{/if}}
 	{{#each images}}
 	<li class="pull-left" id="image_{{id}}">
 		<img src="{{url}}" class="thumbnail tagme clickable" id="{{id}}" />
 		{{#if compressing }}
 			Komprimerer...
 		{{/if}}
+		{{ filename }}
 	</li>
   	{{/each}}
 </script>
