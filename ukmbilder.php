@@ -24,7 +24,7 @@ if(is_admin()) {
 }
 ## CREATE A MENU
 function UKMimages_menu() {
-	UKM_add_menu_page('content', 'UKMbilder', 'Bilder', 'publish_posts', 'UKMbilder','UKMbilder', 'http://ico.ukm.no/photocamera-20.png', 1);
+	UKM_add_menu_page('content', 'UKMbilder', 'Bilder', 'edit_posts', 'UKMbilder','UKMbilder', 'http://ico.ukm.no/photocamera-20.png', 1);
 	UKM_add_scripts_and_styles('UKMbilder', 'UKMbilder_scripts_and_styles' );
 
 }
