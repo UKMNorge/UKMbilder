@@ -136,7 +136,24 @@ function UKMbilder_scripts_and_styles(){
 
 }
 
+function UKMbilder_createPage() {
+	$page = get_page_by_path('bilder');
+	
+	if( !is_object( $page ) ) {
+		$post = array(	'post_content' => '',
+						'post_name' => 'bilder',
+						'post_title' => 'Bilder',
+						'post_status' => 'publish',
+						'post_type' => 'page',
+						'post_author' => 1
+					);
+		$ID = wp_insert_post( $post );
+		add_post_meta($ID, 'UKMviseng', 'bilder');
+	}
+}
+
 function UKMbilder() {
+	UKMbilder_createPage();
 	if(!isset($_GET['action']))
 		$_GET['action'] = 'upload';
 		
