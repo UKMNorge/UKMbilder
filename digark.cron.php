@@ -12,7 +12,7 @@ require_once('UKM/monstring.class.php');
 require_once('UKM/innslag.class.php');
 require_once('/home/ukmno/public_html/wp-config.php');
 
-$client = new Dropbox\Client( DROPBOX_AUTH_ACCESS_TOKEN, $appName, 'UTF-8' );
+$client = new Dropbox\Client( DROPBOX_AUTH_ACCESS_TOKEN, DROPBOX_APP_NAME, 'UTF-8' );
 
 $file_path = '/home/ukmno/private_sync/';
 $cache_monstringer = array();
