@@ -77,7 +77,7 @@ foreach( $files as $file_name ) {
 		
 		// UPLOAD TO DROPBOX
 		
-		$res = $client->uploadFile('/Bilder/'. $path . $dropbox_name. strtolower($ext) , Dropbox\WriteMode::add(), $file, $size);
+		$res = $client->uploadFile('/UKMdigark/Bilder/'. $path . $dropbox_name. strtolower($ext) , Dropbox\WriteMode::add(), $file, $size);
 		$success = $res['bytes'] == $size;
 
 		echo $dropbox_name .' '. ( $success ? ' SUCCESS!' : ' FAILURE' ) . '<br />';
