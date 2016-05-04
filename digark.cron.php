@@ -75,6 +75,7 @@ foreach( $files as $file_name ) {
 		
 		$dropbox_name .= ' (PHOTO by UKM Media '. ucfirst($fotograf).')';
 		
+		$dropbox_name = preg_replace('/[^\da-z \- æøå]/i', '', $dropbox_name );
 		// UPLOAD TO DROPBOX
 		
 		$res = $client->uploadFile('/UKMdigark/Bilder/'. $path . $dropbox_name. strtolower($ext) , Dropbox\WriteMode::add(), $file, $size);
@@ -106,7 +107,7 @@ function fotograf_from_wpuid( $wp_uid ) {
 
 function dropboxname_from_b_id( $b_id ) {
 	$innslag = new innslag( $b_id );
-	return preg_replace('/[^\da-z -æøå]/i', '', $innslag->g('b_name') );
+	return $innslag->g('b_name');
 }
 
 function path_from_pl_id( $pl_id ) {
