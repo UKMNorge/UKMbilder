@@ -52,6 +52,7 @@ foreach( $files as $file_name ) {
 	$metadata = $metadata->run('array');
 
 	if( $metadata['synced_dropbox'] == 'true' ) {
+		echo 'delete file: '. $file_path . $file_name .' when ';
 		echo 'already synced';
 		continue;
 	} else {
