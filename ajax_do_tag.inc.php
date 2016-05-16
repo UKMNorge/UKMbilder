@@ -41,6 +41,9 @@ foreach($_POST['images'] as $id) {
 	$update = new SQLins('ukm_bilder', array('id' => $id));
 	$update->add('wp_uid', $PHOTO_BY_WP_UID );
 	$update->add('b_id', $innslag->get('b_id'));
+	if( isset( $_POST['c_id'] ) ) {
+		$update->add('c_id', $_POST['c_id']);
+	}
 	$update->add('status', 'tagged');
 	$update->run();
 	

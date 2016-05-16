@@ -216,7 +216,8 @@ function tagImages() {
 				{action: 'UKMbilder_do_tag',
 				 images: image_ids,
 				 band: selected_band,
-				 user: jQuery('#author').val()},
+				 user: jQuery('#author').val(),
+				 c_id: jQuery('#innslag_selector').val()},
 				function response(response) {
 					if(response.success) {
 						jQuery('.tagme.active').remove();
