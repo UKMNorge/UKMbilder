@@ -262,9 +262,10 @@ function fotograf_from_wpuid( $wp_uid ) {
 						   FROM `wpms2012_users`
 						   WHERE `ID` = '".$wp_uid. "'");
 	echo mysql_error();
-	error_log('DIGARK: fotograf_from_wpuid $query '. $query );
 	$row = mysql_fetch_assoc( $query );
-	error_log('DIGARK: fotograf_from_wpuid $query '. var_export($query, true) );
+	error_log('DIGARK: fotograf_from_wpuid $query '. $query );
+	error_log('DIGARK: fotograf_from_wpuid $row '. var_export($row, true) );
+	error_log('DIGARK: fotograf_from_wpuid mysql_error '. mysql_error() );
 
 	return $row['display_name'];
 }
