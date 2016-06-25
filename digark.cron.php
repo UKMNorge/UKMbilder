@@ -256,7 +256,7 @@ function get_fotograf( $wp_uid ) {
 }
 function fotograf_from_wpuid( $wp_uid ) {
 	$wordpress = mysql_connect( UKM_WP_DB_HOST, UKM_WP_DB_USER, UKM_WP_DB_PASSWORD );
-	mysql_select_db( UKM_WP_taDB_NAME );
+	mysql_select_db( UKM_WP_DB_NAME );
 	
 	$query = mysql_query( "SELECT `display_name`
 						   FROM `wpms2012_users`
