@@ -102,6 +102,8 @@ foreach( $files as $file_name ) {
 		$path = path_from_pl( $pl );
 		$innslag = get_innslag( $metadata['b_id'] );
 		$fotograf = get_fotograf( $metadata['wp_uid'] );
+	 	out( 'FLICKR STATUS: '. $metadata['wp_uid'] );
+	 	out( 'FLICKR STATUS: '. $fotograf );
 
 		$dropbox_name = name_from_innslag( $innslag );
 		$dropbox_name .= ' (PHOTO by UKM Media '. ucfirst($fotograf).')';
@@ -157,6 +159,7 @@ foreach( $files as $file_name ) {
 					out( var_export( $res->getData() ), 'b' );
 				}
 			}
+			die();
 			if( $success ) {		
 				$SQLins = new SQLins('ukm_bilder', array('id' => $image_id ) );
 				$SQLins->add('synced_flickr', 'true');
