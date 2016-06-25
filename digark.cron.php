@@ -70,7 +70,6 @@ foreach( $files as $file_name ) {
 	// TIME COUNTER
 	if( TIME_LIMIT < ( microtime(true) - $time_start ) ) {
 		out( 'Nådd tidsbegrensning ('. TIME_LIMIT .'sek) og stopper' );
-		die();
 	}
 
 	out( $file_name, 'h3');
