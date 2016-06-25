@@ -23,7 +23,7 @@ require_once('UKM/sql.class.php');
 require_once('UKM/monstring.class.php');
 require_once('UKM/innslag.class.php');
 require_once('UKM/flickr_album.class.php');
-require_once('/home/ukmno/public_html/wp-config.php');
+#require_once('/home/ukmno/public_html/wp-config.php');
 
 // REGEXP TO ENSURE UTF-8
 $regex = <<<'END'
@@ -255,12 +255,11 @@ function get_fotograf( $wp_uid ) {
 	return $cache_fotograf[ $wp_uid ];
 }
 function fotograf_from_wpuid( $wp_uid ) {
-	global $table_prefix;
-	$wordpress = mysql_connect( DB_HOST, DB_USER, DB_PASSWORD );
-	mysql_select_db( DB_NAME );
+	$wordpress = mysql_connect( UKM_WP_DB_HOST, UKM_WP_DB_USER, UKM_WP_DB_PASSWORD );
+	mysql_select_db( UKM_WP_taDB_NAME );
 	
 	$query = mysql_query( "SELECT `display_name`
-						   FROM `". $table_prefix ."users`
+						   FROM `wpms2012_users`
 						   WHERE `ID` = '".$wp_uid. "'");
 	echo mysql_error();
 	$row = mysql_fetch_assoc( $query );
