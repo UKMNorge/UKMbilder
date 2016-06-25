@@ -70,6 +70,7 @@ foreach( $files as $file_name ) {
 	// TIME COUNTER
 	if( TIME_LIMIT < ( microtime(true) - $time_start ) ) {
 		out( 'Nådd tidsbegrensning ('. TIME_LIMIT .'sek) og stopper' );
+		die();
 	}
 
 	out( $file_name, 'h3');
@@ -158,7 +159,7 @@ foreach( $files as $file_name ) {
 					out( var_export( $res->getData() ), 'b' );
 				}
 			}
-			die();
+
 			if( $success ) {		
 				$SQLins = new SQLins('ukm_bilder', array('id' => $image_id ) );
 				$SQLins->add('synced_flickr', 'true');
