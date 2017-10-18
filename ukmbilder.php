@@ -24,7 +24,7 @@ if(is_admin()) {
 }
 ## CREATE A MENU
 function UKMimages_menu() {
-	UKM_add_menu_page('content', 'UKMbilder', 'Bilder', 'edit_posts', 'UKMbilder','UKMbilder', 'http://ico.ukm.no/photocamera-20.png', 1);
+	UKM_add_menu_page('content', 'UKMbilder', 'Bilder', 'edit_posts', 'UKMbilder','UKMbilder', '//ico.ukm.no/photocamera-20.png', 1);
 	UKM_add_scripts_and_styles('UKMbilder', 'UKMbilder_scripts_and_styles' );
 
 }
@@ -103,7 +103,7 @@ function UKMbilder_scripts_and_styles(){
 	wp_enqueue_style( 'jquery-ui-style', WP_PLUGIN_URL .'/UKMresources/css/jquery-ui-1.7.3.custom.css');
 	
 	wp_enqueue_script('jquery');
-	wp_enqueue_script('jqueryGoogleUI', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js');
+	wp_enqueue_script('jqueryGoogleUI', '//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js');
 
 
 
