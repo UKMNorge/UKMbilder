@@ -8,8 +8,11 @@ use MariusMandal\Flickr\Request\Upload\Syncron as FlickrUploadSyncron;
 use MariusMandal\Flickr\Request\Photosets\AddPhoto as FlickrPhotosetsAddPhoto;
 use MariusMandal\Flickr\Request\Photosets\Create as FlickrPhotosetsCreate;
 use MariusMandal\Flickr\Request\Photosets\GetList as FlickrPhotosetsGetList;
+use Kunnu\Dropbox\DropboxFile;
 
 require_once('Flickr/autoloader.php');
+require_once('UKM/inc/dropbox.inc.php');
+
 
 define('TIME_LIMIT', 45);
 ini_set('max_execution_time', round(TIME_LIMIT*1.1));
@@ -52,10 +55,7 @@ App::setPermissions('write');
 Auth::authenticate( FLICKR_AUTH_USER, FLICKR_AUTH_TOKEN, FLICKR_AUTH_SECRET );
 
 
-// KOBLE TIL API
-$dropbox = new Dropbox\Client( DROPBOX_AUTH_ACCESS_TOKEN, DROPBOX_APP_NAME, 'UTF-8' );
-
-// START-DATA
+/// START-DATA
 $file_path = '/home/ukmno/private_sync/';
 $cache_monstringer = array();
 $cache_innslag = array();
@@ -113,10 +113,17 @@ foreach( $files as $file_name ) {
 		out( 'DROPBOX NAME:'. $dropbox_name );
 		// UPLOAD TO DROPBOX
 		if( 'true' != $metadata['synced_dropbox'] ) {
-			$res = $dropbox->uploadFile('/UKMdigark/Bilder/'. $path . $dropbox_name. strtolower($ext) , Dropbox\WriteMode::add(), $file, $size);
-			$success = $res['bytes'] == $size;	
-			out( 'DROPBOX UPLOAD: '. ($success ? ' SUCCESS!' : ' FAILURE' ), 'b' );
+			$path_info = pathinfo( $file_path . $file_name );
+			$dropboxFile = new DropboxFile( $file_path . $file_name );
 
+			$file = $DROPBOX->simpleUpload(
+				$dropboxFile, 
+				'/UKMdigark/Bilder/'. $path . $dropbox_name .'.'. strtolower( $path_info['extension'] ),
+				['autorename' => true]
+			);
+
+			$success = $file->getSize() == $size;
+			out( 'DROPBOX UPLOAD: '. ($success ? ' SUCCESS!' : ' FAILURE' ), 'b' );
 			if( $success ) {		
 				$SQLins = new SQLins('ukm_bilder', array('id' => $image_id ) );
 				$SQLins->add('synced_dropbox', 'true');
