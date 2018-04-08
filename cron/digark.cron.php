@@ -9,6 +9,7 @@ use MariusMandal\Flickr\Request\Photosets\AddPhoto as FlickrPhotosetsAddPhoto;
 use MariusMandal\Flickr\Request\Photosets\Create as FlickrPhotosetsCreate;
 use MariusMandal\Flickr\Request\Photosets\GetList as FlickrPhotosetsGetList;
 use Kunnu\Dropbox\DropboxFile;
+use GuzzleHttp\Exception\ClientException;
 
 require_once('Flickr/autoloader.php');
 require_once('UKM/inc/dropbox.inc.php');
@@ -89,8 +90,8 @@ foreach( $files as $file_name ) {
 		out('Allerede synkronisert med dropbox og flickr');
 		if( file_exists( $file_path . $file_name ) ) {
 			out('Slett fil: '. $file_path . $file_name );
-			#unlink( $file_path . $file_name );
-			out('DEAKTIVERT');
+			unlink( $file_path . $file_name );
+#			out('DEAKTIVERT');
 		}
 		continue;
 	}
@@ -115,14 +116,19 @@ foreach( $files as $file_name ) {
 		if( 'true' != $metadata['synced_dropbox'] ) {
 			$path_info = pathinfo( $file_path . $file_name );
 			$dropboxFile = new DropboxFile( $file_path . $file_name );
+			$dropboxFilePath = '/UKMdigark/Bilder/'. $path . $dropbox_name .'.'. strtolower( $path_info['extension'] );
 
-			$file = $DROPBOX->simpleUpload(
-				$dropboxFile, 
-				'/UKMdigark/Bilder/'. $path . $dropbox_name .'.'. strtolower( $path_info['extension'] ),
-				['autorename' => true]
-			);
-
-			$success = $file->getSize() == $size;
+			out( 'DROPBOX PATH:'. $dropboxFilePath );
+			try {
+				$file = $DROPBOX->simpleUpload(
+					$dropboxFile, 
+					$dropboxFilePath,
+					['autorename' => true]
+				);
+				$success = $file->getSize() == $size;
+			} catch( Exception $e ) {
+				$success = false;
+			}
 			out( 'DROPBOX UPLOAD: '. ($success ? ' SUCCESS!' : ' FAILURE' ), 'b' );
 			if( $success ) {		
 				$SQLins = new SQLins('ukm_bilder', array('id' => $image_id ) );
