@@ -31,7 +31,7 @@ $path_wordpress = $path[0];
 $path_blogs_dir = $path_wordpress.'wp-content/blogs.dir/';
 
 ## ORIGINAL FILE PATTERN
-$pattern_original_or_not = "/(.*)-([0-9]{3,4})x([0-9]{3,4}).([a-zA-Z]{2,4})/";
+$pattern_original_or_not = "/(.*)-([0-9]{2,4})x([0-9]{2,4}).([a-zA-Z]{2,4})/";
 
 if( !file_exists( $path_blogs_dir .'OLD' ) ) {
 	mkdir( $path_blogs_dir .'OLD/' );
@@ -78,11 +78,6 @@ foreach( scandir( $path_blogs_dir ) as $blog_id ) {
 			// ALLE ÅR MØNSTRINGEN HAR LASTET OPP DATA
 			foreach( scandir( $path_blogs_dir . $blog_id .'/files/' ) as $year ) {
 				if( !is_numeric( $year ) ) {
-					continue;
-				}
-
-				// HOPP OVER ÅRETS BILDER
-				if( date('Y') == $year ) {
 					continue;
 				}
 
@@ -158,8 +153,8 @@ foreach( scandir( $path_blogs_dir ) as $blog_id ) {
 							// Add to dropbox queue
 							$dropbox[ $image->fullpath ] = $image;
 						}
-						// BILDET ER FRA TIDLIGERE
-						else {
+						// BILDET ER IKKE AV INNSLAG, OG IKKE ÅRETS SESONG
+						elseif( date('Y') != $year ) {
 							// Add to symlink queue
 							$symlink[ $image->fullpath ] = $image;
 						}
@@ -171,26 +166,26 @@ foreach( scandir( $path_blogs_dir ) as $blog_id ) {
 }
 
 
-/*echo '<h1>FILES TO UPLOAD ('.sizeof( $dropbox ).')</h1>';
+echo '<h1>FILES TO UPLOAD ('.sizeof( $dropbox ).')</h1>';
 $count = 0;
 foreach( $dropbox as $image ) {
 	$count++;
 	echo '<a name="#dropbox"></a><h3>'. $image->file .'</h3>';
 	printline('DROPBOX: '. $image->dropbox_folder . $image->file);
 	$res = uploadToDropbox( $image );
-	if( $res ) {
-		printline('SYMLINK: '. $image->fullpath .' => '. $image->path . $image->largest_file );
-		createSymlink( $image->fullpath, $image->path . $image->largest_file );
-	}
+	#if( $res ) {
+		#printline('SYMLINK: '. $image->fullpath .' => '. $image->path . $image->largest_file );
+		#createSymlink( $image->fullpath, $image->path . $image->largest_file );
+	#}
 }
-*/
+
 echo '<h1>FILES TO SYMLINK ('.sizeof( $symlink ).')</h1>';
 $count = 0;
 foreach( $symlink as $image ) {
 	$count++;
 	echo '<h3>'. $image->file .'</h3>';
 	printline('SYMLINK: '. $image->fullpath .' => '. $image->path . $image->largest_file );
-	createSymlink( $image->fullpath, $image->path . $image->largest_file );
+	#createSymlink( $image->fullpath, $image->path . $image->largest_file );
 }
 
 
