@@ -17,8 +17,8 @@ $regex = <<<'END'
 END;
 
 define('TIME_LIMIT', 45);
-ini_set('max_execution_time', round(TIME_LIMIT*1.1));
-$time_start = microtime(true);
+ini_set('max_execution_time', round(TIME_LIMIT*1.2));
+define('TIME_START', microtime(true));
 
 @session_start();
 require_once('UKMconfig.inc.php');
@@ -177,6 +177,12 @@ foreach( $dropbox as $image ) {
 		#printline('SYMLINK: '. $image->fullpath .' => '. $image->path . $image->largest_file );
 		#createSymlink( $image->fullpath, $image->path . $image->largest_file );
 	#}
+	
+	// TIME COUNTER
+	if( TIME_LIMIT < ( microtime(true) - TIME_START ) ) {
+		echo 'Nådd tidsbegrensning ('. TIME_LIMIT .'sek) og stopper';
+		die();
+	}
 }
 
 echo '<h1>FILES TO SYMLINK ('.sizeof( $symlink ).')</h1>';
@@ -185,7 +191,15 @@ foreach( $symlink as $image ) {
 	$count++;
 	echo '<h3>'. $image->file .'</h3>';
 	printline('SYMLINK: '. $image->fullpath .' => '. $image->path . $image->largest_file );
-	#createSymlink( $image->fullpath, $image->path . $image->largest_file );
+	if( !is_dir( $image->path . $image->largest_file ) ) {
+		#createSymlink( $image->fullpath, $image->path . $image->largest_file );
+	}
+
+	// TIME COUNTER
+	if( TIME_LIMIT < ( microtime(true) - TIME_START ) ) {
+		echo 'Nådd tidsbegrensning ('. TIME_LIMIT .'sek) og stopper';
+		die();
+	}
 }
 
 
@@ -201,18 +215,30 @@ function uploadToDropbox( $image ) {
 	$dropbox_name = preg_replace($regex, '$1', $dropbox_name);
 	$dropboxFile = new DropboxFile( $image->fullpath );
 	$dropboxFilePath = '/UKMdigark/Bilder/'. $image->dropbox_folder . $image->file;
+	
+	// Check if file exists
 	try {
-		$file = $DROPBOX->simpleUpload(
-			$dropboxFile, 
-			$dropboxFilePath,
-			['autorename' => true]
-		);
-		$success = $file->getSize() == filesize( $image->fullpath );
+		$existing = $DROPBOX->getMetadata( $dropboxFilePath );
+		$exists = is_object( $existing );
 	} catch( Exception $e ) {
-		$success = false;
-		throw $e;
+		$exists = false;
 	}
 	
+	// Upload if not exists
+	if( !$exists ) {
+		try {		
+			$file = $DROPBOX->simpleUpload(
+				$dropboxFile, 
+				$dropboxFilePath,
+				['autorename' => true]
+			);
+			$success = $file->getSize() == filesize( $image->fullpath );
+		} catch( Exception $e ) {
+			$success = false;
+			throw $e;
+		}
+	}
+
 	return $success;
 }
 
