@@ -13,12 +13,13 @@ $running = new SQL("SELECT `id`,`timestamp`
 						  )
 				);
 $res = $running->run();
+#echo $running->debug();
 if(mysql_num_rows($res) > 0) {
 	$r = mysql_fetch_assoc( $res );
 	$timeago = strtotime( $r['timestamp'] );
 	$now = time();
 	// Hvis convertert mer enn 6 minutter er det på tide å gi opp
-	if( ( $timeago - $now ) > 360 ) {
+	if( ( $now - $timeago ) > 360 ) {
 		$db_update = new SQLins('ukm_bilder', array('id' => $r['id']));
 		$db_update->add('status', 'crash');
 		$db_update->run();
@@ -54,8 +55,15 @@ while($r = mysql_fetch_assoc($res)) {
 	$wp_path = $wp_upload_dir['path'] .'/'. $r['filename'];
 	
 	// COMPRESS AND MOVE TO WORDPRESS UPLOAD DIR (wp_ins_att requirement)
-	$image = new Imagick( $path );
-	$imageprops = $image->getImageGeometry();
+	try {
+		$image = new Imagick( $path );
+		$imageprops = $image->getImageGeometry();
+	} catch( Exception $e ) {
+		$db_update = new SQLins('ukm_bilder', array('id' => $r['id']));
+		$db_update->add('status', 'crash');
+		$db_update->run();
+		die(json_encode(array('success'=>false, 'reload' => true, 'message' => 'Unsupported image format: '. $e->getCode())));
+	}
 	
 		// Find proportions
 		$width = $height = 2048;
