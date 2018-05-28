@@ -13,10 +13,12 @@ if((int)$innslag->g('b_id') == 0)
 	die(json_encode(array('success' => false, 'message' => 'Did not find image owner (band)')));
 
 
+$deleted = 0;
 foreach($_POST['images'] as $post_id) {
 	if((int)$post_id == 0)
 		continue;
 
+	$deleted++;
 	// DELETE FROM WORDPRESS
 	wp_delete_post($post_id, true);
 	
@@ -25,6 +27,10 @@ foreach($_POST['images'] as $post_id) {
 	// DELETE FROM RELATED
 	$related = new related($_POST['b_id']);
 	$related->delete($post_id, 'image');
+}
+
+if( $deleted == 0 ) {
+	die(json_encode(array('success'=>false, 'b_id'=>$_POST['b_id'])));
 }
 
 die(json_encode(array('success' => true, 'b_id' => $_POST['b_id'], 'count' => sizeof($_POST['images']))));
