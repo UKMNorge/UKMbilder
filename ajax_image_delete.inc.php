@@ -21,12 +21,14 @@ foreach($_POST['images'] as $post_id) {
 	$deleted++;
 	// DELETE FROM WORDPRESS
 	wp_delete_post($post_id, true);
+	error_log('UKMBILDER_DELETE_POST: '. $post_id);
 	
 	global $blog_id;
 	
 	// DELETE FROM RELATED
 	$related = new related($_POST['b_id']);
 	$related->delete($post_id, 'image');
+	error_log('UKMBILDER_DELETE_RELATED_IMAGE: B_ID:'. $_POST['b_id'] .' P_ID:'. $post_id);
 }
 
 if( $deleted == 0 ) {
