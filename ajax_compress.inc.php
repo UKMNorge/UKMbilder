@@ -14,7 +14,7 @@ $running = new SQL("SELECT `id`,`timestamp`
 				);
 $res = $running->run();
 #echo $running->debug();
-if(mysql_num_rows($res) > 0) {
+if(SQL::fetch($res) > 0) {
 	$r = mysql_fetch_assoc( $res );
 	$timeago = strtotime( $r['timestamp'] );
 	$now = time();
