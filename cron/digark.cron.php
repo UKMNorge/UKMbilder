@@ -276,7 +276,7 @@ function fotograf_from_wpuid( $wp_uid ) {
 						   WHERE `ID` = '". $wp_uid . "'";
 	$res = mysql_query( $query );
 	echo mysql_error();
-	$row = mysql_fetch_assoc( $res );
+	$row = SQL::fetch( $res );
 	
 	return $row['display_name'];
 }

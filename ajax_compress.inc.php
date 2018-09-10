@@ -15,7 +15,7 @@ $running = new SQL("SELECT `id`,`timestamp`
 $res = $running->run();
 #echo $running->debug();
 if(SQL::fetch($res) > 0) {
-	$r = mysql_fetch_assoc( $res );
+	$r = SQL::fetch( $res );
 	$timeago = strtotime( $r['timestamp'] );
 	$now = time();
 	// Hvis convertert mer enn 6 minutter er det på tide å gi opp
@@ -42,7 +42,7 @@ $next = new SQL("SELECT *
 					  )
 			);
 $res = $next->run();
-while($r = mysql_fetch_assoc($res)) {
+while($r = SQL::fetch($res)) {
 	$db_update = new SQLins('ukm_bilder', array('id' => $r['id']));
 	$db_update->add('status', 'compressing');
 	$db_update->run();

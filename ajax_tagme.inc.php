@@ -17,7 +17,7 @@ $sql = new SQL("SELECT *
 $res = $sql->run();
 
 $images = array();
-while( $r = mysql_fetch_assoc($res) ) {
+while( $r = SQL::fetch($res) ) {
 	if($r['status'] == 'uploaded' || $r['status'] == 'compressing') {
 		$r['compressing'] = true;
 		$r['url'] = '//ukm.no/wp-content/plugins/UKMbilder/img/compressing.gif';
