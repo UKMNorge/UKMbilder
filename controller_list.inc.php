@@ -12,7 +12,7 @@ foreach($innslagene as $innslag) {
 	
 	$innslagdata = array('name' => $inn->g('b_name'),
 					 'id' => $inn->g('b_id'),
-					 'num_images' => sizeof($related['image']),
+					 'num_images' => is_array( $related['image'] ) ? sizeof($related['image']) : 0,
 					);
 	$alle_innslag[] = $innslagdata;
 }
