@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_NONE);
+error_reporting(0);
 if(!isset($_FILES) || sizeof($_FILES) == 0)
 	die(json_encode(array('success'=>false,'error'=>'Missing files')));
 

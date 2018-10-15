@@ -342,7 +342,7 @@ function flickr_data( $fotograf, $pl, $innslag ) {
 
 	// Geografi
 	$innslag->loadGEO();
-	$tags .= 'UKM '. $innslag->get('kommune_utf8').',';
+	$tags .= 'UKM '. $innslag->get('kommune').',';
 	
 	$tags .= 'UKM';
 	
