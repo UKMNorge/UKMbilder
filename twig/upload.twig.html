@@ -75,7 +75,7 @@
                             {% if innslag.getSamtykke().harNei() %}
                                 <span class="text-danger">
                                     <br />
-                                    {% if innslag.getType().harTitler () %}
+                                    {% if innslag.getType().harTitler() %}
                                         {{ innslag.getSamtykke().getNeiCount() }} av {{ innslag.getPersoner().getAntall() }} vil ikke fotograferes.
                                     {% else %}
                                         Vil ikke fotograferes
