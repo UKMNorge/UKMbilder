@@ -12,7 +12,7 @@
     <p>
         <b>Manglende foto-tillatelser: </b>
         Hvis noen i et innslag har sagt at de ikke vil at UKM skal ta bilder/film av de, merkes innslaget
-        "én eller flere vil ikke fotograferes". Dette skal respekteres, og vi laster ikke opp bilder
+        "vil ikke fotograferes". Dette skal respekteres, og vi laster ikke opp bilder
         av disse innslagene.
 
         Lokalkontakten har tilgang til rapporten
@@ -75,7 +75,11 @@
                             {% if innslag.getSamtykke().harNei() %}
                                 <span class="text-danger">
                                     <br />
-                                    Én eller flere vil ikke fotograferes
+                                    {% if innslag.getType().harTitler () %}
+                                        {{ innslag.getSamtykke().getNeiCount() }} av {{ innslag.getPersoner().getAntall() }} vil ikke fotograferes.
+                                    {% else %}
+                                        Vil ikke fotograferes
+                                    {% endif %}
                                 </span>
                             {% endif %}
                         </div>
