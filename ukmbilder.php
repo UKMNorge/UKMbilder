@@ -18,6 +18,7 @@ add_action('wp_ajax_UKMbilder_band_images', 'UKMbilder_band_images');
 add_action('wp_ajax_UKMbilder_image_reauthor', 'UKMbilder_image_reauthor');
 add_action('wp_ajax_UKMbilder_image_move', 'UKMbilder_image_move');
 add_action('wp_ajax_UKMbilder_image_delete', 'UKMbilder_image_delete');
+add_action('network_admin_menu', 'UKMbilder_network_menu');
 
 if(is_admin()) {
 	add_action('UKM_admin_menu', 'UKMimages_menu');
@@ -33,7 +34,38 @@ function UKMimages_menu_conditions( $_CONDITIONS ) {
 function UKMimages_menu() {
 	UKM_add_menu_page('content', 'UKMbilder', 'Bilder', 'edit_posts', 'UKMbilder','UKMbilder', '//ico.ukm.no/photocamera-20.png', 11);
 	UKM_add_scripts_and_styles('UKMbilder', 'UKMbilder_scripts_and_styles' );
+}
 
+function UKMbilder_network_menu() {
+	$page = add_menu_page(
+		'Bilder', 
+		'Bilder', 
+		'superadmin', 
+		'UKMbilder_network_gui',
+		'UKMbilder_network_gui',  
+		'//ico.ukm.no/photocamera-20.png',
+		22
+	);
+	add_action( 'admin_print_styles-' . $page, 	'UKMdeltakere_scriptsandstyles' );
+}
+
+function UKMbilder_network_scripts_and_styles() {
+    wp_enqueue_script('handlebars_js');
+	wp_enqueue_script('WPbootstrap3_js');
+	wp_enqueue_style('WPbootstrap3_css');
+    wp_enqueue_style('WPbootstrap3_outlinebtn');
+}
+
+function UKMbilder_network_gui() {
+    $TWIGdata = [];
+    if( !isset( $_GET['action'] ) ) {
+        $_GET['action'] = 'search';
+    }
+
+    $VIEW = basename( $_GET['action'] );
+    require_once('controller/network/'. $VIEW .'.controller.php');
+
+	echo TWIG( 'network/'. $VIEW .'.html.twig', $TWIGdata, dirname(__FILE__), true);
 }
 
 function UKMbilder_upload() {

@@ -1,0 +1,17 @@
+<h1>Søk opp innslag</h1>
+
+<div class="col-4">
+    <form method="GET">
+        <input type="hidden" name="page" value="{{ GET('page') }}" />
+        <input type="hidden" name="action" value="list" />
+        <div class="form-group">
+            <label>Innslagets ID</label>
+            <br />
+            <input type="number" class="form-control" name="innslagId" style="width: 100px;" required />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline btn-success">Søk</button>
+        </div>
+    </form>
+</div>
