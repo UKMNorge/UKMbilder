@@ -11,6 +11,7 @@ use MariusMandal\Flickr\Request\Photosets\GetList as FlickrPhotosetsGetList;
 use Kunnu\Dropbox\DropboxFile;
 use GuzzleHttp\Exception\ClientException;
 
+require_once('UKMconfig.inc.php');
 require_once('Flickr/autoloader.php');
 require_once('UKM/inc/dropbox.inc.php');
 
