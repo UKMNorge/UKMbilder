@@ -90,7 +90,9 @@ function do_action_delete(innslag_id, selected_images) {
 							 + "\r\n" 
 							 + 'OBS: Kolonnen med antall bilder i innslaget vil først bli oppdatert når du åpner denne listen på nytt.');
 						jQuery('#innslag_'+response.b_id).find('.image_edit.active').remove();
-					} else {
+					} else if( response && response.success != undefined && response.message != undefined ) {
+						alert('Beklager, en feil oppsto ved sletting av bilder! Serveren sa: ('+ response.message +')');
+					} else {
 						alert('Beklager, en feil oppsto ved sletting av bilder!');
 					}
 				});

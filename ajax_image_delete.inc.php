@@ -18,15 +18,33 @@ foreach($_POST['images'] as $post_id) {
 	if((int)$post_id == 0)
 		continue;
 
+	global $blog_id;
+	$related = new related($_POST['b_id']);
+	$alle = $related->get();
+
+	// Sjekk om bildet tilhører denne bloggen
+	if( is_array( $alle ) ) {
+		foreach( $alle as $objekt ) {
+			if( $objekt->post_id == $post_id ) {
+				if( $objekt->blog_id != $blog_id ) {
+					echo json_encode( [
+						'success'=>false,
+						'b_id'=>$_POST['b_id'],
+						'message' => 'Du har ikke rettigheter til å slette bilder lastet opp fra andre mønstringer'
+					]);
+					die();
+				}
+			}
+		}
+	}
+
 	$deleted++;
 	// DELETE FROM WORDPRESS
 	wp_delete_post($post_id, true);
 	error_log('UKMBILDER_DELETE_POST: '. $post_id);
 	
-	global $blog_id;
 	
 	// DELETE FROM RELATED
-	$related = new related($_POST['b_id']);
 	$related->delete($post_id, 'image');
 	error_log('UKMBILDER_DELETE_RELATED_IMAGE: B_ID:'. $_POST['b_id'] .' P_ID:'. $post_id);
 }
