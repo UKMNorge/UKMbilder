@@ -25,7 +25,7 @@ foreach($_POST['images'] as $post_id) {
 	// Sjekk om bildet tilhører denne bloggen
 	if( is_array( $alle ) ) {
 		foreach( $alle as $objekt ) {
-			if( $objekt->post_id == $post_id && $objekt->blog_id != $blog_id ) {
+			if( $objekt['post_id'] == $post_id && $objekt['blog_id'] != $blog_id ) {
 				echo json_encode( [
 					'success'=>false,
 					'b_id'=>$_POST['b_id'],
