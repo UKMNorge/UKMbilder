@@ -115,8 +115,8 @@ foreach( $files as $file_name ) {
 			}
 		}
 		$fotograf = getFotograf( $metadata['wp_uid'] );
-	 	out( 'FLICKR STATUS: '. $metadata['wp_uid'] );
-	 	out( 'FLICKR STATUS: '. $fotograf );
+	 	out( 'FOTOGRAF-ID: '. $metadata['wp_uid'] );
+	 	out( 'FOTOGRAF-NAVN: '. $fotograf );
 
 		$dropbox_name = $innslag->getNavn();
 		$dropbox_name .= ' (PHOTO by UKM Media '. $fotograf.')';
