@@ -1,4 +1,5 @@
 <?php
+header('Cache-Control: no-store');
 
 use MariusMandal\Flickr\Exception;
 use MariusMandal\Flickr\App;
