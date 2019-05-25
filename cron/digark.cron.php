@@ -102,7 +102,18 @@ foreach( $files as $file_name ) {
 	 	out( 'FLICKR STATUS: '. $metadata['synced_dropbox'] );
 		$monstring = getMonstring( $metadata['pl_id'] );
 		$path = getStoragePathFromMonstring( $monstring );
-		$innslag = getInnslag( $monstring, $metadata['b_id'] );
+		try {
+			$innslag = getInnslag( $monstring, $metadata['b_id'] );
+		} catch( Exception $e ) {
+			// Innslaget er avmeldt - da skal vi ikke laste opp bilder
+			if( $e->getCode() == 2 ) {
+				$SQLins = new SQLins('ukm_bilder', array('id' => $image_id ) );
+				$SQLins->add('synced_flickr', 'nogo');
+				$SQLins->add('synced_drobox', 'nogo');
+				$SQLins->run();
+				continue;
+			}
+		}
 		$fotograf = getFotograf( $metadata['wp_uid'] );
 	 	out( 'FLICKR STATUS: '. $metadata['wp_uid'] );
 	 	out( 'FLICKR STATUS: '. $fotograf );
