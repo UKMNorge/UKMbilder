@@ -77,7 +77,7 @@ foreach( $files as $file_name ) {
 
 	out( $file_name, 'h3');
 	// Metadata fra filename
-	list( $year, $pl_id, $image_id, $file, $size ) = infos_from_filename( $file_name, $file_path );
+	list( $year, $pl_id, $image_id, $file, $size ) = getInfosFromFilename( $file_name, $file_path );
 	// Metadata fra database
 	$metadata = metadata( $image_id );
 	
@@ -86,7 +86,7 @@ foreach( $files as $file_name ) {
 		out( 'Ikke tagget - la ligge inntil videre');
 		continue;
 	}
-	// CASE 2: BILDET ER ALLEREDE SYNKRONISERT TIL DROPBOX (OG DERMED FLICKR?)
+	// CASE 2: BILDET ER ALLEREDE SYNKRONISERT TIL DROPBOX OG DERMED FLICKR
 	elseif( 'true' == $metadata['synced_dropbox'] && 'true' == $metadata['synced_flickr'] ) {
 		out('Allerede synkronisert med dropbox og flickr');
 		if( file_exists( $file_path . $file_name ) ) {
@@ -100,15 +100,15 @@ foreach( $files as $file_name ) {
 	 else {
 	 	out( 'DROPBOX STATUS: '. $metadata['synced_dropbox'] );
 	 	out( 'FLICKR STATUS: '. $metadata['synced_dropbox'] );
-		$pl = get_pl( $metadata['pl_id'] );
-		$path = path_from_pl( $pl );
-		$innslag = get_innslag( $metadata['b_id'] );
-		$fotograf = get_fotograf( $metadata['wp_uid'] );
+		$monstring = getMonstring( $metadata['pl_id'] );
+		$path = getStoragePathFromMonstring( $monstring );
+		$innslag = getInnslag( $monstring, $metadata['b_id'] );
+		$fotograf = getFotograf( $metadata['wp_uid'] );
 	 	out( 'FLICKR STATUS: '. $metadata['wp_uid'] );
 	 	out( 'FLICKR STATUS: '. $fotograf );
 
-		$dropbox_name = name_from_innslag( $innslag );
-		$dropbox_name .= ' (PHOTO by UKM Media '. ucfirst($fotograf).')';
+		$dropbox_name = $innslag->getNavn();
+		$dropbox_name .= ' (PHOTO by UKM Media '. $fotograf.')';
 		$dropbox_name = preg_replace('/[^\da-z \- æøå]/i', '', $dropbox_name );
 		$dropbox_name = preg_replace($regex, '$1', $dropbox_name);
 
@@ -141,10 +141,9 @@ foreach( $files as $file_name ) {
 		}
 		
 		// CASE 3:A UKM-festival-bilde. Last opp til flickr
-		if( 'true' != $metadata['synced_flickr'] && 'land' == $pl->get('type') ) {
+		if( 'true' != $metadata['synced_flickr'] && 'land' == $monstring->getType() ) {
 			// DATA-BEREGNING
-			list( $tittel, $beskrivelse, $tags ) = flickr_data( $fotograf, $pl, $innslag );
-			
+			list( $tittel, $beskrivelse, $tags ) = flickr_data( $fotograf, $monstring, $innslag );
 			
 			$imageUpload = new FlickrUploadSyncron( $file_path . $file_name );
 			$imageUpload->setTitle( $tittel )->setDescription( $beskrivelse )->setTags( $tags );
@@ -159,7 +158,6 @@ foreach( $files as $file_name ) {
 			}
 			$flickr_image_id = $res->getData();
 
-
 			if( is_numeric( $image_id ) ) {
 				$album = flickr_find_album( $flickr_image_id, $metadata['c_id'], $metadata['pl_id'] );
 				// Albumet er nytt, og er blitt opprettet med dette bildet som det første
@@ -170,21 +168,24 @@ foreach( $files as $file_name ) {
 					$addPhoto = new FlickrPhotosetsAddPhoto( $album, $flickr_image_id );
 					$res = $addPhoto->execute();
 					
+					// Retry if flickr's acting up
+					if( !is_numeric( $res->getData() ) ) {
+						$res = $addPhoto->execute();
+					}
 					out( var_export( $res->getData() ), 'b' );
 				}
-			}
 
-			if( $success ) {		
 				$SQLins = new SQLins('ukm_bilder', array('id' => $image_id ) );
 				$SQLins->add('synced_flickr', 'true');
+				$SQLins->add('flickr_data', json_encode(['id' => $flickr_image_id]));
 				$SQLins->run();
 			}
 		}
 		// CASE 3:B Bilder som ikke er fra festivalen skal ikke lastes opp til flickr
-		elseif( 'land' != $pl->get('type') ) {
-			if( $success ) {		
+		elseif( 'land' != $monstring->getType() ) {
+			if( $success ) {
 				$SQLins = new SQLins('ukm_bilder', array('id' => $image_id ) );
-				$SQLins->add('synced_flickr', 'true');
+				$SQLins->add('synced_flickr', 'nogo');
 				$SQLins->run();
 			}	
 		}
@@ -198,18 +199,18 @@ function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
 	global $flickr;
 	require_once('UKM/monstring.class.php');	
 
-	$monstring = new monstring( $pl_id );
+	$monstring = getMonstring( $pl_id );
 	if( empty( $c_id ) ) {
 		$album = new flickr_album( 'monstring', $pl_id );
-		$album_name = $monstring->get('pl_name');
+		$album_name = $monstring->getNavn();
 		$album_type = 'monstring';
 		$album_id = $pl_id;
 	} else {
 		require_once('UKM/forestilling.class.php');
-		$forestilling = new forestilling( $c_id );
+		$forestilling = $monstring->getProgram()->get( $c_id );
 
 		$album = new flickr_album( 'forestilling', $c_id );
-		$album_name = $monstring->get('pl_name') .' - '. $forestilling->get('c_name');
+		$album_name = $monstring->getNavn() .' - '. $forestilling->getNavn();
 		$album_type = 'forestilling';
 		$album_id = $c_id;
 	}
@@ -249,7 +250,15 @@ function metadata( $image_id ) {
 }
 
 
-function infos_from_filename( $file_name, $file_path ) {
+/**
+ * Henter metadata fra filnavnet
+ * $year, $pl_id, $image_id, $file, $size
+ *
+ * @param String $file_name
+ * @param String $file_path
+ * @return list[ år, pl_id, bilde_id, file-handle, størrelse]
+ */
+function getInfosFromFilename( $file_name, $file_path ) {
 	$file = fopen( $file_path.$file_name, 'rb' );
 	$size = filesize( $file_path.$file_name );
 	
@@ -261,14 +270,29 @@ function infos_from_filename( $file_name, $file_path ) {
 }
 
 
-function get_fotograf( $wp_uid ) {
+/**
+ * Hent informasjon om fotograf. 
+ * Brukes som cache for å begrense db-change til wordpress
+ *
+ * @param Integer $wp_uid
+ * @return String $display_name
+ */
+function getFotograf( $wp_uid ) {
 	global $cache_fotograf;
 	if( !isset( $cache_fotograf[ $wp_uid ] ) ) {
-		$cache_fotograf[ $wp_uid ] = fotograf_from_wpuid( $wp_uid );
+		$cache_fotograf[ $wp_uid ] = getFotofrafFromWpUID( $wp_uid );
 	}
 	return $cache_fotograf[ $wp_uid ];
 }
-function fotograf_from_wpuid( $wp_uid ) {
+
+/**
+ * Faktisk hent informasjon om wordpress-bruker (fotograf)
+ *
+ * @param Integer $wp_uid
+ * @return String $display_name
+ */
+function getFotofrafFromWpUID( $wp_uid ) {
+	die('KAN IKKE HENTE FOTOGRAF. IMPLEMENTER MYSQLi!');
 	$wordpress = mysql_connect( UKM_WP_DB_HOST, UKM_WP_DB_USER, UKM_WP_DB_PASSWORD );
 	mysql_select_db( UKM_WP_DB_NAME );
 	
@@ -279,72 +303,87 @@ function fotograf_from_wpuid( $wp_uid ) {
 	echo mysql_error();
 	$row = SQL::fetch( $res );
 	
-	return $row['display_name'];
+	return ucfirst($row['display_name']);
 }
 
 
-function get_innslag( $b_id ) {
+/**
+ * Hent informasjon om et innslag
+ *
+ * @param [type] $b_id
+ * @return void
+ */
+function getInnslag( $monstring,  $b_id ) {
 	global $cache_innslag;
 	if( !isset( $cache_innslag[ $b_id ] ) ) {
-		$cache_innslag[ $b_id ] = new innslag( $b_id );
+		$cache_innslag[ $b_id ] = $monstring->getInnslag()->get( $b_id );
 	}
 	return $cache_innslag[ $b_id ];
 }
 
-function name_from_innslag( $innslag ) {
-	return $innslag->g('b_name');
-}
 
-
-function get_pl( $pl_id ) {
+/**
+ * Hent mønstrings-objekt
+ * Internal cache
+ *
+ * @param Integer $pl_id
+ * @return Monstring_V2
+ */
+function getMonstring( $pl_id ) {
 	global $cache_monstringer;
 	
 	if( !isset( $cache_monstringer[ $pl_id ] ) ) {
-		$cache_monstringer[ $pl_id ] = new monstring( $pl_id );
+		$cache_monstringer[ $pl_id ] = new monstring_v2( $pl_id );
 	}
 	return $cache_monstringer[ $pl_id ];
 }
 
-function path_from_pl( $pl ) {
-	switch( $pl->g('type') ) {
+/**
+ * Beregn lagringsbane for dropbox
+ *
+ * @param Monstring_V2 $monstring
+ * @return void
+ */
+function getStoragePathFromMonstring( $monstring ) {
+	switch( $monstring->getType() ) {
 		case 'land':
-			return $pl->g('season') .'/UKM-festivalen/';
+			return $monstring->getSesong() .'/UKM-festivalen/';
 		case 'fylke':
-			return $pl->g('season') .'/'. $pl->g('fylke_name') .'/_Fylkesmønstringen (PLID'. $pl->g('pl_id') .')/';
+			return $monstring->getSesong() .'/'. $monstring->getFylke()->getNavn() .'/_Fylkesmønstringen (PLID'. $monstring->getId() .')/';
 		default:
-			$kommunestreng = '';
-			foreach( $pl->g('kommuner') as $kommune ) {
-				$kommunestreng .= $kommune['name'] .', ';
-			}
-			$kommunestreng = rtrim( $kommunestreng, ', ' );
-			
-			return $pl->g('season') .'/'. $pl->g('fylke_name') .'/'. $kommunestreng .' (PLID'. $pl->g('pl_id') .')/';
+			$kommunestreng = $monstring->getKommuner()->__toString();
+			return $monstring->getSesong() .'/'. $monstring->getFylke()->getNavn() .'/'. $kommunestreng .' (PLID'. $monstring->getId() .')/';
 	}
 }
 
-function flickr_data( $fotograf, $pl, $innslag ) {
+/**
+ * Lag flickr meta-data
+ *
+ * @param String $fotograf
+ * @param Monstring_V2 $monstring
+ * @param Innslag_V2 $innslag
+ * @return list[ film-navn, beskrivelse, tags ]
+ */
+function flickr_data( $fotograf, $monstring, $innslag ) {
 	$beskrivelse = 'Foto: '. $fotograf. "\r\n\r\n";
 	
 	// Tags: sted
-	$tags =  $pl->get('pl_name').','
-			.$pl->get('season').','
-			.$pl->get('pl_name').' '.$pl->get('season').',';
+	$tags =  $monstring->getNavn().','
+			.$monstring->getSesong().','
+			.$monstring->getNavn().' '.$monstring->getSesong().',';
 
 	// Innslagets navn (inkl tags)
-	$tittel = $innslag->g('b_name');
+	$tittel = $innslag->getNavn();
 	$tags .= $tittel.',';
 
 	// Personer (inkl tags)
-	$personer = $innslag->personObjekter();
-	foreach( $personer as $person ) {
-		$beskrivelse .= $person->get('name') .' ('. $person->get('instrument') .'), ';
-		$tags .= $person->get('name').',';
+	foreach( $innslag->getPersoner()->getAll() as $person ) {
+		$beskrivelse .= $person->getNavn() .' ('. $person->getInstrument() .'), ';
+		$tags .= $person->getNavn() .',';
 	}
 
 	// Geografi
-	$innslag->loadGEO();
-	$tags .= 'UKM '. $innslag->get('kommune').',';
-	
+	$tags .= 'UKM '. $innslag->getKommune()->getNavn() .',';
 	$tags .= 'UKM';
 	
 	// Cleanup
@@ -355,7 +394,16 @@ function flickr_data( $fotograf, $pl, $innslag ) {
 }
 
 
-
+/**
+ * Skriv ut tekst som html.
+ * Default-wrapper: '<p></p>'
+ *
+ * @param String $message
+ * @param String navn på wrapper-tag
+ *
+ * @output HTML-kode <wrapper>message</wrapper>;
+ * @return void
+ */
 function out( $message, $wrapper='p' ) {
 	if( 'b' == $wrapper ) {
 		echo "<p><b>$message</b></p>";
