@@ -292,18 +292,17 @@ function getFotograf( $wp_uid ) {
  * @return String $display_name
  */
 function getFotofrafFromWpUID( $wp_uid ) {
-	die('KAN IKKE HENTE FOTOGRAF. IMPLEMENTER MYSQLi!');
-	$wordpress = mysql_connect( UKM_WP_DB_HOST, UKM_WP_DB_USER, UKM_WP_DB_PASSWORD );
-	mysql_select_db( UKM_WP_DB_NAME );
-	
-	$query = "SELECT `display_name`
-						   FROM `wpms2012_users`
-						   WHERE `ID` = '". $wp_uid . "'";
-	$res = mysql_query( $query );
-	echo mysql_error();
-	$row = SQL::fetch( $res );
-	
-	return ucfirst($row['display_name']);
+	SQL::setDatabase('wordpress');
+	$sql = new SQL("SELECT `display_name`
+		FROM `wpms2012_users`
+		WHERE `ID` = '#id'",
+		[
+			'id' => $wp_uid
+		]
+	);
+	$name = $sql->run('field', 'display_name');
+	SQL::setDatabase('ukm');
+	return ucfirst( $name );
 }
 
 
