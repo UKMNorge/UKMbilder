@@ -303,17 +303,15 @@ function getFotograf( $wp_uid ) {
  * @return String $display_name
  */
 function getFotofrafFromWpUID( $wp_uid ) {
-	SQL::setDatabase('wordpress');
 	$sql = new SQL("SELECT `display_name`
 		FROM `wpms2012_users`
-		WHERE `ID` = '#id'",
+		WHERE `ID` = #id",
 		[
 			'id' => $wp_uid
-		]
+		],
+		'wordpress'
 	);
-	$name = $sql->run('field', 'display_name');
-	SQL::setDatabase('ukm');
-	return ucfirst( $name );
+	return ucfirst( $sql->run('field', 'display_name') );
 }
 
 
