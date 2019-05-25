@@ -104,7 +104,7 @@ foreach( $files as $file_name ) {
 		$path = getStoragePathFromMonstring( $monstring );
 		try {
 			$innslag = getInnslag( $monstring, $metadata['b_id'] );
-		} catch( Exception $e ) {
+		} catch( \Exception $e ) {
 			// Innslaget er avmeldt - da skal vi ikke laste opp bilder
 			if( $e->getCode() == 2 ) {
 				$SQLins = new SQLins('ukm_bilder', array('id' => $image_id ) );
