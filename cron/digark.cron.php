@@ -158,12 +158,15 @@ foreach( $files as $file_name ) {
 			list( $tittel, $beskrivelse, $tags ) = flickr_data( $fotograf, $monstring, $innslag );
 			
 			$imageUpload = new FlickrUploadSyncron( $file_path . $file_name );
+#			$imageUpload->setTitle( 'test' )->setDescription( 'test' )->setTags( 'test' );
 			$imageUpload->setTitle( $tittel )->setDescription( $beskrivelse )->setTags( $tags );
 			$res = $imageUpload->execute();
+var_dump( $res );
 
 			// Retry if flickr's a bitch
 			if( !is_numeric( $res->getData() ) ) {
 				$res = $imageUpload->execute();
+var_dump( $res );
 			}
 			if( !is_numeric( $res->getData() ) ) {
 				Exception::handle('Opplasting feilet på tross av to forsøk');
@@ -226,6 +229,8 @@ function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
 		$album_type = 'forestilling';
 		$album_id = $c_id;
 	}
+
+var_dump( $album );
 
 	// Album finnes i lokal database
 	if( $album->getFlickrId() ) {
