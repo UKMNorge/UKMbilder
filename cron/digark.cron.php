@@ -213,13 +213,12 @@ var_dump( $res );
 
 
 function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
-	global $flickr;
 	require_once('UKM/monstring.class.php');	
 
 	$monstring = getMonstring( $pl_id );
 	if( empty( $c_id ) ) {
 		$album = new flickr_album( 'monstring', $pl_id );
-		$album_name = $monstring->getNavn();
+		$album_name = $monstring->getNavn() .' '. $monstring->getSesong();
 		$album_type = 'monstring';
 		$album_id = $pl_id;
 	} else {
@@ -227,15 +226,13 @@ function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
 		$forestilling = $monstring->getProgram()->get( $c_id );
 
 		$album = new flickr_album( 'forestilling', $c_id );
-		$album_name = $monstring->getNavn() .' - '. $forestilling->getNavn();
+		$album_name = $forestilling->getNavn() .' @ '. $monstring->getNavn() .' '. $monstring->getSesong();
 		$album_type = 'forestilling';
 		$album_id = $c_id;
 	}
 
-	var_dump( $album );
-
 	// Album finnes i lokal database
-	if( $album->getFlickrId() ) {
+	if( $album->getFlickrId() && !empty( $album->getFlickrId() ) ) {
 		return $album->getFlickrId();
 	}
 	
