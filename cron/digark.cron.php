@@ -126,7 +126,7 @@ foreach( $files as $file_name ) {
 
 		out( 'DROPBOX NAME:'. $dropbox_name );
 		// UPLOAD TO DROPBOX
-		if( 'true' != $metadata['synced_dropbox'] ) {
+		if( !in_array( $metadata['synced_dropbox'], ['true','nogo'] ) ) {
 			$path_info = pathinfo( $file_path . $file_name );
 			$dropboxFile = new DropboxFile( $file_path . $file_name );
 			$dropboxFilePath = '/UKMdigark/Bilder/'. $path . $dropbox_name .'.'. strtolower( $path_info['extension'] );
@@ -153,7 +153,7 @@ foreach( $files as $file_name ) {
 		}
 		
 		// CASE 3:A UKM-festival-bilde. Last opp til flickr
-		if( 'true' != $metadata['synced_flickr'] && 'land' == $monstring->getType() ) {
+		if( !in_array( $metadata['synced_flickr'], ['true','nogo'] ) && 'land' == $monstring->getType() ) {
 			// DATA-BEREGNING
 			list( $tittel, $beskrivelse, $tags ) = flickr_data( $fotograf, $monstring, $innslag );
 			
@@ -161,12 +161,10 @@ foreach( $files as $file_name ) {
 #			$imageUpload->setTitle( 'test' )->setDescription( 'test' )->setTags( 'test' );
 			$imageUpload->setTitle( $tittel )->setDescription( $beskrivelse )->setTags( $tags );
 			$res = $imageUpload->execute();
-var_dump( $res );
 
 			// Retry if flickr's a bitch
 			if( !is_numeric( $res->getData() ) ) {
 				$res = $imageUpload->execute();
-var_dump( $res );
 			}
 			if( !is_numeric( $res->getData() ) ) {
 				Exception::handle('Opplasting feilet på tross av to forsøk');
@@ -255,7 +253,6 @@ function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
 		if( $flickr_album->title->_content == $album_name ) {
 			echo 'ALBUM: opprettet lokal kopi';
 			$res = $album->create( $album_type, $album_id, $flickr_album->id, $album_name);
-			var_dump( $res );
 			return $album->getFlickrId();
 		}
 	}
@@ -264,11 +261,8 @@ function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
 	$res = $createAlbum->execute();
 	if( !$res ) {
 		echo 'ALBUM: kunne ikke opprette remote kopi';
-		var_dump( $res );
-
 		echo 'ALBUM: RETRY';
 		$res = $createAlbum->execute();
-
 		if( !$res ) {
 			return false;
 		}
