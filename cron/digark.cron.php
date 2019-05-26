@@ -184,10 +184,20 @@ var_dump( $res );
 					out( 'Legg til bilde '. $flickr_image_id .' i album '. $flickr_image_id );
 					$addPhoto = new FlickrPhotosetsAddPhoto( $album, $flickr_image_id );
 					$res = $addPhoto->execute();
+					out( var_export( $res->getData() ), 'b' );
 					
 					// Retry if flickr's acting up
 					if( !is_numeric( $res->getData() ) ) {
+						out( 'RETRY 1');
 						$res = $addPhoto->execute();
+						out( var_export( $res->getData() ), 'b' );
+					}
+
+					// Retry if flickr's acting up
+					if( !is_numeric( $res->getData() ) ) {
+						out('RETRY 2');
+						$res = $addPhoto->execute();
+						out( var_export( $res->getData() ), 'b' );
 					}
 					out( var_export( $res->getData() ), 'b' );
 				}
