@@ -178,6 +178,8 @@ var_dump( $res );
 				// Albumet er nytt, og er blitt opprettet med dette bildet som det første
 				if( true === $album ) {
 					out( 'Album opprettet nå' );
+				} elseif( false === $album ) {
+					out( 'Klarte ikke å opprette album');
 				} else {
 					out( 'Legg til bilde '. $flickr_image_id .' i album '. $flickr_image_id );
 					$addPhoto = new FlickrPhotosetsAddPhoto( $album, $flickr_image_id );
@@ -230,7 +232,7 @@ function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
 		$album_id = $c_id;
 	}
 
-var_dump( $album );
+	var_dump( $album );
 
 	// Album finnes i lokal database
 	if( $album->getFlickrId() ) {
@@ -251,6 +253,9 @@ var_dump( $album );
 
 	$createAlbum = new FlickrPhotosetsCreate( $album_name, $flickr_image_id );
 	$res = $createAlbum->execute();
+	if( !$res ) {
+		return false;
+	}
 
 	$album->create( $album_type, $album_id, $res->getData()->photoset->id, $album_name);
 	return true;
