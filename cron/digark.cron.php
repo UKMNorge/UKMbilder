@@ -88,7 +88,7 @@ foreach( $files as $file_name ) {
 		continue;
 	}
 	// CASE 2: BILDET ER ALLEREDE SYNKRONISERT TIL DROPBOX OG DERMED FLICKR
-	elseif( 'true' == $metadata['synced_dropbox'] && 'true' == $metadata['synced_flickr'] ) {
+	elseif( in_array($metadata['synced_dropbox'], ['true','nogo']) && in_array($metadata['synced_flickr'], ['true','nogo']) ) {
 		out('Allerede synkronisert med dropbox og flickr');
 		if( file_exists( $file_path . $file_name ) ) {
 			out('Slett fil: '. $file_path . $file_name );
@@ -110,7 +110,7 @@ foreach( $files as $file_name ) {
 			if( $e->getCode() == 2 ) {
 				$SQLins = new SQLins('ukm_bilder', array('id' => $image_id ) );
 				$SQLins->add('synced_flickr', 'nogo');
-				$SQLins->add('synced_drobox', 'nogo');
+				$SQLins->add('synced_dropbox', 'nogo');
 				$SQLins->run();
 				continue;
 			}
