@@ -233,6 +233,7 @@ function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
 
 	// Album finnes i lokal database
 	if( $album->getFlickrId() && !empty( $album->getFlickrId() ) ) {
+		echo 'ALBUM: lokal og remote kopi i sync.';
 		return $album->getFlickrId();
 	}
 	
@@ -243,7 +244,9 @@ function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
 	foreach( $res->getData()->photosets->photoset as $flickr_album ) {
 		// Albumet eksisterer hos flickr, men ikke i lokal database
 		if( $flickr_album->title->_content == $album_name ) {
-			$album->create( $album_type, $album_id, $flickr_album->id, $album_name);
+			echo 'ALBUM: opprettet lokal kopi';
+			$res = $album->create( $album_type, $album_id, $flickr_album->id, $album_name);
+			var_dump( $res );
 			return $album->getFlickrId();
 		}
 	}
@@ -251,9 +254,18 @@ function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
 	$createAlbum = new FlickrPhotosetsCreate( $album_name, $flickr_image_id );
 	$res = $createAlbum->execute();
 	if( !$res ) {
-		return false;
+		echo 'ALBUM: kunne ikke opprette remote kopi';
+		var_dump( $res );
+
+		echo 'ALBUM: RETRY';
+		$res = $createAlbum->execute();
+
+		if( !$res ) {
+			return false;
+		}
 	}
 
+	echo 'ALBUM: opprettet remote kopi';
 	$album->create( $album_type, $album_id, $res->getData()->photoset->id, $album_name);
 	return true;
 }
