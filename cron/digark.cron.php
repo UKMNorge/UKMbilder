@@ -187,14 +187,14 @@ var_dump( $res );
 					out( var_export( $res ), 'b' );
 					
 					// Retry if flickr's acting up
-					if( !is_numeric( $res->getData() ) ) {
+					if( is_object( $res->getData() )  && $res->getData()->stat == 'ok' ) {
 						out( 'RETRY 1');
 						$res = $addPhoto->execute();
 						out( var_export( $res ), 'b' );
 					}
 
 					// Retry if flickr's acting up
-					if( !is_numeric( $res->getData() ) ) {
+					if( is_object( $res->getData() )  && $res->getData()->stat == 'ok' ) {
 						out('RETRY 2');
 						$res = $addPhoto->execute();
 						out( var_export( $res ), 'b' );
