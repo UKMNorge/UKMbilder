@@ -21,19 +21,23 @@ add_action('wp_ajax_UKMbilder_image_delete', 'UKMbilder_image_delete');
 add_action('network_admin_menu', 'UKMbilder_network_menu');
 
 if(is_admin()) {
-	add_action('UKM_admin_menu', 'UKMimages_menu');
-	add_filter('UKM_admin_menu_conditions', 'UKMimages_menu_conditions');
-}
-function UKMimages_menu_conditions( $_CONDITIONS ) {
-	return array_merge( $_CONDITIONS, 
-		['UKMbilder' => 'monstring_har_deltakere']
-	);
+	add_action('admin_menu', 'UKMimages_menu');
 }
 
 ## CREATE A MENU
 function UKMimages_menu() {
-	UKM_add_menu_page('content', 'UKMbilder', 'Bilder', 'edit_posts', 'UKMbilder','UKMbilder', '//ico.ukm.no/photocamera-20.png', 11);
-	UKM_add_scripts_and_styles('UKMbilder', 'UKMbilder_scripts_and_styles' );
+	$page = add_submenu_page(
+		'edit.php',
+		'UKMbilder',
+		'Bilder',
+		'edit_posts',
+		'UKMbilder',
+		'UKMbilder', 
+		#'//ico.ukm.no/photocamera-20.png',
+		11
+	);
+	add_action( 'admin_print_styles-' . $page, 'UKMbilder_scripts_and_styles' );
+	#add_scripts_and_styles('UKMbilder', 'UKMbilder_scripts_and_styles' );
 }
 
 function UKMbilder_network_menu() {
