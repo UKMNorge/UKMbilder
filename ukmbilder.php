@@ -47,7 +47,7 @@ function UKMbilder_network_menu() {
 		'superadmin', 
 		'UKMbilder_network_gui',
 		'UKMbilder_network_gui',  
-		'//ico.ukm.no/photocamera-20.png',
+		'dashicons-format-image',#//ico.ukm.no/photocamera-20.png',
 		22
 	);
 	add_action( 'admin_print_styles-' . $page, 	'UKMdeltakere_scriptsandstyles' );
