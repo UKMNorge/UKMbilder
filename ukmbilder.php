@@ -20,9 +20,11 @@ add_action('wp_ajax_UKMbilder_image_move', 'UKMbilder_image_move');
 add_action('wp_ajax_UKMbilder_image_delete', 'UKMbilder_image_delete');
 add_action('network_admin_menu', 'UKMbilder_network_menu');
 
+/*
 if(is_admin()) {
 	add_action('admin_menu', 'UKMimages_menu');
 }
+*/
 
 ## CREATE A MENU
 function UKMimages_menu() {
