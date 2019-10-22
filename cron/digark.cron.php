@@ -229,7 +229,6 @@ function flickr_find_album( $flickr_image_id, $c_id, $pl_id ) {
 		$album_type = 'monstring';
 		$album_id = $pl_id;
 	} else {
-		require_once('UKM/forestilling.class.php');
 		$forestilling = $monstring->getProgram()->get( $c_id );
 
 		$album = new flickr_album( 'forestilling', $c_id );
