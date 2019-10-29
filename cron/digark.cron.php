@@ -408,7 +408,7 @@ function flickr_data( $fotograf, $monstring, $innslag ) {
 
 	// Personer (inkl tags)
 	foreach( $innslag->getPersoner()->getAll() as $person ) {
-		$beskrivelse .= $person->getNavn() .' ('. $person->getInstrument() .'), ';
+		$beskrivelse .= $person->getNavn() .' ('. $person->getRolle() .'), ';
 		$tags .= $person->getNavn() .',';
 	}
 
