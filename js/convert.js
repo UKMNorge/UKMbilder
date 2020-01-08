@@ -6,6 +6,11 @@ UKMbilder.converter = function($) {
     var self = {
         init: function() {
             //TODO: add pageload-retrieval of non-converted files
+            $(document).ready(function() {
+                jQuery('#convertQueue ol li').each(function(el) {
+                    console.log( jQuery(this).data('image-id') );
+                });
+            });
 
             self.bind();
         },
@@ -15,7 +20,7 @@ UKMbilder.converter = function($) {
         receive: function(imageData) {
             console.log('recieved', imageData);
             var convertQueueList = $('#convertQueue ol');
-            convertQueueList.append(`<li class="list-group-item">${imageData.originalFilename}</li>`);
+            convertQueueList.append(`<li class="list-group-item" data-image-id=${imageData.id}>${imageData.originalFilename}</li>`);
         }
     };
 
