@@ -13,9 +13,6 @@ $place  = get_option('pl_id');
 require_once('UKM/Autoloader.php');
 global $blog_id;
 
-
-sleep(2); //TODO: remove this debug statement
-
 /**
  * Files are sent from DropZone as an array, but since we want to process them sequentually, this array will have a max-length of 1.
  * I am keeping this method as is, so it can support parallell uploads.
@@ -70,14 +67,14 @@ foreach ($_FILES as $index => $imageFile) {
         $imageJson[] = [
             'id' => $id, 
             'filename' => $name,
-            'request_filename' => $imageFile['name']
+            'originalFilename' => $imageFile['name']
         ];
 
     } else {
         $imageJson[] = [
             'id' => '1234', 
             'filename' => 'error',
-            'request_filename' => $imageFile['name']
+            'originalFilename' => $imageFile['name']
         ];
 
     } // ENDIF

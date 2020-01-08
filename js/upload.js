@@ -16,7 +16,6 @@ UKMbilder.uploader = function($) {
                 },
 
                 success: function(file, xhrData, progress) {
-                    debugger;
                     xhrData.forEach(function( imageData ) {
                         emitter.emit('uploaded', imageData  );
                     });

@@ -5,6 +5,8 @@ UKMbilder.converter = function($) {
 
     var self = {
         init: function() {
+            //TODO: add pageload-retrieval of non-converted files
+
             self.bind();
         },
         bind: function() {
@@ -13,7 +15,7 @@ UKMbilder.converter = function($) {
         receive: function(imageData) {
             console.log('recieved', imageData);
             var convertQueueList = $('#convertQueue ol');
-            convertQueueList.append(`<li class="list-group-item">${imageData.request_filename}</li>`);
+            convertQueueList.append(`<li class="list-group-item">${imageData.originalFilename}</li>`);
         }
     }
 
