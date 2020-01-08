@@ -1,0 +1,134 @@
+<style>
+    .mt-3 {
+        margin-top: 1.25em;
+    }
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12 col-sm-12">
+			<h2>Bilder av innslag</h2>
+			<p>
+				Her kan du laste opp bilder fra forestillinger og andre hendelser på din mønstring.
+				<br/>
+				Artikkelbilder som skal brukes i innlegg lastes opp der du skriver
+				<a href="edit.php">innlegget</a>
+				(bruk knappen "legg til media").
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 col-md-8 col-lg-9" id="tagWindow">
+			<h3>Merk bilder</h3>
+			<div class="card" id="noneToTag">
+				<p class="mt-3 mb-0">
+					Du har ingen opplastede bilder som skal merkes. 🥳
+				</p>
+			</div>
+            <div style="background: #fff;" id="tagger">
+                <div class="row">
+                    <div class="col-xs-1">
+                        <button>&lt;</button>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div id="status">
+                                    <span id="current">1</span> av <span id="tagQueueCount">xx</span>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <span class="dashicons dashicons-trash"></span>
+                            </div>
+                        </div>
+                        <img src="//placehold.it/800x300/?text=helloThereJim" style="width:100%" />
+
+                        <div class="clearfix"></div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label>Velg hendelse</label>
+                                <select id="hendelseSelector">
+                                    <option value="0" selected disabled>Velg hendelse</option>
+                                    {% for hendelse in arrangement.getProgram().getHendelser().getAbsoluteAll() %}
+                                        <option value="{{ hendelse.getId() }}">{{ hendelse.getNavn() }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-xs-6" align="right">
+                                <label>
+                                    Velg fotograf
+                                </label>
+                                <select id="fotografSelector">
+                                    {% for fotograf in brukere %}
+                                        <option value="{{ fotograf.ID }}">{{ fotograf.name }}</option>
+                                    {% else %}
+                                        <option value="0">Fant ingen fotografer</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <ol class="list-group">
+                                    <li class="list-group-item">
+                                        <input type="radio" value="{{innslag.getId()}}" />
+                                        1. Innslag 1
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="radio" value="{{innslag.getId()}}" />
+                                        2. Innslag 2
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="col-xs-6">
+                                <ol class="list-group">
+                                    <li class="list-group-item">
+                                        <input type="radio" value="{{innslag.getId()}}" />
+                                        3. Innslag 3
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="radio" value="{{innslag.getId()}}" />
+                                        4. Innslag 4
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-xs-12" align="right">
+                                <button class="btn btn-ukm btn-success" id="doTag">Lagre</button>
+                            </div>
+                            </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <button>&gt;</button>
+                    </div>
+                </div>
+            </div>
+		</div>
+		<div class="col-12 col-md-4 col-lg-3">
+			<div class="card alert-success" style="min-height: 8em;" id="bildeOpplaster">
+                <h3 class="mt-2">Last opp bilder</h3>
+                Slipp de her
+                <div class="fallback">
+                    <input name="file" type="file" multiple/>
+                </div>
+			</div>
+
+			<div class="mt-3">
+				<a href="?page={{GET('page')}}" class="btn btn-block btn-primary">
+					Endre allerede merkede bilder
+				</a>
+			</div>
+
+            <div class="mt-3" id="convertQueue">
+                <b>Konverteringskø</b>
+                <ol class="list-group">
+                    <li class="list-group-item">Bildenavn</li>
+                </ol>
+            </div>
+		</div>
+	</div>
+</div>
