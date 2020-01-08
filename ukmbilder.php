@@ -35,6 +35,11 @@ class UKMbilder extends Modul
             ['UKMbilder', 'network_menu'],
             2000
         );
+
+        add_action(
+            'wp_ajax_UKMbilder_ajax',
+            ['UKMbilder', 'ajax']
+        );
     }
 
     /**
