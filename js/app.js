@@ -1,9 +1,7 @@
 var UKMbilder = function($) {
 
     var self = {
-        init: function() {
-
-        }
+        init: function() {}
     }
 
     return self;
@@ -11,7 +9,7 @@ var UKMbilder = function($) {
 
 
 jQuery(document).ready(function() {
-    UKMbilder.upload.init();
+    UKMbilder.uploader.init();
     UKMbilder.converter.init();
     UKMbilder.tagger.init();
 });

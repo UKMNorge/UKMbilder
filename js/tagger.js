@@ -2,6 +2,7 @@ UKMbilder.tagger = function($) {
     var emitter = UKMresources.emitter('tagger');
 
     var self = {
+        init: function() {},
         bind: function() {
             UKMbilder.uploader.on('converted', self.receive);
         },
