@@ -17,7 +17,7 @@ UKMbilder.converter = function($) {
             var convertQueueList = $('#convertQueue ol');
             convertQueueList.append(`<li class="list-group-item">${imageData.originalFilename}</li>`);
         }
-    }
+    };
 
     return self;
 }(jQuery);

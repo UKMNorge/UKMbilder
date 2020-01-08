@@ -32,7 +32,7 @@ UKMbilder.uploader = function($) {
         once: function(event, callback) {
             emitter.once(event, callback);
         }
-    }
+    };
 
     return self;
 }(jQuery);
