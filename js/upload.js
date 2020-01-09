@@ -1,3 +1,5 @@
+UKMbilder = UKMbilder || {};
+
 UKMbilder.uploader = function($) {
     var emitter = UKMresources.emitter('uploader');
 

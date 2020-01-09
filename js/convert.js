@@ -22,6 +22,12 @@ UKMbilder.converter = function($) {
         bind: function() {
             UKMbilder.uploader.on('uploaded', self.receive);
         },
+        on: function(event, callback) {
+            emitter.on(event, callback);
+        },
+        once: function(event, callback) {
+            emitter.once(event, callback);
+        },
         receive: function(imageData) {
             console.log('recieved', imageData);
             var convertQueueList = $('#convertQueue ol');
@@ -57,7 +63,14 @@ UKMbilder.converter = function($) {
                         self.convert();
                         // TODO: Emit an event
 
-                        console.log('converted', imageId);
+                        /**
+                         * imagedata: {
+                         *      imageUrl,
+                         *      imageId,
+                         *      originalFilename
+                         * }
+                         */
+                        emitter.emit('converted', data.imageData );
                     },
                 });
             } else {

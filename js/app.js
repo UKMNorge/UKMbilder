@@ -1,5 +1,3 @@
-var UKMbilder = UKMbilder || {};
-
 
 jQuery(document).ready(function() {
     UKMbilder.uploader.init();
