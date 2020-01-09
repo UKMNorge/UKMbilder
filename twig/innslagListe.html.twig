@@ -1,0 +1,40 @@
+{# <div class="col-xs-6">
+    <ol class="list-group">
+        <li class="list-group-item">
+            <input type="radio" value="{{innslag.getId()}}" />
+            1. Innslag 1
+        </li>
+        <li class="list-group-item">
+            <input type="radio" value="{{innslag.getId()}}" />
+            2. Innslag 2
+        </li>
+    </ol>
+</div> #}
+
+
+
+{# {{ dump( innslag|length ) }} #}
+
+<div class="col-xs-6">
+    <ol class="list-group">
+        {% for inn in innslag[ :(innslag|length)/2] %}
+            <li class="list-group-item">
+                <input type="radio" id="bildeTaggerInnslag-{{ inn.getId() }}" value="{{ inn.getId() }}" name="bildeTaggerInnslag" />
+                <label for="bildeTaggerInnslag-{{ inn.getId() }}">{{ inn.getNavn() }}</label>
+            </li>
+        {% else %}
+            <span>Kunne ikke finne inn for {{ hendelse.getNavn() }}</h1>
+        {% endfor %}
+    </ol>
+</div>
+<div class="col-xs-6">
+    <ol class="list-group">
+        {% for inn in innslag[ (innslag|length)/2: ] %}
+            <li class="list-group-item">
+                <input type="radio" id="bildeTaggerInnslag-{{ inn.getId() }}" value="{{ inn.getId() }}" name="bildeTaggerInnslag" />
+                <label for="bildeTaggerInnslag-{{ inn.getId() }}">{{ inn.getNavn() }}</label>
+            </li>
+        {% endfor %}
+    </ol>
+</div>
+

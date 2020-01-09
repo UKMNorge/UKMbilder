@@ -3,18 +3,17 @@ UKMbilder = UKMbilder || {};
 UKMbilder.tagger = function($) {
     var emitter = UKMresources.emitter('tagger');
 
+
+
     var self = {
         init: function() {
             self.bind();
 
             $(document).ready(function() {
                 jQuery('#hendelseSelector').on('change', function(event) {
-                    var value = $(this).val();
-                    // debugger;
-
+                    self.renderInnslagListe( $(this).val() );
                 });
             });
-
         },
         bind: function() {
             UKMbilder.converter.on('converted', self.receive);
@@ -29,7 +28,23 @@ UKMbilder.tagger = function($) {
             console.log('Tagger recived', imageData);
             $('#tagWindowImage').attr('src', imageData.imageUrl);
         },
+        renderInnslagListe(hendelseId) {
+            jQuery.ajax({
+                url: ajaxurl,
+                method: 'GET',
+                data: {
+                    'action': 'UKMbilder_ajax',
+                    'controller': 'innslagListe',
+                    'hendelseId': hendelseId
+                },
+                success: function(data, xhr, res) {
+                    $('#tagWindowInnslagListe').html(data.innslagInputs);
+                }
+
+            });
+        },
         applyTag: function() {
+            var tagContainer = $('#tagWindow');
 
         }
     };
