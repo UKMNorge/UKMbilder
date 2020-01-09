@@ -19,9 +19,10 @@ UKMbilder.tagger = function($) {
         },
         receive: function(imageData) {
             console.log('Tagger recived', imageData);
+            $('#tagWindowImage').attr('src', imageData.imageUrl);
         },
         applyTag: function() {
-            
+
         }
     };
 

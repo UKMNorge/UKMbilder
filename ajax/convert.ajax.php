@@ -75,7 +75,7 @@ $attach_id = wp_insert_attachment( $attachment, $wp_path);
 require_once(ABSPATH . 'wp-admin/includes/image.php');
 $attach_data = wp_generate_attachment_metadata( $attach_id, $wp_path );
 wp_update_attachment_metadata( $attach_id, $attach_data );
-$image_wp_url = wp_get_attachment_thumb_url($attach_id);
+$image_wp_url = wp_get_attachment_url($attach_id);
 
 
 
