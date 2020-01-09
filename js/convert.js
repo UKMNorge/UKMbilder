@@ -72,6 +72,9 @@ UKMbilder.converter = function($) {
                          */
                         emitter.emit('converted', data.imageData );
                     },
+                    error: function() {
+                        //TODO: handle errors so they don't get loaded infinitly
+                    }
                 });
             } else {
                 self.isRunning = false;

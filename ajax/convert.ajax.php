@@ -40,7 +40,7 @@ try {
     $db_update = new SQLins('ukm_bilder', array('id' => $r['id']));
     $db_update->add('status', 'crash');
     $db_update->run();
-    die(json_encode(array('success'=>false, 'reload' => true, 'message' => 'Unsupported image format: '. $e->getCode())));
+    die(json_encode(array('success'=>false, 'reload' => true, 'message' => 'Unsupported image format: '. $e->getCode(), 'exeption_message' => $e->getMessage())));
 }
 
 // Find proportions

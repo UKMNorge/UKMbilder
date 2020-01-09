@@ -21,12 +21,7 @@ global $blog_id;
 $imageArray = [];
 foreach ($_FILES as $index => $imageFile) {
 
-    $sql = new Insert('ukm_bilder');
-    $sql->add('season', $season);
-    $sql->add('pl_id', $place);
-    $sql->add('wp_blog', $blog_id);
-
-    $id = $sql->run();
+    
 
     $filename = $imageFile['name'];
     $extension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -38,11 +33,14 @@ foreach ($_FILES as $index => $imageFile) {
 
     if (move_uploaded_file($imageFile['tmp_name'], $path)) {
 
-        
-        $sql = new Update('ukm_bilder', ['id'=>$id] );
+        $sql = new Insert('ukm_bilder');
+        $sql->add('season', $season);
+        $sql->add('pl_id', $place);
+        $sql->add('wp_blog', $blog_id);
         $sql->add('filename', $name);
         $sql->add('original_filename', $imageFile['name']);
-        $res = $sql->run();
+        $id = $sql->run();
+
         $image = new Imagick($path); // TODO: find Imagic object from somewhere
         $imageprops = $image->getImageGeometry();
         
@@ -71,6 +69,7 @@ foreach ($_FILES as $index => $imageFile) {
         ];
 
     } else {
+        http_response_code(413);
         $imageArray[] = [
             'id' => '1234', 
             'filename' => 'error',

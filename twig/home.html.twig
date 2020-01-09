@@ -27,7 +27,7 @@
             <div style="background: #fff;" id="tagger">
                 <div class="row">
                     <div class="col-xs-1">
-                        <button>&lt;</button>
+                        <button id="prevImage">&lt;</button>
                     </div>
                     <div class="col-xs-10">
                         <div class="row">
@@ -40,7 +40,7 @@
                                 <span class="dashicons dashicons-trash"></span>
                             </div>
                         </div>
-                        <img id="tagWindowImage" src="//placehold.it/800x300/?text=helloThereJim" style="width:100%" />
+                        <img style="height: 40vh;" id="tagWindowImage" src="//placehold.it/800x300/?text=Ingen%20bilder%20i%20k%C3%B8" style="width:100%" />
 
                         <div class="clearfix"></div>
 
@@ -105,7 +105,7 @@
                             </div>
                     </div>
                     <div class="col-xs-1">
-                        <button>&gt;</button>
+                        <button id="nextImage">&gt;</button>
                     </div>
                 </div>
             </div>
@@ -137,3 +137,8 @@
 		</div>
 	</div>
 </div>
+{% block extra_javascripts %}
+    <script>
+        var nonTaggedImages = {{ nonTaggedImagesJson|raw }};
+    </script>
+{% endblock %}

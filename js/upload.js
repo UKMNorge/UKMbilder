@@ -18,13 +18,21 @@ UKMbilder.uploader = function($) {
                 },
 
                 success: function(file, xhrData, progress) {
-                    if (!xhrData.imageData || !Array.isArray(xhrData.imageData)) {} // TODO: Erorrhandling for missing image data
-                    xhrData.imageData.forEach(function( imageData ) {
-                        emitter.emit('uploaded', imageData  );
-                    });
+                    if (!xhrData.imageData || !Array.isArray(xhrData.imageData)) {} // TODO: Error handling for missing image data
+                    emitter.emit('uploaded', xhrData.imageData  );
+                    myDropzone.removeFile(file);
+                },
+                error: function(file, data, xhr) {
+
+                    var originalFilename = file.upload.filename;
+                    var errorMsg = 'Feil oppsto på ' + originalFilename;
+                    console.log('uploader error on ' + originalFilename);
+                    $(file.previewElement).find('.dz-error-message').text(errorMsg); // Should work when Dropzone CSS is loaded
+                    // $('#noneToTag').text(errorMsg).style('color', 'red'); // Temp solution until Dropzone CSS
+
+
                 },
                 complete: function(file) {
-                    myDropzone.removeFile(file);
                 }
             });
             
