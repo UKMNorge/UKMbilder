@@ -49,7 +49,7 @@
                                 <label>Velg hendelse</label>
                                 <select id="hendelseSelector">
                                     <option value="0" selected disabled>Velg hendelse</option>
-                                    {% for hendelse in arrangement.getProgram().getHendelser().getAbsoluteAll() %}
+                                    {% for hendelse in arrangement.getProgram().getAbsoluteAll() %}
                                         <option value="{{ hendelse.getId() }}">{{ hendelse.getNavn() }}</option>
                                     {% endfor %}
                                 </select>
@@ -59,8 +59,9 @@
                                     Velg fotograf
                                 </label>
                                 <select id="fotografSelector">
+                                    <option value="0" selected disabled>Velg fotograf</option>
                                     {% for fotograf in brukere %}
-                                        <option value="{{ fotograf.ID }}">{{ fotograf.name }}</option>
+                                        <option value="{{ fotograf.ID }}">{{ fotograf.display_name }}</option>
                                     {% else %}
                                         <option value="0">Fant ingen fotografer</option>
                                     {% endfor %}
@@ -69,6 +70,7 @@
                         </div>
 
                         <div class="row">
+                        {# TODO: fyll ut med reel Hendelse-data #}
                             <div class="col-xs-6">
                                 <ol class="list-group">
                                     <li class="list-group-item">

@@ -32,6 +32,13 @@ while ($row = Query::fetch($result)) {
     $nonConvertedImages[] = $nextImage;
 }
 
+$blogUsers = get_users([
+    'blog_id' => get_current_blog_id()
+]);
+
 
 UKMbilder::addViewData('nonConvertedImages', $nonConvertedImages);
+UKMbilder::addViewData('arrangement', $arrangement);
+UKMbilder::addViewData('forestillinger', $arrangement->getProgram()->getAbsoluteAll());
+UKMbilder::addViewData('brukere', $blogUsers);
 

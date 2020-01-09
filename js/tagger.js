@@ -7,6 +7,14 @@ UKMbilder.tagger = function($) {
         init: function() {
             self.bind();
 
+            $(document).ready(function() {
+                jQuery('#hendelseSelector').on('change', function(event) {
+                    var value = $(this).val();
+                    // debugger;
+
+                });
+            });
+
         },
         bind: function() {
             UKMbilder.converter.on('converted', self.receive);
