@@ -16,7 +16,8 @@ UKMbilder.uploader = function($) {
                 },
 
                 success: function(file, xhrData, progress) {
-                    xhrData.forEach(function( imageData ) {
+                    if (!xhrData.imageData || !Array.isArray(xhrData.imageData)) {} // TODO: Erorrhandling for missing image data
+                    xhrData.imageData.forEach(function( imageData ) {
                         emitter.emit('uploaded', imageData  );
                     });
                 },

@@ -63,6 +63,12 @@ class UKMbilder extends Modul
     }
 
     /**
+     * Menu function called by network admin
+     */
+    public static function network_menu() {
+    }
+
+    /**
      * Scripts and styles for non-network admin
      *
      */

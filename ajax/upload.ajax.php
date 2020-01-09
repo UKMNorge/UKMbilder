@@ -18,7 +18,7 @@ global $blog_id;
  * I am keeping this method as is, so it can support parallell uploads.
  */
 
-$imageJson = [];
+$imageArray = [];
 foreach ($_FILES as $index => $imageFile) {
 
     $sql = new Insert('ukm_bilder');
@@ -64,14 +64,14 @@ foreach ($_FILES as $index => $imageFile) {
             $image->writeImage($path);
         }
         
-        $imageJson[] = [
+        $imageArray[] = [
             'id' => $id, 
             'filename' => $name,
             'originalFilename' => $imageFile['name']
         ];
 
     } else {
-        $imageJson[] = [
+        $imageArray[] = [
             'id' => '1234', 
             'filename' => 'error',
             'originalFilename' => $imageFile['name']
@@ -81,4 +81,4 @@ foreach ($_FILES as $index => $imageFile) {
 
 } // END FOREACH
 
-die (json_encode($imageJson));
+UKMbilder::addResponseData('imageData', $imageArray);
