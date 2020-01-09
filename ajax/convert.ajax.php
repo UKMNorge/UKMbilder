@@ -4,8 +4,6 @@ use UKMNorge\Arrangement\Arrangement;
 use UKMNorge\Database\SQL\Query;
 use UKMNorge\Database\SQL\Update;
 
-sleep(1);
-
 $imageId = $_POST['imageId'] ? intval($_POST['imageId']) : 0; //TODO: handle non-integer input with UKM-approved method
 
 // die('{"imageId": "' . $imageId . '" }');
