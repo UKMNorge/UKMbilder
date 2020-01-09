@@ -95,8 +95,8 @@ UKMbilder.tagger = function($) {
                     url: ajaxurl,
                     method: 'POST',
                     data: {
-                        action: '',
-                        controller: '',
+                        action: 'UKMbilder_ajax',
+                        controller: 'tagger',
                         tagData: tagData
                     },
                     success: function(data, xhr, res) {
