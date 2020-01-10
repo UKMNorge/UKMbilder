@@ -6,6 +6,9 @@ UKMbilder.uploader = function($) {
     var self = {
         init: function() {
 
+            if ( jQuery('#bildeOpplaster').length === 0 ) return;
+            // console.log( 'exists', jQuery('#bildeOpplaster').exists() );
+
             var myDropzone = new Dropzone('#bildeOpplaster', { 
                 url: ajaxurl ,
                 method: 'POST',

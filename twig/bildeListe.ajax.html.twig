@@ -1,0 +1,37 @@
+<ol class="list-group">
+    {% for bilde in innslag.getBilder().getAll() %}
+        <li class="list-group-item listImageEditor" 
+            data-bilde-id="{{bilde.getId()}}"  
+            data-innslag-id="{{innslag.getId()}}"  
+            id="bilde-{{innslag.getId()}}-{{bilde.getId()}}"
+        >
+            <div class="pull-right">
+                <a href="#" class="flyttBilde btn btn-ukm btn-xs">flytt til annet innslag</a>
+                <a href="#" class="flyttBilde btn btn-ukm btn-xs">endre fotograf</a>
+                <a href="#" class="slettBilde btn btn-ukm btn-xs btn-danger">slett</a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="pull-right">
+                <label for="bytt-fotograf-{{ bilde.getId() }}">Fotograf</label>
+                <select id="bytt-fotograf-{{ bilde.getId() }}" name="byttFotograf">
+                    {% for bruker in brukere %}
+                        <option value="{{ bruker.ID }}" {{ bruker.ID == bilde.getAuthorId() ? 'selected' : '' }} >{{ bruker.display_name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="bytt-innslag-{{ bilde.getId() }}">Innslag</label>
+                <select id="bytt-innslag-{{ bilde.getId() }}" name="byttInnslag">
+                    {% for inn in arrangement.getInnslag().getAll() %}
+                        <option value="{{ inn.getId() }}" {{ innslag.getId() == inn.getId() ? 'selected' : '' }} >{{ inn.getNavn() }}</option>
+                    {% endfor %}
+                </select>
+                <button class="saveChanges">Lagre</button>
+            </div>
+            <div class="clearfix"></div>
+            <div class="pull-right">
+                <span class="statusText">status</span>
+            </div>
+            {# <div class="pull-left"> #}
+            <img height="150" src="{{ bilde.getSize('medium').getUrl() }}"/>
+        </li>
+    {% endfor %}
+</ol>

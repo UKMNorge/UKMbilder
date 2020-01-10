@@ -19,7 +19,7 @@ UKMbilder.tagger = function($) {
                 jQuery('#prevImage').on('click', self.prevImage);
                 jQuery('#doTag').on('click', self.applyTag);
 
-                if (nonTaggedImages) {
+                if ("nonTaggedImages" in window && nonTaggedImages) {
                     self.tagQueue = nonTaggedImages;
                     self.updateTagView();
                 }
@@ -41,27 +41,27 @@ UKMbilder.tagger = function($) {
             self.updateTagView();
         },
         nextImage: function() {
-            self.updateTagView(++self.currentIndex);
+            self.currentIndex = (self.currentIndex+1 >= self.tagQueue.length ? self.currentIndex : self.currentIndex++  );
+            self.updateTagView();
         },
         prevImage: function() {
-            console.log('prevImg', self.currentIndex);
-            self.currentIndex--;
+            self.currentIndex = (self.currentIndex-1 < 0 ? self.currentIndex : self.currentIndex--  );
             self.updateTagView(self.currentIndex);
         },
 
         updateTagView: function(index) {
-            index = index || self.currentIndex || 0;
-            if ( self.tagQueue.length ) {
-                jQuery('#noneToTag').css('display', 'none');
-                jQuery('#tagger').css('display', 'all');
-            } else {
-                jQuery('#noneToTag').css('display', 'all');
-                jQuery('#tagger').css('display', 'none');
-            }
-            
-            
+            index = index || self.currentIndex || 0;            
             if (index < 0 || self.tagQueue.length < index) return;
+
             var currentImage = self.tagQueue[index];
+            if (!currentImage){
+                jQuery('#noneToTag').show();
+                jQuery('#tagger').hide();
+                return;
+            }  else {
+                jQuery('#noneToTag').hide();
+                jQuery('#tagger').show();
+            }
 
             console.log('updateTagView', index, self.tagQueue);
 
@@ -71,6 +71,7 @@ UKMbilder.tagger = function($) {
 
             jQuery('#prevImage').prop('disabled', index <= 0 ); 
             jQuery('#nextImage').prop('disabled', index >= self.tagQueue.length - 1 );
+            console.log(currentImage.imageUrl);
             jQuery('#tagWindowImage').attr('src', currentImage.imageUrl );
             if(currentImage.storedTag) {
                 // jQuery('#hendelseSelector').val(currentImage.);

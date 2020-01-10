@@ -54,7 +54,7 @@ wp_update_post([
 $update = new Update('ukm_bilder', array('id' => $imageId));
 $update->add('wp_uid', $fotografId );
 $update->add('b_id', $innslag->getId() );
-// if( isset( $_POST['c_id'] ) ) {
+// if( isset( $_POST['c_id'] ) ) { // c_id => consert ID (hendelse)
 //     $update->add('c_id', $_POST['c_id']);
 // }
 $update->add('status', 'tagged');
@@ -70,7 +70,7 @@ foreach($meta['sizes'] as $size => $info) {
 
 require_once('UKM/related.class.php');
 $rel = new related($innslag->getId());
-$rel->set( $image['wp_post'], 'image', [
+$rel->set( $wpPostId, 'image', [
     'file'		=> $meta['file'],
     'sizes'	=> $meta['sizes'],
     'author'	=> $fotografId 

@@ -33,7 +33,6 @@ UKMbilder.converter = function($) {
             var convertQueueList = $('#convertQueue ol');
             convertQueueList.append(`<li class="list-group-item" data-image-id=${imageData.id}>${imageData.originalFilename}</li>`);
 
-            // TODO: start converting recieved image
             self.convertQueue.push(imageData.id);
             if (!self.isRunning) self.convert();
         },
@@ -61,8 +60,6 @@ UKMbilder.converter = function($) {
                         var convertQueueElement = $('#convertQueue ol').find(`[data-image-id='${imageId}']`);
                         convertQueueElement.remove();
                         self.convert();
-                        // TODO: Emit an event
-
                         /**
                          * imagedata: {
                          *      imageUrl,
@@ -73,7 +70,7 @@ UKMbilder.converter = function($) {
                         emitter.emit('converted', data.imageData );
                     },
                     error: function() {
-                        //TODO: handle errors so they don't get loaded infinitly
+                        //TODO: handle errors
                     }
                 });
             } else {
