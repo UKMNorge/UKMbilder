@@ -77,6 +77,7 @@ class UKMbilder extends Modul
         wp_enqueue_script('WPbootstrap3_js');
         wp_enqueue_style('WPbootstrap3_css');
         wp_enqueue_script('dropzone');
+        wp_enqueue_style('ukmbilder_css', self::getPluginUrl(). 'ukmbilder.css');
 
         wp_enqueue_script('ukmbilder_app', self::getPluginUrl() . 'js/app.js');
         wp_enqueue_script('ukmbilder_app_upload', self::getPluginUrl() . 'js/upload.js');
@@ -84,6 +85,7 @@ class UKMbilder extends Modul
         wp_enqueue_script('ukmbilder_app_convert', self::getPluginUrl() . 'js/convert.js');
         wp_enqueue_script('ukmbilder_app_tagger', self::getPluginUrl() . 'js/tagger.js');
         wp_enqueue_script('ukmbilder_app_hendelser', self::getPluginUrl() . 'js/hendelser.js');
+        
     }
 }
 
