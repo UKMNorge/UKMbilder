@@ -101,6 +101,22 @@ UKMbilder.tagger = function($) {
 
             });
         },
+        saveTag: function (tagData, successFunc, errorFunc) {
+
+            $.ajax({
+                url: ajaxurl,
+                method: 'POST',
+                data: {
+                    action: 'UKMbilder_ajax',
+                    controller: 'tagger',
+                    tagData: tagData
+                },
+                success: successFunc,
+                error: errorFunc
+
+            });
+
+        },
         applyTag: function() {
             var currentImage = self.tagQueue[self.currentIndex];
 
@@ -114,24 +130,15 @@ UKMbilder.tagger = function($) {
             console.log('data for tag', tagData);
             if ( tagData.innslagId && tagData.imageId && tagData.fotografId ) {
                 console.log('GOT ALL DATA');
-                $.ajax({
-                    url: ajaxurl,
-                    method: 'POST',
-                    data: {
-                        action: 'UKMbilder_ajax',
-                        controller: 'tagger',
-                        tagData: tagData
-                    },
-                    success: function(data, xhr, res) {
+                self.saveTag(tagData, 
+                    function(data, xhr, res) { // success function
                         self.tagQueue[self.currentIndex].storedTag = data.storedTag;
                         self.nextImage();
-                    },
-                    error: function(data, xhr, res) {
+                    }, 
+                    function(data, xhr, res) { // error function
 
                     }
-
-                });
-
+                );
             } else {
                 console.log('MISSING DATA');
             } 

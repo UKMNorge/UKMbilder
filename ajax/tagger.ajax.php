@@ -17,6 +17,7 @@ $innslagId  = $tagData['innslagId'];
 $imageId    = $tagData['imageId'];
 $fotografId = $tagData['fotografId'];
 
+
 if ( ! ($fotografId && $innslagId && $fotografId ) ) {
     // TODO: handle invalid request to ajax-controller
 }
