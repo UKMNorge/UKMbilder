@@ -136,7 +136,7 @@ UKMbilder.tagger = function($) {
                         self.nextImage();
                     }, 
                     function(data, xhr, res) { // error function
-
+                        alert("Ukjent feil oppsto")
                     }
                 );
             } else {

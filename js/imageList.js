@@ -44,7 +44,7 @@ UKMbilder.imageList = function($) {
                     if (inData.oldInnslagId !== inData.innslagId) wrapper.remove();
                 }, 
                 function(data, xhr, response) {
-
+                    alert("Ukjent feil oppsto");
                 }
             );
 

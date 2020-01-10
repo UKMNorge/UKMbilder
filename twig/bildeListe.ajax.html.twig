@@ -16,7 +16,7 @@
                     <label for="bytt-innslag-{{ bilde.getId() }}">Innslag</label>
                     <select id="bytt-innslag-{{ bilde.getId() }}" name="byttInnslag">
                         {% for inn in arrangement.getInnslag().getAll() %}
-                            <option value="{{ inn.getId() }}" {{ innslag.getId() == inn.getId() ? 'selected' : '' }} >{{ inn.getNavn() }}</option>
+                            <option value="{{ inn.getId() }}" {{ innslag.getId() == inn.getId() ? 'selected' : '' }} >{{ inn.getNavn() }} ({{ inn.getType() }})</option>
                         {% endfor %}
                     </select>
                 </div>
