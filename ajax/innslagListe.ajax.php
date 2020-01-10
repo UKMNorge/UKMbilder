@@ -12,7 +12,10 @@ $innslag = $hendelse->getInnslag()->getAll();
 
 $innslagHtml = TWIG(
      'innslagListe.html.twig', 
-     ['innslag' => $innslag],
+     [
+         'innslag' => $innslag,
+         'hendelse' => $hendelse
+    ],
      UKMbilder::getPluginPath()
 ); //returns string
 

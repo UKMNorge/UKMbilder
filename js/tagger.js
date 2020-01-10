@@ -23,7 +23,6 @@ UKMbilder.tagger = function($) {
                     self.tagQueue = nonTaggedImages;
                     self.updateTagView();
                 }
-
             });
         },
         bind: function() {
@@ -52,16 +51,39 @@ UKMbilder.tagger = function($) {
 
         updateTagView: function(index) {
             index = index || self.currentIndex || 0;
+            if ( self.tagQueue.length ) {
+                jQuery('#noneToTag').css('display', 'none');
+                jQuery('#tagger').css('display', 'all');
+            } else {
+                jQuery('#noneToTag').css('display', 'all');
+                jQuery('#tagger').css('display', 'none');
+            }
+            
+            
             if (index < 0 || self.tagQueue.length < index) return;
+            var currentImage = self.tagQueue[index];
 
             console.log('updateTagView', index, self.tagQueue);
 
+            // TODO: optimize queries to use jQuery('tagger').find(), redusing raw data parsed by selector
             jQuery('#current').text( index+1 );
             jQuery('#tagQueueCount').text( self.tagQueue.length );
 
             jQuery('#prevImage').prop('disabled', index <= 0 ); 
             jQuery('#nextImage').prop('disabled', index >= self.tagQueue.length - 1 );
-            jQuery('#tagWindowImage').attr('src', self.tagQueue[index].imageUrl );
+            jQuery('#tagWindowImage').attr('src', currentImage.imageUrl );
+            if(currentImage.storedTag) {
+                // jQuery('#hendelseSelector').val(currentImage.);
+
+                // jQuery('#fotografSelector[value=86]').prop('selected', true);
+                
+                jQuery('#fotografSelector').val(currentImage.storedTag.fotografId);
+                jQuery('#tagWindowInnslagListe').find('input[value="' + currentImage.storedTag.innslagId + '"]').attr('checked', true);
+                
+            }
+
+            
+
         },
         renderInnslagListe(hendelseId) {
             jQuery.ajax({
@@ -100,7 +122,8 @@ UKMbilder.tagger = function($) {
                         tagData: tagData
                     },
                     success: function(data, xhr, res) {
-                        
+                        self.tagQueue[self.currentIndex].storedTag = data.storedTag;
+                        self.nextImage();
                     },
                     error: function(data, xhr, res) {
 
