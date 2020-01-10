@@ -1,20 +1,3 @@
-{# <div class="col-xs-6">
-    <ol class="list-group">
-        <li class="list-group-item">
-            <input type="radio" value="{{innslag.getId()}}" />
-            1. Innslag 1
-        </li>
-        <li class="list-group-item">
-            <input type="radio" value="{{innslag.getId()}}" />
-            2. Innslag 2
-        </li>
-    </ol>
-</div> #}
-
-
-
-{# {{ dump( innslag|length ) }} #}
-
 <div class="col-xs-6">
     <ol class="list-group">
         {% for inn in innslag[ :(innslag|length)/2] %}
