@@ -78,9 +78,6 @@ $rel->set( $wpPostId, 'image', [
 ]);
 
 
-// $imageId = $_POST['imageId'] ? intval($_POST['imageId']) : 0; //TODO: handle non-integer input with UKM-approved method
-
-
 UKMbilder::addResponseData('storedTag', [
     'postId' => intval($wpPostId),
     'imageId' => intval($imageId),

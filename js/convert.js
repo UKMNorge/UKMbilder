@@ -9,11 +9,8 @@ UKMbilder.converter = function($) {
         isRunning: false,
         init: function() {
             jQuery('#convertQueue ol li').each(function(el) {
-
                 var dataImageId = jQuery(this).data('image-id');
-                console.log( 'parsed', dataImageId );
                 self.convertQueue.push( dataImageId );
-
             });
             self.bind();
             self.convert();
@@ -29,7 +26,6 @@ UKMbilder.converter = function($) {
             emitter.once(event, callback);
         },
         receive: function(imageData) {
-            console.log('recieved', imageData);
             var convertQueueList = $('#convertQueue ol');
             convertQueueList.append(`<li class="list-group-item" data-image-id=${imageData.id}>${imageData.originalFilename}</li>`);
 

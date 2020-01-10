@@ -47,7 +47,7 @@ foreach ($_FILES as $index => $imageFile) {
         $sql->add('original_filename', $imageFile['name']);
         $update = $sql->run();
 
-        $image = new Imagick($path); // TODO: find Imagic object from somewhere
+        $image = new Imagick($path);
         $imageprops = $image->getImageGeometry();
         
         // RESIZE IMAGE

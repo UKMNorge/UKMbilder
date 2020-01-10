@@ -37,25 +37,18 @@ UKMbilder.imageList = function($) {
 
         },
         updateBilde: function( inData, wrapper ) {
-            console.log('save data', inData);
             UKMbilder.tagger.saveTag(inData, 
                 function(data, xhr, response) {
-                    console.log(inData.oldInnslagId, inData.innslagId, wrapper);
                     if (inData.oldInnslagId !== inData.innslagId) wrapper.remove();
                 }, 
                 function(data, xhr, response) {
                     alert("Ukjent feil oppsto");
                 }
             );
-
-            //TODO: implement bildeListeSave.ajax.php
         },
         getByClick(event) {
             event.preventDefault();
             var innslagId = jQuery(this).data('innslag-id');
-            console.log('INNSLAG ID', innslagId, jQuery(this).data());
-
-
             jQuery.ajax({
                 url: ajaxurl,
                 method: 'GET',
@@ -65,7 +58,6 @@ UKMbilder.imageList = function($) {
                     'innslagId': innslagId
                 },
                 success: function(data, xhr, res) {
-                    console.log(data, xhr, res);
                     var container = jQuery('.bildeContainer[data-innslag-id=' + innslagId + ']');
                     container.show();
                     container.html(data.bilderHtml);

@@ -35,7 +35,6 @@ UKMbilder.tagger = function($) {
             emitter.once(event, callback);
         },
         receive: function(imageData) {
-            console.log('Tagger recived', imageData);
             if (!imageData) return;
             self.tagQueue.push( imageData );
             self.updateTagView();
@@ -63,15 +62,12 @@ UKMbilder.tagger = function($) {
                 jQuery('#tagger').show();
             }
 
-            console.log('updateTagView', index, self.tagQueue);
-
             // TODO: optimize queries to use jQuery('tagger').find(), redusing raw data parsed by selector
             jQuery('#current').text( index+1 );
             jQuery('#tagQueueCount').text( self.tagQueue.length );
 
             jQuery('#prevImage').prop('disabled', index <= 0 ); 
             jQuery('#nextImage').prop('disabled', index >= self.tagQueue.length - 1 );
-            console.log(currentImage.imageUrl);
             jQuery('#tagWindowImage').attr('src', currentImage.imageUrl );
             if(currentImage.storedTag) {
                 // jQuery('#hendelseSelector').val(currentImage.);
@@ -127,9 +123,7 @@ UKMbilder.tagger = function($) {
             };
 
 
-            console.log('data for tag', tagData);
             if ( tagData.innslagId && tagData.imageId && tagData.fotografId ) {
-                console.log('GOT ALL DATA');
                 self.saveTag(tagData, 
                     function(data, xhr, res) { // success function
                         self.tagQueue[self.currentIndex].storedTag = data.storedTag;
@@ -140,7 +134,7 @@ UKMbilder.tagger = function($) {
                     }
                 );
             } else {
-                console.log('MISSING DATA');
+                console.log('MISSING TAG DATA');
             } 
 
 

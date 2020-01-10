@@ -7,7 +7,6 @@ UKMbilder.uploader = function($) {
         init: function() {
 
             if ( jQuery('#bildeOpplaster').length === 0 ) return;
-            // console.log( 'exists', jQuery('#bildeOpplaster').exists() );
 
             var myDropzone = new Dropzone('#bildeOpplaster', { 
                 url: ajaxurl ,
@@ -29,7 +28,6 @@ UKMbilder.uploader = function($) {
 
                     var originalFilename = file.upload.filename;
                     var errorMsg = 'Feil oppsto på ' + originalFilename;
-                    console.log('uploader error on ' + originalFilename);
                     $(file.previewElement).find('.dz-error-message').text(errorMsg); // Should work when Dropzone CSS is loaded
                     // $('#noneToTag').text(errorMsg).style('color', 'red'); // Temp solution until Dropzone CSS
 
