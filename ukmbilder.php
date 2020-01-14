@@ -35,6 +35,11 @@ class UKMbilder extends Modul
             ['UKMbilder', 'menyNettverk'],
             2000
         );
+
+        add_action(
+            'wp_ajax_UKMbilder_ajax',
+            ['UKMbilder', 'ajax']
+        );
     }
 
     public static function menyNettverk() {
@@ -62,6 +67,12 @@ class UKMbilder extends Modul
     }
 
     /**
+     * Menu function called by network admin
+     */
+    public static function network_menu() {
+    }
+
+    /**
      * Scripts and styles for non-network admin
      *
      */
@@ -70,12 +81,15 @@ class UKMbilder extends Modul
         wp_enqueue_script('WPbootstrap3_js');
         wp_enqueue_style('WPbootstrap3_css');
         wp_enqueue_script('dropzone');
+        wp_enqueue_style('ukmbilder_css', self::getPluginUrl(). 'ukmbilder.css');
 
         wp_enqueue_script('ukmbilder_app', self::getPluginUrl() . 'js/app.js');
         wp_enqueue_script('ukmbilder_app_upload', self::getPluginUrl() . 'js/upload.js');
+        wp_enqueue_script('ukmbilder_app_imageList', self::getPluginUrl() . 'js/imageList.js');
         wp_enqueue_script('ukmbilder_app_convert', self::getPluginUrl() . 'js/convert.js');
         wp_enqueue_script('ukmbilder_app_tagger', self::getPluginUrl() . 'js/tagger.js');
         wp_enqueue_script('ukmbilder_app_hendelser', self::getPluginUrl() . 'js/hendelser.js');
+        
     }
 }
 

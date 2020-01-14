@@ -1,4 +1,4 @@
-UKMbilder.hendelser = function($) {
+UKMbilder.hendelser = function($) { // TODO: concider deleting this file, as it is not used
     var emitter = UKMresources.emitter('hendelser');
 
     var self = {

@@ -1,0 +1,23 @@
+<div class="col-xs-6">
+    <ol class="list-group">
+        {% for inn in innslag[ :(innslag|length)/2] %}
+            <li class="list-group-item">
+                <input type="radio" id="bildeTaggerInnslag-{{ inn.getId() }}" value="{{ inn.getId() }}" name="bildeTaggerInnslag" />
+                <label for="bildeTaggerInnslag-{{ inn.getId() }}">{{ inn.getNavn() }}</label>
+            </li>
+        {% else %}
+            <span>Kunne ikke finne innslag for {{ hendelse.getNavn() }}</h1>
+        {% endfor %}
+    </ol>
+</div>
+<div class="col-xs-6">
+    <ol class="list-group">
+        {% for inn in innslag[ (innslag|length)/2: ] %}
+            <li class="list-group-item">
+                <input type="radio" id="bildeTaggerInnslag-{{ inn.getId() }}" value="{{ inn.getId() }}" name="bildeTaggerInnslag" />
+                <label for="bildeTaggerInnslag-{{ inn.getId() }}">{{ inn.getNavn() }}</label>
+            </li>
+        {% endfor %}
+    </ol>
+</div>
+
