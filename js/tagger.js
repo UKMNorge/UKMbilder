@@ -3,24 +3,25 @@ UKMbilder = UKMbilder || {};
 UKMbilder.tagger = function($) {
     var emitter = UKMresources.emitter('tagger');
 
-
+    var tagQueue = [];
+    var currentIndex = 0;
+    var saving = false;
 
     var self = {
-        tagQueue: [],
-        currentIndex: 0,
         init: function() {
             self.bind();
 
             $(document).ready(function() {
-                jQuery('#hendelseSelector').on('change', function(event) {
+                $('#hendelseSelector').on('change', function(event) {
                     self.renderInnslagListe($(this).val());
                 });
-                jQuery('#nextImage').on('click', self.nextImage);
-                jQuery('#prevImage').on('click', self.prevImage);
-                jQuery('#doTag').on('click', self.applyTag);
+                $('#nextImage').on('click', self.nextImage);
+                $('#prevImage').on('click', self.prevImage);
+                $('#doTag').on('click', self.applyTag);
+                $('#doTrash').on('click', self.doTrash);
 
                 if ("nonTaggedImages" in window && nonTaggedImages) {
-                    self.tagQueue = nonTaggedImages;
+                    tagQueue = nonTaggedImages;
                     self.updateTagView();
                 }
             });
@@ -36,46 +37,88 @@ UKMbilder.tagger = function($) {
         },
         receive: function(imageData) {
             if (!imageData) return;
-            self.tagQueue.push(imageData);
+            tagQueue.push(imageData);
             self.updateTagView();
         },
         nextImage: function() {
-            self.currentIndex = (self.currentIndex + 1 >= self.tagQueue.length ? self.currentIndex : self.currentIndex++);
+            if (saving) {
+                alert('Kan ikke bla til neste bilde mens lagring pågår');
+                return false;
+            }
+            if (currentIndex + 1 < tagQueue.length) {
+                currentIndex++;
+            }
             self.updateTagView();
         },
         prevImage: function() {
-            self.currentIndex = (self.currentIndex - 1 < 0 ? self.currentIndex : self.currentIndex--);
-            self.updateTagView(self.currentIndex);
+            if (saving) {
+                alert('Kan ikke bla til forrige bilde mens lagring pågår');
+                return false;
+            }
+            if (currentIndex > 0) {
+                currentIndex--;
+            }
+            self.updateTagView();
         },
-
-        updateTagView: function(index) {
-            index = index || self.currentIndex || 0;
-            if (index < 0 || self.tagQueue.length < index) return;
-
-            var currentImage = self.tagQueue[index];
+        doTrash: function(e) {
+            e.preventDefault();
+            var sure = confirm('Er du sikker på at du vil slette dette bildet?');
+            if (sure) {
+                console.log('Slett skiten');
+                console.log(tagQueue[currentIndex]);
+                $.ajax({
+                    url: ajaxurl,
+                    method: 'POST',
+                    data: {
+                        'action': 'UKMbilder_ajax',
+                        'controller': 'slettBilde',
+                        'bildeId': tagQueue[currentIndex].imageId
+                    },
+                    success: self.deletedImage,
+                    error: self.deletedImageFailed
+                });
+            }
+        },
+        deletedImage: function(data, xhr, res) {
+            if (res.success) {
+                $('#tagWindowInnslagListe').html(data.innslagInputs);
+                tagQueue.splice(currentIndex, 1);
+                return self.updateTagView();
+            }
+            self.deletedImage(data, xhr, res);
+        },
+        deletedImageFailed: function(data, xhr, res) {
+            alert('Beklager, klarte ikke å slette bildet');
+        },
+        updateTagView: function() {
+            if (currentIndex < 0 || tagQueue.length < currentIndex) return;
+            var currentImage = tagQueue[currentIndex];
             if (!currentImage) {
-                jQuery('#noneToTag').show();
-                jQuery('#tagger').hide();
+                $('#noneToTag').slideDown();
+                $('#tagger').slideUp();
                 return;
             } else {
-                jQuery('#noneToTag').hide();
-                jQuery('#tagger').show();
+                $('#noneToTag').slideUp();
+                $('#tagger').slideDown();
             }
 
-            // TODO: optimize queries to use jQuery('tagger').find(), redusing raw data parsed by selector
-            jQuery('#current').text(index + 1);
-            jQuery('#tagQueueCount').text(self.tagQueue.length);
+            // TODO: optimize queries to use $('tagger').find(), redusing raw data parsed by selector
+            $('#current').text(currentIndex + 1);
+            $('#tagQueueCount').text(tagQueue.length);
 
-            jQuery('#prevImage').prop('disabled', index <= 0);
-            jQuery('#nextImage').prop('disabled', index >= self.tagQueue.length - 1);
-            jQuery('#tagWindowImage').attr('src', currentImage.imageUrl);
+            $('#current_name').text(currentImage.originalFilename);
+
+
+            $('#prevImage').prop('disabled', currentIndex <= 0);
+            $('#nextImage').prop('disabled', currentIndex >= tagQueue.length - 1);
+            $('#tagWindowImage').attr('src', currentImage.imageUrl);
             if (currentImage.storedTag) {
-                // jQuery('#hendelseSelector').val(currentImage.);
+                // $('#hendelseSelector').val(currentImage.);
 
-                // jQuery('#fotografSelector[value=86]').prop('selected', true);
+                // $('#fotografSelector[value=86]').prop('selected', true);
 
-                jQuery('#fotografSelector').val(currentImage.storedTag.fotografId);
-                jQuery('#tagWindowInnslagListe').find('input[value="' + currentImage.storedTag.innslagId + '"]').attr('checked', true);
+                $('#fotografSelector').val(currentImage.storedTag.fotografId);
+                $('#tagWindowInnslagListe').find('input[value="' + currentImage.storedTag.innslagId + '"]').attr('checked', true);
 
             }
 
@@ -83,7 +126,7 @@ UKMbilder.tagger = function($) {
 
         },
         renderInnslagListe(hendelseId) {
-            jQuery.ajax({
+            $.ajax({
                 url: ajaxurl,
                 method: 'GET',
                 data: {
@@ -94,11 +137,10 @@ UKMbilder.tagger = function($) {
                 success: function(data, xhr, res) {
                     $('#tagWindowInnslagListe').html(data.innslagInputs);
                 }
-
             });
         },
-        saveTag: function(tagData, successFunc, errorFunc) {
-
+        saveTag: function(tagData) {
+            self.saving();
             $.ajax({
                 url: ajaxurl,
                 method: 'POST',
@@ -107,32 +149,39 @@ UKMbilder.tagger = function($) {
                     controller: 'tagger',
                     tagData: tagData
                 },
-                success: successFunc,
-                error: errorFunc
-
+                success: self.tagSuccessFunc,
+                error: self.tagErrorFunc
             });
-
+        },
+        tagSuccessFunc: function(data, xhr, res) {
+            tagQueue[currentIndex].storedTag = data.storedTag;
+            self.doneSaving();
+            self.nextImage();
+        },
+        tagErrorFunc: function(data, xhr, res) {
+            alert("Ukjent feil oppsto");
+            self.doneSaving();
+        },
+        saving: function() {
+            saving = true;
+            $('#doTag').text('Lagrer...').attr('disabled', true);
+        },
+        doneSaving: function() {
+            $('#doTag').text('Lagre').attr('disabled', false).removeAttr('disabled');
+            saving = false;
         },
         applyTag: function() {
-            var currentImage = self.tagQueue[self.currentIndex];
+            var currentImage = tagQueue[currentIndex];
 
             var tagData = {
                 innslagId: $('#tagWindow input[name=bildeTaggerInnslag]:checked').val(),
                 imageId: currentImage.imageId,
-                fotografId: jQuery('#fotografSelector').val(),
-                hendelseId: jQuery('#hendelseSelector').val()
+                fotografId: $('#fotografSelector').val(),
+                hendelseId: $('#hendelseSelector').val()
             };
 
             if (tagData.innslagId && tagData.imageId && tagData.fotografId) {
-                self.saveTag(tagData,
-                    function(data, xhr, res) { // success function
-                        self.tagQueue[self.currentIndex].storedTag = data.storedTag;
-                        self.nextImage();
-                    },
-                    function(data, xhr, res) { // error function
-                        alert("Ukjent feil oppsto")
-                    }
-                );
+                self.saveTag(tagData);
             } else {
                 if (tagData.hendelseId == undefined || tagData.hendelseId == null) {
                     alert('Du må velge innslag og fotograf før du kan lagre. Start med å velge hendelse, så får du opp en liste over innslag.');

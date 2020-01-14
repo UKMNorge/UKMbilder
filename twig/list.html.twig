@@ -2,11 +2,15 @@
 <h2>Alle innslag</h2>
 <ol class="list-group">
 	{% for innslag in arrangement.getInnslag().getAll() %}
-		<li class="list-group-item">
+		<li class="list-group-item innslag">
 			<div class="pull-right">
 				<a href="#" class="visBilder btn btn-ukm btn-sm" data-innslag-id="{{ innslag.getId() }}">Vis bilder</a>
 			</div>
 			<a href="?page={{GET('page')}}&action={{GET('action')}}&innslag={{innslag.getId()}}" class="visBildeLink">{{innslag.getNavn()}}</a>
+            <br />
+            <span class="text-muted">
+                {{innslag.getType().getNavn()}}
+            </span>
 			<div class="clearfix"></div>
 			<div class="bildeContainer" data-innslag-id="{{ innslag.getId() }}" style="display:none;">
 				

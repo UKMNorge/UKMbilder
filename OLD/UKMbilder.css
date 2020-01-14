@@ -1,117 +1,156 @@
 .ukmbilder_width {
-	width:750px;
+    width: 750px;
 }
 
 .tagme,
 .image_edit {
-	width:120px;
-	margin:4px;
+    width: 120px;
+    margin: 4px;
 }
 
 .tagme.active,
 .image_edit.active {
-	background:#0a6158;
-	opacity:0.6;
-	border-color:#000;
+    background: #0a6158;
+    opacity: 0.6;
+    border-color: #000;
 }
 
 .ett_innslag {
-	padding:4px;
+    padding: 4px;
 }
 
 .ett_innslag h1 {
-	font-size:14px;
-	border-left:1px solid #ccc;
-	float:left;
-	line-height:40px;
-	margin:0;
-	padding:0 0 0 20px;
+    font-size: 14px;
+    border-left: 1px solid #ccc;
+    float: left;
+    line-height: 40px;
+    margin: 0;
+    padding: 0 0 0 20px;
 }
 
 .ett_innslag .actions div {
-	width:60px;
-	text-align:center;
+    width: 60px;
+    text-align: center;
 }
 
 .ett_innslag .actions img {
-	width:20px;
-	margin:0 0 -8px;
-	padding:0;
+    width: 20px;
+    margin: 0 0 -8px;
+    padding: 0;
 }
 
 .details {
-	padding-left: 122px; 
+    padding-left: 122px;
 }
 
 .details .loader {
-	padding-top: 14px;
-}
-.details .loader > img {
-	margin-top: -14px;
+    padding-top: 14px;
 }
 
+.details .loader>img {
+    margin-top: -14px;
+}
 
+.mt-3 {
+    margin-top: 1.25em;
+}
+
+#prevImageContainer,
+#nextImageContainer {
+    margin-top: -1px;
+}
+
+#noneToTag {
+    max-width: 100%;
+    border-radius: 5px;
+}
 
 .overunder {
-	text-align:center;
-	font-weight:700;
-	color:inherit;
-	text-rendering:optimizelegibility;
-	padding:4px 0;
+    text-align: center;
+    font-weight: 700;
+    color: inherit;
+    text-rendering: optimizelegibility;
+    padding: 4px 0;
 }
 
 .overunder .over {
-	line-height:20px;
-	font-size:25px;
+    line-height: 20px;
+    font-size: 25px;
 }
 
 .overunder .under {
-	font-weight:400;
-	font-size:11px;
-	line-height:11px;
-	margin:3px 0 0;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 11px;
+    margin: 3px 0 0;
 }
 
 .clickable {
-	cursor:pointer;
+    cursor: pointer;
 }
-
-
 
 .video_tabs {
-	margin-top: 9px;
-	min-width:940px;
+    margin-top: 9px;
+    min-width: 940px;
 }
+
 .video_tabs_desc {
-	background-color: #eee;
-	padding: 4px 4px 4px 10px;
-	border: 1px solid #CCC;
-	border-top: 0px solid #ccc;
+    background-color: #eee;
+    padding: 4px 4px 4px 10px;
+    border: 1px solid #CCC;
+    border-top: 0px solid #ccc;
 }
 
 .video_tabs a {
-	border: 1px solid #ccc;
-	background: #ccc;  
-	color:#0F6799;
-	padding: 5px 5px;
-	border-bottom: none;
-	margin-right: 10px;
-	display: inline-block;
-	text-decoration:none;
-	width: 280px;
-	
-	-webkit-border-top-left-radius: 3px;
-	-webkit-border-top-right-radius: 3px;
-	-moz-border-radius-topleft: 3px;
-	-moz-border-radius-topright: 3px;
-	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
+    border: 1px solid #ccc;
+    background: #ccc;
+    color: #0F6799;
+    padding: 5px 5px;
+    border-bottom: none;
+    margin-right: 10px;
+    display: inline-block;
+    text-decoration: none;
+    width: 280px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
-.video_tabs a:hover{ background: #ddd; color: #21759B;}
-.video_tabs a.active{ background: #eee; color: #21759B;}
 
-.video_tabs a div{ clear:both;}
-.video_tabs a div > span{display:inline-block; margin:0 0 0 10px; font-size:12px; font-weight: normal;}
-.video_tabs a div > span.tab_header{font-size:14px; font-weight: bold;}
-.video_tabs a div > img{display:block; float:left;}
-.ukmvideo_wrapper { padding: 10px 0 10px 9px; border-left:1px solid #ccc;}
+.video_tabs a:hover {
+    background: #ddd;
+    color: #21759B;
+}
+
+.video_tabs a.active {
+    background: #eee;
+    color: #21759B;
+}
+
+.video_tabs a div {
+    clear: both;
+}
+
+.video_tabs a div>span {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.video_tabs a div>span.tab_header {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.video_tabs a div>img {
+    display: block;
+    float: left;
+}
+
+.ukmvideo_wrapper {
+    padding: 10px 0 10px 9px;
+    border-left: 1px solid #ccc;
+}

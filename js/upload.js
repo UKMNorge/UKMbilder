@@ -6,14 +6,15 @@ UKMbilder.uploader = function($) {
     var self = {
         init: function() {
 
-            if ( jQuery('#bildeOpplaster').length === 0 ) return;
+            if (jQuery('#bildeOpplaster').length === 0) return;
 
-            var myDropzone = new Dropzone('#bildeOpplaster', { 
-                url: ajaxurl ,
+            var myDropzone = new Dropzone('#bildeOpplaster', {
+                url: ajaxurl,
                 method: 'POST',
                 timeout: 30 * 1000,
-                acceptedFiles: 'image/*' ,
+                acceptedFiles: 'image/*',
                 parallelUploads: 1,
+                previewTemplate: jQuery('#bildeOpplasterPreviewTemplate').html(),
                 sending: function(file, xhr, formData) {
                     formData.append('action', 'UKMbilder_ajax');
                     formData.append('controller', 'upload');
@@ -21,7 +22,7 @@ UKMbilder.uploader = function($) {
 
                 success: function(file, xhrData, progress) {
                     if (!xhrData.imageData || !Array.isArray(xhrData.imageData)) {} // TODO: Error handling for missing image data
-                    emitter.emit('uploaded', xhrData.imageData  );
+                    emitter.emit('uploaded', xhrData.imageData);
                     myDropzone.removeFile(file);
                 },
                 error: function(file, data, xhr) {
@@ -33,10 +34,9 @@ UKMbilder.uploader = function($) {
 
 
                 },
-                complete: function(file) {
-                }
+                complete: function(file) {}
             });
-            
+
         },
         on: function(event, callback) {
             emitter.on(event, callback);
