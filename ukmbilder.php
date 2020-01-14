@@ -72,6 +72,12 @@ class UKMbilder extends Modul
     public static function network_menu() {
     }
 
+    public static function renderAdmin()
+    {
+        static::include('controller/requirements.inc.php');
+        return parent::renderAdmin();
+    }
+
     /**
      * Scripts and styles for non-network admin
      *
