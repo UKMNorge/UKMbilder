@@ -134,8 +134,12 @@ UKMbilder.tagger = function($) {
                     }
                 );
             } else {
-                console.log('MISSING TAG DATA');
-            } 
+                if (tagData.hendelseId == undefined || tagData.hendelseId == null) {
+                    alert('Du må velge innslag og fotograf før du kan lagre. Start med å velge hendelse, så får du opp en liste over innslag.');
+                } else {
+                    alert('Du må velge innslag og fotograf før du kan lagre.');
+                }
+            }
 
 
         }
