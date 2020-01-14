@@ -1,0 +1,7 @@
+<li class="list-group-item">
+	<input type="radio" id="bildeTaggerInnslag-{{ inn.getId() }}" value="{{ inn.getId() }}" name="bildeTaggerInnslag"/>
+	<label for="bildeTaggerInnslag-{{ inn.getId() }}">
+		{{ inn.getNavn() }}
+		<small class="text-muted" style="font-weight: normal;">{{inn.getType().getNavn()}}</small>
+	</label>
+</li>
