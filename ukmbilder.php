@@ -32,9 +32,13 @@ class UKMbilder extends Modul
 
         add_action(
             'network_admin_menu',
-            ['UKMbilder', 'network_menu'],
+            ['UKMbilder', 'menyNettverk'],
             2000
         );
+    }
+
+    public static function menyNettverk() {
+        
     }
 
     /**
