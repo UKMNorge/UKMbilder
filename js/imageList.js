@@ -6,6 +6,7 @@ UKMbilder.imageList = function($) {
         init: function() {
             jQuery(document).ready(function() {
                 jQuery('.visBilder').on('click', self.getByClick);
+                jQuery(document).on('click', 'a.visBildeLink', self.clickClickButton);
                 jQuery(document).on('click', 'a.avbrytLagreBildeInfo', self.avbryt);
                 jQuery(document).on('click', 'a.endreInnslag', self.flytt.show);
                 jQuery(document).on('click', 'a.endreFotograf', self.fotograf.show);
@@ -14,6 +15,11 @@ UKMbilder.imageList = function($) {
 
             });
 
+        },
+        clickClickButton: function(e) {
+            console.log('clickClickButton');
+            e.preventDefault();
+            $(this).parents('li.innslag').find('a.visBilder').click();
         },
         slett: function(e) {
             e.preventDefault();
@@ -34,7 +40,6 @@ UKMbilder.imageList = function($) {
             }
         },
         deletedImage: function(data, xhr, res) {
-            console.log(data);
             if (data.success) {
                 // Skjul slettet bilde
                 $('#bilde-' + data.POST.innslagId + '-' + data.POST.bildeId).slideUp(
