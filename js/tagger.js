@@ -88,16 +88,21 @@ UKMbilder.tagger = function($) {
         deletedImageFailed: function(data, xhr, res) {
             alert('Beklager, klarte ikke å slette bildet');
         },
+        hide: function() {
+            $('#noneToTag').slideDown();
+            $('#tagger').slideUp();
+        },
+        show: function() {
+            $('#noneToTag').slideUp();
+            $('#tagger').slideDown();
+        },
         updateTagView: function() {
             if (currentIndex < 0 || tagQueue.length < currentIndex) return;
             var currentImage = tagQueue[currentIndex];
             if (!currentImage) {
-                $('#noneToTag').slideDown();
-                $('#tagger').slideUp();
-                return;
+                self.hide();
             } else {
-                $('#noneToTag').slideUp();
-                $('#tagger').slideDown();
+                self.show();
             }
 
             // TODO: optimize queries to use $('tagger').find(), redusing raw data parsed by selector
@@ -153,6 +158,10 @@ UKMbilder.tagger = function($) {
             self.doneSaving();
             self.nextImage();
             emitter.emit('save:success');
+            if (tagQueue.length == 1) {
+                tagQueue = [];
+                self.nextImage();
+            }
         },
         tagError: function(data, xhr, res) {
             alert("Ukjent feil oppsto");
