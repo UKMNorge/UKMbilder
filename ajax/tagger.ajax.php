@@ -16,6 +16,7 @@ $tagData    = $_POST['tagData'];
 $innslagId  = $tagData['innslagId'];
 $imageId    = $tagData['imageId'];
 $fotografId = $tagData['fotografId'];
+$hendelseId = isset( $tagData['hendelseId'] ) ? $tagData['hendelseId'] : NULL;
 
 
 if (!($fotografId && $innslagId && $fotografId)) {
@@ -57,9 +58,7 @@ wp_update_post([
 $update = new Update('ukm_bilder', array('id' => $imageId));
 $update->add('wp_uid', $fotografId);
 $update->add('b_id', $innslag->getId());
-// if( isset( $_POST['c_id'] ) ) { // c_id => consert ID (hendelse)
-//     $update->add('c_id', $_POST['c_id']);
-// }
+$update->add('c_id', $hendelseId);
 $update->add('status', 'tagged');
 $update->run();
 
