@@ -1,0 +1,47 @@
+<table class="table table-striped" style="width: Calc( 100% - 3em); margin-left: 2em; margin-right: 1em; margin-top:1em;">
+	{% for bilde in innslag.getBilder().getAll() %}
+		<tr class="listImageEditor" data-bilde-id="{{bilde.getId()}}" data-innslag-id="{{innslag.getId()}}" id="bilde-{{innslag.getId()}}-{{bilde.getId()}}">
+			<td width="250">
+				<img height="150" src="{{ bilde.getSize('medium').getUrl() }}"/>
+			</td>
+			<td>
+				<div>
+					<a href="#" class="endreInnslag btn btn-ukm btn-xs">flytt til annet innslag</a>
+					<a href="#" class="endreFotograf btn btn-ukm btn-xs">endre fotograf</a>
+                    {% if bilde.getBlogId() == blog_id %}
+					    <a href="#" class="slettBilde btn btn-ukm btn-xs btn-danger">slett</a>
+                    {% endif %}
+				</div>
+				<div class="form-group endreInnslagFelt" style="display:none;">
+					<label for="bytt-innslag-{{ bilde.getId() }}">Innslag</label>
+					<select class="form-control" id="bytt-innslag-{{ bilde.getId() }}" name="byttInnslag">
+						{% for inn in arrangement.getInnslag().getAll() %}
+							<option value="{{ inn.getId() }}" {{ innslag.getId() == inn.getId() ? 'selected' : '' }}>{{ inn.getNavn() }}
+								({{ inn.getType() }})</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-group endreFotografFelt" style="display:none;">
+					<label for="bytt-fotograf-{{ bilde.getId() }}">Fotograf</label>
+					<select class="form-control" id="bytt-fotograf-{{ bilde.getId() }}" name="byttFotograf">
+						{% for bruker in brukere %}
+							<option value="{{ bruker.ID }}" {{ bruker.ID == bilde.getAuthorId() ? 'selected' : '' }}>{{ bruker.display_name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+                <div class="form-group lagreBildeInfo" style="display:none;">
+                    <button class="btn btn-success btn-ukm btn-xs submitChanges">Lagre</button>
+                    eller 
+                    <a href="#" class="avbrytLagreBildeInfo">avbryt</a>
+                </div>
+			</td>
+		</tr>
+	{% else %}
+		<tr>
+			<th>
+				{{ innslag.getNavn() }}
+				har ingen bilder.
+			</th>
+		</tr>
+	{% endfor %}
+</table>

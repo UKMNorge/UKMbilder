@@ -1,0 +1,31 @@
+
+<h2>Alle innslag</h2>
+<ol class="list-group" id="bildeListe">
+	{% for innslag in arrangement.getInnslag().getAll() %}
+		<li class="list-group-item innslag" data-innslag-id="{{innslag.getId()}}">
+			<div class="pull-right">
+				<a href="#" class="visBilder btn btn-ukm btn-sm toggle" data-target="#bildeContainer_{{innslag.getId()}}" data-show="Vis bilder" data-hide="Lukk listen" data-innslag-id="{{ innslag.getId() }}">Vis bilder</a>
+			</div>
+			<a href="?page={{GET('page')}}&action={{GET('action')}}&innslag={{innslag.getId()}}" class="visBildeLink">{{innslag.getNavn()}}</a>
+            <br />
+            <span class="text-muted">
+                {{innslag.getType().getNavn()}}
+            </span>
+			<div class="clearfix"></div>
+			<div class="bildeContainer" id="bildeContainer_{{innslag.getId()}}" data-innslag-id="{{ innslag.getId() }}" style="display:none;">
+            Vennligst vent, laster inn bilder...
+			</div>
+		</li>
+	{% else %}
+		<li class="list-group-item">
+			Du har ingen påmeldte innslag.
+		</li>
+	{% endfor %}
+</ol>
+<p class="mt-2">
+	<a href="?page={{GET('page')}}">Tilbake til bilder</a>
+</p>
+
+<script>
+    var bildeToggle = new UKMresources.toggle('#bildeListe');
+</script>

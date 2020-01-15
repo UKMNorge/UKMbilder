@@ -1,0 +1,17 @@
+<div class="col-xs-6">
+    <ol class="list-group">
+        {% for inn in innslag[ :(innslag|length)/2] %}
+            {% include "innslagListeElement.html.twig" %}
+        {% else %}
+            <span>Det er ingen innslag i {{ hendelse.getNavn() }}.</h1>
+        {% endfor %}
+    </ol>
+</div>
+<div class="col-xs-6">
+    <ol class="list-group">
+        {% for inn in innslag[ (innslag|length)/2: ] %}
+            {% include "innslagListeElement.html.twig" %}
+        {% endfor %}
+    </ol>
+</div>
+
