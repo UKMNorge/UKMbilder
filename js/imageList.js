@@ -17,9 +17,43 @@ UKMbilder.imageList = function($) {
         },
         slett: function(e) {
             e.preventDefault();
-            alert('Beklager, kunne ikke slette bilde');
+            var sure = confirm('Er du sikker på at du vil slette dette bildet?');
+            if (sure) {
+                $.ajax({
+                    url: ajaxurl,
+                    method: 'POST',
+                    data: {
+                        'action': 'UKMbilder_ajax',
+                        'controller': 'slettTaggetBilde',
+                        'bildeId': self.getBildeRad(e).data('bilde-id'),
+                        'innslagId': self.getBildeRad(e).data('innslag-id')
+                    },
+                    success: self.deletedImage,
+                    error: self.deletedImageFailed
+                });
+            }
         },
-        getInnslag: function(e) {
+        deletedImage: function(data, xhr, res) {
+            console.log(data);
+            if (data.success) {
+                // Skjul slettet bilde
+                $('#bilde-' + data.POST.innslagId + '-' + data.POST.bildeId).slideUp(
+                    function() {
+                        $(this).remove();
+                    }
+                );
+                return true;
+            }
+            self.deletedImageFailed(data, xhr, res);
+        },
+        deletedImageFailed: function(data, xhr, res) {
+            if (data.message) {
+                alert(data.message);
+            } else {
+                alert('Beklager, klarte ikke å slette bildet.');
+            }
+        },
+        getBildeRad: function(e) {
             return $(e.target).parents('.listImageEditor');
         },
         avbryt: function(e) {
@@ -28,7 +62,7 @@ UKMbilder.imageList = function($) {
         },
         flytt: {
             getElement: function(e) {
-                return self.getInnslag(e).find('.endreInnslagFelt');
+                return self.getBildeRad(e).find('.endreInnslagFelt');
             },
             hide: function(e) {
                 self.flytt.getElement(e).slideUp();
@@ -41,7 +75,7 @@ UKMbilder.imageList = function($) {
         },
         fotograf: {
             getElement: function(e) {
-                return self.getInnslag(e).find('.endreFotografFelt');
+                return self.getBildeRad(e).find('.endreFotografFelt');
             },
             hide: function(e) {
                 self.fotograf.getElement(e).slideUp();
@@ -54,7 +88,7 @@ UKMbilder.imageList = function($) {
         },
         endre: {
             getElement: function(e) {
-                return self.getInnslag(e).find('.lagreBildeInfo');
+                return self.getBildeRad(e).find('.lagreBildeInfo');
             },
             hide: function(e) {
                 self.endre.getElement(e).hide();
@@ -66,23 +100,37 @@ UKMbilder.imageList = function($) {
             },
             save: function(e) {
                 e.preventDefault();
-                var fotografId = self.getInnslag(e).find('.endreFotografFelt select').val();
-                var innslagId = self.getInnslag(e).find('.endreInnslagFelt select').val();
-                var bildeId = self.getInnslag(e).data('bilde-id');
-                var oldInnslagId = self.getInnslag(e).data('innslag-id');
+                var fotografId = self.getBildeRad(e).find('.endreFotografFelt select').val();
+                var innslagId = self.getBildeRad(e).find('.endreInnslagFelt select').val();
+                var bildeId = self.getBildeRad(e).data('bilde-id');
+                var oldInnslagId = self.getBildeRad(e).data('innslag-id');
 
                 self.updateBilde({
                     innslagId: innslagId,
                     imageId: bildeId,
                     fotografId: fotografId,
                     oldInnslagId: oldInnslagId
-                }, wrapper);
+                }, self.endre.getElement(e));
             }
         },
         updateBilde: function(inData, wrapper) {
             UKMbilder.tagger.saveTag(inData,
                 function(data, xhr, response) {
-                    if (inData.oldInnslagId !== inData.innslagId) wrapper.remove();
+                    // Hvis bildet er fjernet, skjul det
+                    if (data.POST.tagData.oldInnslagId != data.storedTag.innslagId) {
+                        // Skjul mottakerbilder (slik at denne listen ikke lenger står oppe og viser feil bilder)
+                        mottakerInnslag = $('li.innslag[data-innslag-id=' + data.storedTag.innslagId + ']');
+                        if (mottakerInnslag.find('.bildeContainer').is(':visible')) {
+                            mottakerInnslag.find('.visBilder').click();
+                        }
+                        // Skjul flyttet bilde
+                        wrapper.parents('.listImageEditor').slideUp(
+                            function() {
+                                $(this).remove();
+                            }
+                        );
+                    }
+                    wrapper.parents('.listImageEditor').find('.avbrytLagreBildeInfo').click();
                 },
                 function(data, xhr, response) {
                     alert("Ukjent feil oppsto");
@@ -91,7 +139,7 @@ UKMbilder.imageList = function($) {
         },
         getByClick(event) {
             event.preventDefault();
-            var innslagId = jQuery(this).data('innslag-id');
+            var innslagId = $(this).data('innslag-id');
             jQuery.ajax({
                 url: ajaxurl,
                 method: 'GET',
@@ -101,9 +149,7 @@ UKMbilder.imageList = function($) {
                     'innslagId': innslagId
                 },
                 success: function(data, xhr, res) {
-                    var container = jQuery('.bildeContainer[data-innslag-id=' + innslagId + ']');
-                    container.show();
-                    container.html(data.bilderHtml);
+                    $('.bildeContainer[data-innslag-id=' + innslagId + ']').html(data.bilderHtml);
                 }
             });
         }

@@ -64,8 +64,6 @@ UKMbilder.tagger = function($) {
             e.preventDefault();
             var sure = confirm('Er du sikker på at du vil slette dette bildet?');
             if (sure) {
-                console.log('Slett skiten');
-                console.log(tagQueue[currentIndex]);
                 $.ajax({
                     url: ajaxurl,
                     method: 'POST',
@@ -80,12 +78,12 @@ UKMbilder.tagger = function($) {
             }
         },
         deletedImage: function(data, xhr, res) {
-            if (res.success) {
+            if (data.success) {
                 $('#tagWindowInnslagListe').html(data.innslagInputs);
                 tagQueue.splice(currentIndex, 1);
                 return self.updateTagView();
             }
-            self.deletedImage(data, xhr, res);
+            self.deletedImageFailed(data, xhr, res);
         },
         deletedImageFailed: function(data, xhr, res) {
             alert('Beklager, klarte ikke å slette bildet');
@@ -121,9 +119,6 @@ UKMbilder.tagger = function($) {
                 $('#tagWindowInnslagListe').find('input[value="' + currentImage.storedTag.innslagId + '"]').attr('checked', true);
 
             }
-
-
-
         },
         renderInnslagListe(hendelseId) {
             $.ajax({
@@ -139,7 +134,7 @@ UKMbilder.tagger = function($) {
                 }
             });
         },
-        saveTag: function(tagData) {
+        saveTag: function(tagData, successCallback = false, errorCallback = false) {
             self.saving();
             $.ajax({
                 url: ajaxurl,
@@ -149,18 +144,20 @@ UKMbilder.tagger = function($) {
                     controller: 'tagger',
                     tagData: tagData
                 },
-                success: self.tagSuccessFunc,
-                error: self.tagErrorFunc
+                success: (successCallback ? successCallback : self.tagSuccess),
+                error: (errorCallback ? errorCallback : self.tagError)
             });
         },
-        tagSuccessFunc: function(data, xhr, res) {
+        tagSuccess: function(data, xhr, res) {
             tagQueue[currentIndex].storedTag = data.storedTag;
             self.doneSaving();
             self.nextImage();
+            emitter.emit('save:success');
         },
-        tagErrorFunc: function(data, xhr, res) {
+        tagError: function(data, xhr, res) {
             alert("Ukjent feil oppsto");
             self.doneSaving();
+            emitter.emit('save:error');
         },
         saving: function() {
             saving = true;

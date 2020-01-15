@@ -3,7 +3,7 @@
 use UKMNorge\Database\SQL\Insert;
 use UKMNorge\Database\SQL\Update;
 
-error_reporting(0);
+#error_reporting(0);
 if (!isset($_FILES) || sizeof($_FILES) == 0)
     die(json_encode(array('success' => false, 'error' => 'Missing files')));
 

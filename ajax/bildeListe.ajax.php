@@ -31,7 +31,8 @@ $bilderHtml = TWIG(
     [
         'innslag' => $innslag,
         'brukere' => $blogUsers,
-        'arrangement' => $arrangement
+        'arrangement' => $arrangement,
+        'blog_id' => get_current_blog_id()
    ],
     UKMbilder::getPluginPath()
 ); //returns string

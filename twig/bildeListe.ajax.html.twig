@@ -8,9 +8,10 @@
 				<div>
 					<a href="#" class="endreInnslag btn btn-ukm btn-xs">flytt til annet innslag</a>
 					<a href="#" class="endreFotograf btn btn-ukm btn-xs">endre fotograf</a>
-					<a href="#" class="slettBilde btn btn-ukm btn-xs btn-danger">slett</a>
+                    {% if bilde.getBlogId() == blog_id %}
+					    <a href="#" class="slettBilde btn btn-ukm btn-xs btn-danger">slett</a>
+                    {% endif %}
 				</div>
-				<span class="statusText">status</span>
 				<div class="form-group endreInnslagFelt" style="display:none;">
 					<label for="bytt-innslag-{{ bilde.getId() }}">Innslag</label>
 					<select class="form-control" id="bytt-innslag-{{ bilde.getId() }}" name="byttInnslag">
