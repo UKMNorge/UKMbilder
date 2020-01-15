@@ -100,7 +100,7 @@ UKMbilder.tagger = function($) {
             if (currentIndex < 0 || tagQueue.length < currentIndex) return;
             var currentImage = tagQueue[currentIndex];
             if (!currentImage) {
-                self.hide();
+                return self.hide();
             } else {
                 self.show();
             }
