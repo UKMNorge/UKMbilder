@@ -1,5 +1,6 @@
 <?php
 
+
 use UKMNorge\Arrangement\Arrangement;
 use UKMNorge\Database\SQL\Delete;
 
