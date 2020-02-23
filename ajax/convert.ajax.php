@@ -25,12 +25,12 @@ $sqlImageData = $sql->getArray();
 
 
 // FIND LOCATION OF CURRENT FILE
+if( empty($sqlImageData['filename']) ) {
+    die(json_encode(array('success'=>false, 'message'=>'Missing filename!')));
+}
 $path = UKM_BILDER_SYNC_FOLDER . $sqlImageData['filename'];
 $wp_upload_dir = wp_upload_dir();
 $wp_path = $wp_upload_dir['path'] .'/'. $sqlImageData['filename'];
-
-
-
 
 // COMPRESS AND MOVE TO WORDPRESS UPLOAD DIR (wp_ins_att requirement)
 try {
@@ -40,7 +40,7 @@ try {
     $db_update = new SQLins('ukm_bilder', array('id' => $r['id']));
     $db_update->add('status', 'crash');
     $db_update->run();
-    die(json_encode(array('success'=>false, 'reload' => true, 'message' => 'Unsupported image format: '. $e->getCode(), 'exeption_message' => $e->getMessage())));
+    die(json_encode(array('success'=>false, 'reload' => true, 'message' => 'Unsupported image format: '. $e->getCode(), 'exception_message' => $e->getMessage())));
 }
 
 // Find proportions

@@ -4,4 +4,19 @@
 		{{ inn.getNavn() }}
 	</label>
 	<small class="text-muted" style="font-weight: normal;">{{inn.getType().getNavn()}}</small>
+	{% if inn.getSamtykke().harNei() %}
+    <span class="label label-danger" style="white-space: normal; padding-left: 0.4em; padding-right: 0.4em;">
+        {% if inn.getType().harTitler() %}
+            {{ inn.getSamtykke().getNeiCount() }}
+            av
+            {{ inn.getPersoner().getAntall() }}
+            personer i
+            {{ inn.getNavn() }}
+            vil ikke at det lastes opp bilder av innslaget.
+        {% else %}
+            {{ inn.getNavn() }}
+            vil ikke at vi laster opp bilder.
+        {% endif %}
+    </span>
+{% endif %}
 </li>
