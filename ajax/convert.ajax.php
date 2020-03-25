@@ -1,6 +1,7 @@
 <?php
 
 use UKMNorge\Arrangement\Arrangement;
+use UKMNorge\Database\SQL\Insert;
 use UKMNorge\Database\SQL\Query;
 use UKMNorge\Database\SQL\Update;
 
@@ -37,7 +38,7 @@ try {
     $image = new Imagick( $path );
     $imageprops = $image->getImageGeometry();
 } catch( Exception $e ) {
-    $db_update = new SQLins('ukm_bilder', array('id' => $r['id']));
+    $db_update = new Update('ukm_bilder', array('id' => $r['id']));
     $db_update->add('status', 'crash');
     $db_update->run();
     die(json_encode(array('success'=>false, 'reload' => true, 'message' => 'Unsupported image format: '. $e->getCode(), 'exception_message' => $e->getMessage())));
