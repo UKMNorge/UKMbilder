@@ -81,6 +81,10 @@ UKMbilder.tagger = function($) {
             if (data.success) {
                 $('#tagWindowInnslagListe').html(data.innslagInputs);
                 tagQueue.splice(currentIndex, 1);
+                if(tagQueue.length <= currentIndex) 
+                {
+                    currentIndex--;
+                }
                 return self.updateTagView();
             }
             self.deletedImageFailed(data, xhr, res);
