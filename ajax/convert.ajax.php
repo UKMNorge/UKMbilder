@@ -60,7 +60,6 @@ if($imageprops[$compare] > $$compare) {
 }
 $image->writeImage($wp_path);
 
-
 /// WORDPRESS GENERATE ATTACHMENT AND THUMBS
 $wp_filetype = wp_check_filetype(basename($wp_path), null );
 $attachment = array(
@@ -78,31 +77,18 @@ $attach_data = wp_generate_attachment_metadata( $attach_id, $wp_path );
 wp_update_attachment_metadata( $attach_id, $attach_data );
 $image_wp_url = wp_get_attachment_url($attach_id);
 
-
-
-
-
-// die(json_encode([
-//     'pathData' => [$path, $wp_upload_dir, $wp_path],
-//     'imageData' =>$sqlImageData,
-//     'originalFilename' => $sqlImageData['original_filename'],
-//     'wp_path' => $wp_path,
-//     'newPath' => $image->getFilename(),
-//     'updateData' => [$sqlImageData['id'], $attach_id],
-//     'returnData' => [
-//         'attach_id' => $attach_id,
-//         'imageId' => $sqlImageData['id'],
-//         'imageUrl' => $image_wp_url,
-//         'originalFilename' => $sqlImageData['original_filename']
-//     ]
-// ]));
-
 $db_update = new Update('ukm_bilder', array('id' => $sqlImageData['id'] ));
 $db_update->add('wp_post', $attach_id);
-$db_update->add('status', 'compressed');
 $db_update->add('url', $image_wp_url);
-$db_update->run();
 
+$check_cancelled = new Query("SELECT status FROM `ukm_bilder` WHERE `id` = '#bilde_id'", ['bilde_id' => $sqlImageData['id']]);
+if( $check_cancelled->getField('status') == 'cancelled') {
+    // Don't update status if cancelled by user.
+} else {
+    $db_update->add('status', 'compressed');    
+}
+
+$db_update->run();
 
 UKMbilder::addResponseData('imageData', [
     'imageId' => $sqlImageData['id'],

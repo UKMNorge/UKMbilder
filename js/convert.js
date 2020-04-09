@@ -15,6 +15,8 @@ UKMbilder.converter = function($) {
             self.bind();
             self.convert();
 
+            jQuery(document).on('click', '.convert-queue-remove', self.remove);
+
         },
         bind: function() {
             UKMbilder.uploader.on('uploaded', self.receive);
@@ -27,12 +29,46 @@ UKMbilder.converter = function($) {
         },
         receive: function(imageData) {
             var convertQueueList = $('#convertQueue ol');
-            convertQueueList.append(`<li class="list-group-item" data-image-id=${imageData.id}>${imageData.originalFilename}</li>`);
+            convertQueueList.append(`<li class="list-group-item" data-image-id=${imageData.id}>${imageData.originalFilename}<a href="#" class="convert-queue-remove pull-right"><span class="dashicons dashicons-trash"></span></a></li>`);
 
             convertQueue.push(imageData.id);
             if (!isRunning) {
                 self.convert();
             }
+        },
+        remove: function(event) {
+            var convertId = jQuery(event.target).closest(".list-group-item").attr('data-image-id')
+            var convertQueueElement = jQuery(event.target).closest(".list-group-item");
+
+            // Mark as crashed in DB
+            jQuery.ajax({
+                    url: ajaxurl,
+                    method: 'POST',
+                    data: {
+                        'action': 'UKMbilder_ajax',
+                        'controller': 'cancelConvert',
+                        'imageId': convertId
+                    },
+                    success: function(data, xhr, res) {
+                        // Remove visually as well
+                        if(data.success == false) {
+                            convertQueueElement.append('<span class="label label-danger">Feil: '+data.message+'</span>');
+                            return;
+                        }
+                        convertQueueElement.remove();
+                        convertQueue.splice($.inArray(convertId, convertQueue), 1);
+                        
+                        if (!isRunning) {
+                            self.convert();
+                        }
+                    },
+                    error: function() {
+                        convertQueueElement.append('<span class="label label-danger">Feil: '+data.message+'</span>');
+                        return;
+                    }
+                });
+
+            
         },
         hide: function() {
             $('#convertQueue').slideUp();
@@ -63,6 +99,10 @@ UKMbilder.converter = function($) {
                     success: function(data, xhr, res) {
                         // debugger;
                         var convertQueueElement = $('#convertQueue ol').find(`[data-image-id='${imageId}']`);
+                        if(data.success == false) {
+                            convertQueueElement.append('<span class="label label-danger">Feil: '+data.message+'</span>');
+                            return;
+                        }
                         convertQueueElement.remove();
                         self.convert();
                         /**

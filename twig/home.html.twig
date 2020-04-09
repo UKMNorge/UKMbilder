@@ -120,7 +120,7 @@
 				<ol class="list-group">
 					{% for image in nonConvertedImages %}
 
-						<li class="list-group-item" data-image-id="{{ image.id }}">{{ image.originalFilename }}</li>
+						<li class="list-group-item" data-image-id="{{ image.id }}">{{ image.originalFilename }}<a href="#" class="convert-queue-remove pull-right"><span class="dashicons dashicons-trash"></span></a></li>
 					{% endfor %}
 				</ol>
 			</div>
