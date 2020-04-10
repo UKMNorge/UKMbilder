@@ -8,6 +8,15 @@ UKMbilder.uploader = function($) {
 
             if (jQuery('#bildeOpplaster').length === 0) return;
 
+            // Håndter klikk også på tekst
+            jQuery(document).ready(function() {
+                jQuery("#bildeOpplaster").click(function(event) {
+                    if(event.target.tagName != "DIV") {
+                        jQuery(event.target).closest("div").click();    
+                    }
+                });
+            });
+
             var myDropzone = new Dropzone('#bildeOpplaster', {
                 url: ajaxurl,
                 method: 'POST',
