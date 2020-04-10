@@ -43,7 +43,10 @@ UKMbilder.uploader = function($) {
 
 
                 },
-                complete: function(file) {}
+                complete: function(file) {},
+                uploadprogress: function(file, progress, bytesSent) {
+                    $(file.previewElement).find('.dz-progress').text(progress+"%");
+                }
             });
 
         },
