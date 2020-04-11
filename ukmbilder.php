@@ -84,6 +84,7 @@ class UKMbilder extends Modul
      */
     public static function scripts_and_styles()
     {
+        wp_enqueue_script('TwigJS');
         wp_enqueue_script('WPbootstrap3_js');
         wp_enqueue_style('WPbootstrap3_css');
         wp_enqueue_script('dropzone');

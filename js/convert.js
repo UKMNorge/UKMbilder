@@ -29,7 +29,11 @@ UKMbilder.converter = function($) {
         },
         receive: function(imageData) {
             var convertQueueList = $('#convertQueue ol');
-            convertQueueList.append(`<li class="list-group-item" data-image-id=${imageData.id}>${imageData.originalFilename}<a href="#" class="convert-queue-remove pull-right"><span class="dashicons dashicons-trash"></span></a></li>`);
+            var data = {
+                image: imageData
+            }
+            convertQueueList.append(twigJS_konverteringsListeElement.render(data));
+            //convertQueueList.append(`<li class="list-group-item" data-image-id=${imageData.id}>${imageData.originalFilename}<a href="#" class="convert-queue-remove pull-right"><span class="dashicons dashicons-trash"></span></a></li>`);
 
             convertQueue.push(imageData.id);
             if (!isRunning) {
