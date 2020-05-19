@@ -81,6 +81,10 @@ UKMbilder.tagger = function($) {
             if (data.success) {
                 $('#tagWindowInnslagListe').html(data.innslagInputs);
                 tagQueue.splice(currentIndex, 1);
+                if(tagQueue.length <= currentIndex) 
+                {
+                    currentIndex--;
+                }
                 return self.updateTagView();
             }
             self.deletedImageFailed(data, xhr, res);
@@ -155,6 +159,9 @@ UKMbilder.tagger = function($) {
         },
         tagSuccess: function(data, xhr, res) {
             tagQueue[currentIndex].storedTag = data.storedTag;
+            if (currentIndex + 1 == tagQueue.length) {
+                alert("Bra jobba, du har nå tagget det siste bildet i køen. Om du vil, kan du bla deg tilbake for å rette opp eventuelle feil, oppdatere siden for å se at alle bilder er tagget, eller legge til nye bilder.");
+            }
             self.doneSaving();
             self.nextImage();
             emitter.emit('save:success');

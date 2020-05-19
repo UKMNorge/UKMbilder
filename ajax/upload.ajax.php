@@ -34,8 +34,6 @@ foreach ($_FILES as $index => $imageFile) {
     $name = $season . '_' . $place . '_' . $id . '.' . $extension;
     $path = UKM_BILDER_SYNC_FOLDER . $name;
 
-    #var_dump( [$_FILES, $imageFile, $name, $path] );
-
     if (move_uploaded_file($imageFile['tmp_name'], $path)) {
         $sql = new Update('ukm_bilder', ['id' => $id]);
         $sql->add('season', $season);
