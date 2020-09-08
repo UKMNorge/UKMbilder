@@ -1,5 +1,7 @@
 <?php
 
+use Imagick;
+use Exception;
 use UKMNorge\Arrangement\Arrangement;
 use UKMNorge\Database\SQL\Insert;
 use UKMNorge\Database\SQL\Query;
