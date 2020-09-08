@@ -23,8 +23,6 @@ if (!($fotografId && $innslagId && $fotografId)) {
     // TODO: handle invalid request to ajax-controller
 }
 
-
-
 // declare UKM-data
 $arrangement = new Arrangement(get_option('pl_id'));
 $innslag = $arrangement->getInnslag()->get($innslagId);
@@ -60,7 +58,13 @@ $update->add('wp_uid', $fotografId);
 $update->add('b_id', $innslag->getId());
 $update->add('c_id', $hendelseId);
 $update->add('status', 'tagged');
-$update->run();
+$res = $update->run();
+if( false === $res) {
+    // TODO: Håndter dette i frontend!
+    UKMbilder::addResponseData('success', false);
+    UKMbilder::addResponseData('message', "Klarte ikke å merke bildet som tagget.");
+    return;
+}
 
 
 // RELATE IMAGE
