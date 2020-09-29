@@ -99,7 +99,6 @@ $image_wp_url = wp_get_attachment_url($attach_id);
 
 $db_update = new Update('ukm_bilder', array('id' => $sqlImageData['id'] ));
 $db_update->add('wp_post', $attach_id);
-$db_update->add('status', 'compressed');
 $db_update->add('url', $image_wp_url);
 
 $check_cancelled = new Query("SELECT status FROM `ukm_bilder` WHERE `id` = '#bilde_id'", ['bilde_id' => $sqlImageData['id']]);
@@ -108,7 +107,6 @@ if( $check_cancelled->getField('status') == 'cancelled') {
 } else {
     $db_update->add('status', 'compressed');    
 }
-
 $db_update->run();
 
 
