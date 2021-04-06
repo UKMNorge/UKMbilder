@@ -88,14 +88,14 @@ class UKMbilder extends Modul
         wp_enqueue_script('WPbootstrap3_js');
         wp_enqueue_style('WPbootstrap3_css');
         wp_enqueue_script('dropzone');
-        wp_enqueue_style('ukmbilder_css', PLUGIN_PATH . 'UKMbilder/ukmbilder.css');
+        wp_enqueue_style('ukmbilder_css', self::getPluginUrl(). 'ukmbilder.css');
 
-        wp_enqueue_script('ukmbilder_app', PLUGIN_PATH . 'UKMbilder/js/app.js');
-        wp_enqueue_script('ukmbilder_app_upload', PLUGIN_PATH . 'UKMbilder/js/upload.js');
-        wp_enqueue_script('ukmbilder_app_imageList', PLUGIN_PATH . 'UKMbilder/js/imageList.js');
-        wp_enqueue_script('ukmbilder_app_convert', PLUGIN_PATH . 'UKMbilder/js/convert.js');
-        wp_enqueue_script('ukmbilder_app_tagger', PLUGIN_PATH . 'UKMbilder/js/tagger.js');
-        wp_enqueue_script('ukmbilder_app_hendelser', PLUGIN_PATH . 'UKMbilder/js/hendelser.js');
+        wp_enqueue_script('ukmbilder_app', self::getPluginUrl() . 'js/app.js');
+        wp_enqueue_script('ukmbilder_app_upload', self::getPluginUrl() . 'js/upload.js');
+        wp_enqueue_script('ukmbilder_app_imageList', self::getPluginUrl() . 'js/imageList.js');
+        wp_enqueue_script('ukmbilder_app_convert', self::getPluginUrl() . 'js/convert.js');
+        wp_enqueue_script('ukmbilder_app_tagger', self::getPluginUrl() . 'js/tagger.js');
+        wp_enqueue_script('ukmbilder_app_hendelser', self::getPluginUrl() . 'js/hendelser.js');
         
     }
 }
