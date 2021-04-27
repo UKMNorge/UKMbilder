@@ -6,7 +6,7 @@
 	<small class="text-muted" style="font-weight: normal;">{{inn.getType().getNavn()}}</small>
 	{% if inn.getSamtykke().harNei() %}
     <span class="label label-danger" style="white-space: normal; padding-left: 0.4em; padding-right: 0.4em;">
-        {% if inn.getType().harTitler() %}
+        {% if inn.getType().harTitler() and inn.getPersoner() > 1 %}
             {{ inn.getSamtykke().getNeiCount() }}
             av
             {{ inn.getPersoner().getAntall() }}
@@ -20,3 +20,11 @@
     </span>
 {% endif %}
 </li>
+
+<script>jQuery('#bilderReservertInfo').addClass('hide-div')</script>
+
+{% for innslag in innslag %}
+    {% if innslag.getSamtykke().harNei() %}
+        <script>jQuery('#bilderReservertInfo').removeClass('hide-div')</script>
+    {% endif %}
+{% endfor %}

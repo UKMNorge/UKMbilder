@@ -4,6 +4,7 @@
             {% include "innslagListeElement.html.twig" %}
         {% else %}
             <span>Det er ingen innslag i {{ hendelse.getNavn() }}.</h1>
+            <script>jQuery('#bilderReservertInfo').addClass('hide-div')</script>
         {% endfor %}
     </ol>
 </div>
