@@ -85,6 +85,29 @@
 							</div>
 						</div>
 
+						<div class="row hide-div" id="bilderReservertInfo">
+							<div class="col-xs-12">
+								<div class="alert alert-warning">
+									Noen innslag {{ hendelse.getNavn() ? "i #{hendelse.getNav()}" : ""}} har reservert seg mot å bli filmet/tatt bilde av. 
+									<a id="showBilderInfo" onclick="jQuery('#showBilderInfo').hide()" data-toggle="collapse" href="#visMerBilderReservasjon">[Les mer]</a>
+								</div>
+								<div class="collapse" id="visMerBilderReservasjon">
+									<p>
+									Under påmelding har deltakere mulighet til å reservere seg mot å bli fotografert eller filmet. Hvis de har gjort det, vil de være merket med en rød advarsel i listen nedenfor. Bilder du laster opp her vil automatisk bli synlig på ukm.no, og det er derfor viktig å respektere denne reservasjonen.
+									</p>
+									<p>
+									Hvis du som lokalkontakt ser denne reservasjonen for første gang nå, må du gjerne ta kontakt med de, for å høre om de er i mot all publisering, eller bare noe publisering. Hvis de har misforstått spørsmålet, kan de logge seg inn på ukm.no og velge "endre fotoreservasjon" i menyen, eller du kan gå inn i personvern-menyen, og trykke "Send ny mulighet til samtykke".
+									</p>
+									<p>
+									Du kan også ta ut en rapport over alle som har reservert seg eller sende ny samtykke-sms fra personvern-menyen hvis noen har ombestemt seg.
+									</p>
+									<a id="hideBilderInfo" data-toggle="collapse" onclick="jQuery('#showBilderInfo').show()" href="#visMerBilderReservasjon">skjul forklaringen</a>
+								</div>
+								<br>
+							</div>
+						</div>
+
+
 						<div class="row" id="tagWindowInnslagListe"></div>
 
 						<div class="row mb-5">
@@ -131,4 +154,12 @@
 	<script>
 		var nonTaggedImages = {{ nonTaggedImagesJson|raw }};
 	</script>
+{% endblock %}
+
+{% block extra_style %}
+	<style>
+		.hide-div {
+			display: none;
+		}
+	</style>
 {% endblock %}
