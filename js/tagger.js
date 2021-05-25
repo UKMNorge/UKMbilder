@@ -81,7 +81,7 @@ UKMbilder.tagger = function($) {
             if (data.success) {
                 $('#tagWindowInnslagListe').html(data.innslagInputs);
                 tagQueue.splice(currentIndex, 1);
-                if(tagQueue.length <= currentIndex) 
+                if(tagQueue.length > 0 && tagQueue.length <= currentIndex)
                 {
                     currentIndex--;
                 }
