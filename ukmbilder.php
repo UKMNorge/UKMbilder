@@ -15,7 +15,7 @@ require_once('UKM/Autoloader.php');
 class UKMbilder extends Modul
 {
     public static $action = 'home';
-    public static $path_plugin = null;
+    public static $path_plugin = __DIR__ . '/';
 
     /**
      * Register hooks

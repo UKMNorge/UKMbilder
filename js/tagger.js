@@ -190,7 +190,7 @@ UKMbilder.tagger = function($) {
                 innslagId: $('#tagWindow input[name=bildeTaggerInnslag]:checked').val(),
                 imageId: currentImage.imageId,
                 fotografId: $('#fotografSelector').val(),
-                hendelseId: $('#hendelseSelector').val()
+                hendelseId: $('#hendelseSelector').val(),
             };
 
             if (tagData.innslagId && tagData.imageId && tagData.fotografId) {
