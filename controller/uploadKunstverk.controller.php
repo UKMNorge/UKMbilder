@@ -5,7 +5,11 @@ use UKMNorge\Database\SQL\Update;
 use UKMNorge\Innslag\Innslag;
 use UKMNorge\Arrangement\Arrangement;
 use UKMNorge\Innslag\Playback\Write as WritePlayback;
+use UKMNorge\Innslag\Titler\Write as WriteTitler;
+use UKMNorge\Innslag\Context\Context;
+use UKMNorge\Log\Logger;
 
+global $current_user;
 
 require_once( UKMbilder::$path_plugin . 'class/ConvertBilde.class.php');
 require_once( UKMbilder::$path_plugin . 'class/TaggerBilde.class.php');
@@ -16,26 +20,49 @@ require_once( UKMbilder::$path_plugin . 'class/TaggerBilde.class.php');
 
 $arrangement = new Arrangement( intval(get_option( 'pl_id' ) ));
 
+Logger::setID( 'wordpress', $current_user->ID, get_option('pl_id') );
+
+if(!$arrangement->erKunstgalleri()) {
+    throw new Exception("Denne funksjonen er oprettet for å laste opp bilder som kunstverk og arrangement type må være kunstgalleri");
+}
+
 try {
     $innslagId = $_GET['innslag'];
     $playbackId = $_GET['playback'];
+    $tittelId = null;
 } catch( Exception $e ) {
     echo '<h1>Innslag eller playback er ikke inkludert i kallet!</h1>';
 }
 
 $innslag = new Innslag($innslagId);
+
+$context = Context::createMonstring(
+    $arrangement->getId(),
+    $arrangement->getType(),
+    $arrangement->getSesong(),
+    $arrangement->getFylke()->getId(),
+    $arrangement->getKommuner()->getIdArray()
+);
+$innslag->setContext($context);
+
 $playback = $innslag->getPlayback()->get($playbackId);
+
+$tittelKunstverk = null;
+
+foreach($innslag->getTitler()->getAll() as $tittel) {
+    if($tittel->getPlayback() && $tittel->getPlayback()->getId() == $playback->getId()) {
+        $tittelKunstverk = $tittel;
+    }
+}
+
 $imgUrl = $playback->base_url . $playback->file_path . $playback->fil;
+
 
 $uploadedBildeNavn = $playback->fil;
 $extension = pathinfo($uploadedBildeNavn, PATHINFO_EXTENSION);
 
 if(!$playback->erBilde()) {
     throw new Exception('Fil er ikke et bilde');
-}
-
-if(!$arrangement->erKunstgalleri()) {
-    throw new Exception("Denne funksjonen er oprettet for å laste opp bilder som kunstverk og arrangement type må være kunstgalleri");
 }
 
 $b64image = base64_encode(curl_get_contents($imgUrl));
@@ -45,11 +72,6 @@ $data = base64_decode($b64image);
 $whereToSave = '/home/ukmno/private_sync/'. $uploadedBildeNavn;
 $result = file_put_contents($whereToSave, $data);
 
-// Hvis filen er overført til wp-content, godkjenn det på Playback
-if($result) {
-    $playback->godkjenn();
-    WritePlayback::lagre($playback);
-}
 
 $season = get_option('season');
 $place  = get_option('pl_id');
@@ -61,15 +83,24 @@ $sql = new Insert('ukm_bilder');
 $sql->add('season', $season);
 $sql->add('pl_id', $place);
 $sql->add('wp_blog', $blog_id);
-
 $id = $sql->run();
 
+// Hvis filen er overført til wp-content, godkjenn det på Playback og
+// set bildeId til Tittel av type Utstilling (Kunstverk)
+if($result) {
+    $playback->godkjenn();
+    WritePlayback::lagre($playback);
 
+    if($tittelKunstverk) {
+        $tittelKunstverk->setBildeId($id);
+        WriteTitler::save($tittelKunstverk);
+    }
+}
 
 $name = $season . '_' . $place . '_' . $id . '.' . $extension;
 $path = UKM_BILDER_SYNC_FOLDER . $name;
 
-
+// Kopierer fil til wp
 if (rename($whereToSave, $path)) {
     $sql = new Update('ukm_bilder', ['id' => $id]);
     $sql->add('season', $season);
@@ -111,7 +142,6 @@ if($arrangement->getProgram()->getAntall() > 1) {
 else if($arrangement->getProgram()->getAntall() < 1) {
     throw new Exception('Hendelse finnes ikke. Det må være en hendelse for type kunstgalleri');
 }
-
 # Konverter bilde
 ConvertBilde::converterBilde($id);
 
