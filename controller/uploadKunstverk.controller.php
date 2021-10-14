@@ -4,20 +4,17 @@ use UKMNorge\Database\SQL\Insert;
 use UKMNorge\Database\SQL\Update;
 use UKMNorge\Innslag\Innslag;
 use UKMNorge\Arrangement\Arrangement;
+use UKMNorge\Innslag\Playback\Write as WritePlayback;
+
 
 require_once( UKMbilder::$path_plugin . 'class/ConvertBilde.class.php');
 require_once( UKMbilder::$path_plugin . 'class/TaggerBilde.class.php');
 
 /*
-    ### Denne filen laster opp kunstverk fra Playback til WP, converterer og tagger bildet ###
+### Denne filen laster opp kunstverk fra Playback til WP, converterer og tagger bildet ###
 */
 
-$arrangement = new Arrangement( intval(get_option( 'pl_id' ) )); 
-
-
-// rename('image1.jpg', 'del/image1.jpg');
-$innslagId;
-$playbackId;
+$arrangement = new Arrangement( intval(get_option( 'pl_id' ) ));
 
 try {
     $innslagId = $_GET['innslag'];
@@ -30,7 +27,12 @@ $innslag = new Innslag($innslagId);
 $playback = $innslag->getPlayback()->get($playbackId);
 $imgUrl = $playback->base_url . $playback->file_path . $playback->fil;
 
+$uploadedBildeNavn = $playback->fil;
+$extension = pathinfo($uploadedBildeNavn, PATHINFO_EXTENSION);
 
+if(!$playback->erBilde()) {
+    throw new Exception('Fil er ikke et bilde');
+}
 
 if(!$arrangement->erKunstgalleri()) {
     throw new Exception("Denne funksjonen er oprettet for å laste opp bilder som kunstverk og arrangement type må være kunstgalleri");
@@ -38,30 +40,19 @@ if(!$arrangement->erKunstgalleri()) {
 
 $b64image = base64_encode(curl_get_contents($imgUrl));
 
-function curl_get_contents($url)
-{
-  $ch = curl_init($url);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-  curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-  $data = curl_exec($ch);
-  curl_close($ch);
-  return $data;
-}
-
 $data = base64_decode($b64image);
 
-$uploadedBildeNavn = $playback->fil;
-$whereToSave = '/home/ukmno/private_sync/'. $uploadedBildeNavn .'.jpg';
+$whereToSave = '/home/ukmno/private_sync/'. $uploadedBildeNavn;
 $result = file_put_contents($whereToSave, $data);
 
-var_dump($result);
-
+// Hvis filen er overført til wp-content, godkjenn det på Playback
+if($result) {
+    $playback->godkjenn();
+    WritePlayback::lagre($playback);
+}
 
 $season = get_option('season');
 $place  = get_option('pl_id');
-
 
 require_once('UKM/Autoloader.php');
 global $blog_id;
@@ -70,11 +61,10 @@ $sql = new Insert('ukm_bilder');
 $sql->add('season', $season);
 $sql->add('pl_id', $place);
 $sql->add('wp_blog', $blog_id);
-$sql->add('delta_user_id', $playback->getUserId());
+
 $id = $sql->run();
 
-$filename = $uploadedBildeNavn;
-$extension = pathinfo($filename, PATHINFO_EXTENSION);
+
 
 $name = $season . '_' . $place . '_' . $id . '.' . $extension;
 $path = UKM_BILDER_SYNC_FOLDER . $name;
@@ -109,21 +99,9 @@ if (rename($whereToSave, $path)) {
         $image->scaleImage($width, $height);
         $image->writeImage($path);
     }
-    
-    $imageArray[] = [
-        'id' => $id, 
-        'filename' => $name,
-        'originalFilename' => $uploadedBildeNavn
-    ];
-
-} else {
+} 
+else {
     http_response_code(413);
-    $imageArray[] = [
-        'id' => '1234', 
-        'filename' => 'error',
-        'originalFilename' => $uploadedBildeNavn
-    ];
-
 } // ENDIF
 
 
@@ -135,7 +113,6 @@ else if($arrangement->getProgram()->getAntall() < 1) {
 }
 
 # Konverter bilde
-echo 'converterer bildet ...';
 ConvertBilde::converterBilde($id);
 
 # Tagg bilde
@@ -143,14 +120,19 @@ $innslagId = $innslagId;
 $imageId = $id;
 $fotografId = wp_get_current_user()->ID;
 $fotografId = 1;
-// $delta_user_id = $playback->getUserId();
 $hendelseId = $arrangement->getProgram()->forestillinger[0]->id;
-
-echo 'sleeping...';
-sleep(3);
-echo 'tagger bildet ...';
-
 
 TaggerBilde::taggBilde($innslagId, $imageId, $fotografId, $hendelseId);
 
 
+# Funksjoner brukt i denne filen
+function curl_get_contents(String $url) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    $data = curl_exec($ch);
+    curl_close($ch);
+    return $data;
+}
