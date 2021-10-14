@@ -47,6 +47,10 @@ $innslag->setContext($context);
 
 $playback = $innslag->getPlayback()->get($playbackId);
 
+if($playback->erGodkjent()) {
+    throw new Exception('Bilde er allerede godkjent');
+}
+
 $tittelKunstverk = null;
 
 foreach($innslag->getTitler()->getAll() as $tittel) {
