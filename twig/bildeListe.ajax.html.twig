@@ -6,11 +6,37 @@
 			</td>
 			<td>
 				<div>
-					<a href="#" class="endreInnslag btn btn-ukm btn-xs">flytt til annet innslag</a>
-					<a href="#" class="endreFotograf btn btn-ukm btn-xs">endre fotograf</a>
+					{% if arrangement.erKunstgalleri() == false %}
+						<a href="#" class="endreInnslag btn btn-ukm btn-xs">flytt til annet innslag</a>
+						<a href="#" class="endreFotograf btn btn-ukm btn-xs">endre fotograf</a>
+                    {% endif %}
                     {% if bilde.getBlogId() == blog_id %}
 					    <a href="#" class="slettBilde btn btn-ukm btn-xs btn-danger">slett</a>
                     {% endif %}
+
+					{% if arrangement.erKunstgalleri() %}
+						{% set erPaaKunstgalleri = false %}
+						{% if innslag.getType().getKey() == 'utstilling' %}
+                			{% for utstilling in innslag.getTitler().getAll() %}
+								{% if utstilling.getBildeId() == bilde.getId() %}
+									{% set erPaaKunstgalleri = true %}
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+
+							<br>
+							<br>
+						{% if erPaaKunstgalleri %}
+							<span style="font-size: 23px; vertical-align: text-bottom;" class="text-success dashicons dashicons-yes dashicons-inline"></span>
+							<span class="muted text-success">På kunstgalleri</span>
+						{% else %}
+							<span style="font-size: 23px; vertical-align: text-bottom;" class="text-danger dashicons dashicons-yes dashicons-inline"></span>
+							<span class="muted text-danger">Ikke på kunstgalleri</span>
+							
+						{% endif %}
+
+					{% endif %}
+					
 				</div>
 				<div class="form-group endreInnslagFelt" style="display:none;">
 					<label for="bytt-innslag-{{ bilde.getId() }}">Innslag</label>
