@@ -22,9 +22,12 @@
 		</li>
 	{% endfor %}
 </ol>
+{% if not arrangement.erKunstgalleri() %}
 <p class="mt-2">
 	<a href="?page={{GET('page')}}">Tilbake til bilder</a>
 </p>
+{% endif %}
+
 
 <script>
     var bildeToggle = UKMresources.toggle('#bildeListe');
