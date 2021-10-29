@@ -3,6 +3,7 @@
 
 use UKMNorge\Arrangement\Arrangement;
 use UKMNorge\Database\SQL\Delete;
+use UKMNorge\Innslag\Titler\Write as WriteTitler;
 
 $arrangement = new Arrangement(intval(get_option('pl_id')));
 $innslag = $arrangement->getInnslag()->get($_POST['innslagId']);
@@ -12,6 +13,20 @@ if ($bilde->getBlogId() != get_current_blog_id()) {
     UKMbilder::addResponseData('success', false);
     UKMbilder::addResponseData('message', 'Det er ikke mulig å slette bilder som er lastet opp fra et annet arrangement.');
 } else {
+
+    // hvis arrangement er kunstgalleri så slett kobling mellom utstilling og bilde og mellom utstilling og playback
+    if($arrangement->erKunstgalleri()) {
+        if($innslag->getType()->getKey() == 'utstilling') {
+            foreach($innslag->getTitler()->getAll() as $utstilling ){
+                if($bilde->getId() == $utstilling->getBildeId()) {
+                    $utstilling->setBildeId(-1);
+                    $utstilling->setPlaybackId(-1);
+                    WriteTitler::save($utstilling);
+                }
+            }
+        }
+    }
+
     // Slett fra relatert
     $delete_rel = new Delete(
         'ukmno_wp_related',
