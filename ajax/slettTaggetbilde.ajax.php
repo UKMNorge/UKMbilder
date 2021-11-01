@@ -14,11 +14,17 @@ if ($bilde->getBlogId() != get_current_blog_id()) {
     UKMbilder::addResponseData('message', 'Det er ikke mulig å slette bilder som er lastet opp fra et annet arrangement.');
 } else {
 
+    $bugMelding = -1;
+
     // hvis arrangement er kunstgalleri så slett kobling mellom utstilling og bilde og mellom utstilling og playback
     if($arrangement->erKunstgalleri()) {
+        $bugMelding = '1';
         if($innslag->getType()->getKey() == 'utstilling') {
+            $bugMelding = '2';
             foreach($innslag->getTitler()->getAll() as $utstilling ){
+                $bugMelding = '3';
                 if($bilde->getId() == $utstilling->getBildeId()) {
+                    $bugMelding = '4';
                     $utstilling->setBildeId(-1);
                     $utstilling->setPlaybackId(-1);
                     WriteTitler::save($utstilling);
@@ -50,6 +56,10 @@ if ($bilde->getBlogId() != get_current_blog_id()) {
     // Slett fra wordpress
     $res_wp = wp_delete_attachment($bilde->getPostId(), true);
 
+    UKMbilder::addResponseData(
+        'bugMelding',
+        $bugMelding
+    );
 
     UKMbilder::addResponseData(
         'success',
