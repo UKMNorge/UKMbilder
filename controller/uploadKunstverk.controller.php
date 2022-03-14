@@ -29,7 +29,9 @@ if(!$arrangement->erKunstgalleri()) {
 try {
     $innslagId = $_GET['innslag'];
     $playbackId = $_GET['playback'];
-    $tittelId = null;
+    if(isset($_GET['tittel_id'])) {
+        $tittelId = $_GET['tittel_id'];
+    }
 } catch( Exception $e ) {
     echo '<h1>Innslag eller playback er ikke inkludert i kallet!</h1>';
 }
@@ -53,9 +55,18 @@ if($playback->erGodkjent()) {
 
 $tittelKunstverk = null;
 
-foreach($innslag->getTitler()->getAll() as $tittel) {
-    if($tittel->getPlayback() && $tittel->getPlayback()->getId() == $playback->getId()) {
-        $tittelKunstverk = $tittel;
+// Tittle ble send fra arrangørsystemet (en lokalkontakt)
+// Set playback id til utstilling (tittel)
+if($tittelId) {
+    $tittelKunstverk = $innslag->getTitler()->get($tittelId);
+    $tittelKunstverk->setPlaybackId($playback->getId());
+    WriteTitler::save($tittelKunstverk);
+}
+else {
+    foreach($innslag->getTitler()->getAll() as $tittel) {
+        if($tittel->getPlayback() && $tittel->getPlayback()->getId() == $playback->getId()) {
+            $tittelKunstverk = $tittel;
+        }
     }
 }
 
