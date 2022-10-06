@@ -9,7 +9,7 @@ $arrangement = new Arrangement(intval(get_option('pl_id')));
 $innslag = $arrangement->getInnslag()->get($_POST['innslagId']);
 $bilde = $innslag->getBilder()->get($_POST['bildeId']);
 
-if (($bilde->getBlogId() != get_current_blog_id()) || is_super_admin()) {
+if (($bilde->getBlogId() != get_current_blog_id()) && !is_super_admin()) {
     UKMbilder::addResponseData('success', false);
     UKMbilder::addResponseData('message', 'Det er ikke mulig å slette bilder som er lastet opp fra et annet arrangement.');
 } else {
