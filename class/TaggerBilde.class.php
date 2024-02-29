@@ -16,8 +16,8 @@ class TaggerBilde {
      * 
      * @return Array
      */
-    public static function taggBilde(Int $innslagId, Int $imageId, Int $fotografId, Int $hendelseId) : array {
-        
+    public static function taggBilde(Int $innslagId, Int $imageId, Int $fotografId, Int|null $hendelseId) : array {
+
         // declare UKM-data
         $arrangement = new Arrangement(get_option('pl_id'));
         $innslag = $arrangement->getInnslag()->get($innslagId);
@@ -71,12 +71,13 @@ class TaggerBilde {
         
         require_once('UKM/related.class.php');
         $rel = new related($innslag->getId());
-        $rel->set($wpPostId, 'image', [
-            'file'        => $meta['file'],
-            'sizes'    => $meta['sizes'],
-            'author'    => $fotografId
-        ]);
-        
+
+        $postMeta = $rel->getPostMeta($wpPostId, 'image');
+        $postMeta['file'] = $meta['file'];
+        $postMeta['sizes'] = $meta['sizes'];
+        $postMeta['author'] = $fotografId;
+
+        $rel->set($wpPostId, 'image', $postMeta);
         
         return array(
             'postId' => intval($wpPostId),
