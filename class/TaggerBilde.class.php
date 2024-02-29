@@ -16,7 +16,7 @@ class TaggerBilde {
      * 
      * @return Array
      */
-    public static function taggBilde(Int $innslagId, Int $imageId, Int $fotografId, Int|null $hendelseId) : array {
+    public static function taggBilde(Int $innslagId, Int $imageId, Int $fotografId, $hendelseId=null) : array {
 
         // declare UKM-data
         $arrangement = new Arrangement(get_option('pl_id'));
