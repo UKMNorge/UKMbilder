@@ -6,8 +6,8 @@
 			<div class="pull-right">
 				<a href="#" class="visBilder btn btn-ukm btn-sm toggle" data-target="#bildeContainer_{{innslag.getId()}}" data-show="Vis bilder" data-hide="Lukk listen" data-innslag-id="{{ innslag.getId() }}">Vis bilder</a>
 			</div>
-			<a href="?page={{GET('page')}}&action={{GET('action')}}&innslag={{innslag.getId()}}" class="visBildeLink">{{innslag.getNavn()}}</a>
-            <br />
+			<a href="?page={{GET('page')}}&action={{GET('action')}}&innslag={{innslag.getId()}}" class="visBildeLink">{{innslag.getNavn()}} {{ innslag.getBilder().getAntall() == 1 ? ' (1 bilde)' : ' (' ~ innslag.getBilder().getAntall() ~ ' bilder)' }}</a>
+			<br />
             <span class="text-muted">
                 {{innslag.getType().getNavn()}}
             </span>
